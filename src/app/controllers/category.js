@@ -1,8 +1,8 @@
 const CategoryModel = require("../models/category");
 
 const index = (req, res) => {
-  res.render("admin/category");
-  return res.status(200).json({message : 'dang112'});
+  res.render("admin/category/category");
+  //return res.status(200).json({message : 'dang112'});
 };
 
 const create = (req, res) => {

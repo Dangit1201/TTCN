@@ -3,7 +3,9 @@ const router = require('express-promise-router')()
 
 //Goi controllers
 const CategoryController = require("../app/controllers/category");
-
+const AdminController = require("../app/controllers/admin");
+//===========admin================
+router.get("/admin",AdminController.index);
 //===========Category===============
 router.get("/admin/categories",CategoryController.index);
   
