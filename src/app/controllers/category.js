@@ -1,7 +1,11 @@
 const CategoryModel = require("../models/category");
 
-const index = (req, res) => {
-  res.render("admin/category/category");
+const index = async (req, res) => {
+
+  const categories = await CategoryModel.find().sort({cout: -1})
+  res.render("admin/category/category",{
+      categories:categories,
+  });
   //return res.status(200).json({message : 'dang112'});
 };
 
