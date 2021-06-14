@@ -2,5 +2,24 @@
   "name": "ttcnbanhang",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "config": "^3.3.6",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-promise-router": "^4.1.0",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.12.13",
+    "multer": "^1.4.2",
+    "slug": "^5.0.1",
+    "update-notifier": "^5.1.0"
+  },
+  "scripts": {
+    "start": "node src/bin/www",
+    "dev": "nodemon src/bin/www"
+  }
 }
