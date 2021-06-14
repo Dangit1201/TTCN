@@ -2,7 +2,7 @@ const CategoryModel = require("../models/category");
 
 const index = async (req, res) => {
 
-  const categories = await CategoryModel.find().sort({cout: -1})
+  const categories = await CategoryModel.find().sort({cout:1})
   res.render("admin/category/category",{
       categories:categories,
   });
@@ -24,9 +24,23 @@ const dele = (req, res) => {
   res.send("delete categories");
 };
 
+const reorder = async (req, res)=>{
+
+  var ids = req.body['id'];
+  var count =0;
+  for(var i = 0 ;i<ids.length;i++){
+    var id = ids[i];
+    count++;
+    var data = await CategoryModel.findById(id);
+    data.cout = count;
+    data.save();
+  }
+};
+
 module.exports = {
   index: index,
   create: create,
   edit: edit,
   dele: dele,
+  reorder:reorder,
 };

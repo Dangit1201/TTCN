@@ -20,8 +20,8 @@ const categorySchema = new mongoose.Schema(
         default:"1",
     },
     status:{
-        type: String,
-        required: true,
+      type: Boolean,
+      default: true,
       }
   },
   { timestamps: true }

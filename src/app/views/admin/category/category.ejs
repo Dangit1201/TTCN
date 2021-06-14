@@ -40,7 +40,7 @@
 		
 									<thead>
 									<tr>
-										<th data-field="id" data-sortable="true">ID</th>
+										
 										<th>Tên danh mục</th>
 										<th>Trạng thái</th>
 										<th>Hành động</th>
@@ -49,9 +49,13 @@
 									<tbody>
 										<% categories.forEach(function(category){ %>
 										<tr id="id_<%= category._id%>" class="<%=category.slug%>">
-											<td style="">1</td>
-											<td style=""><%= category.title%></td>
-											<td style=""><%= category.status%></td>
+											
+											<td><%= category.title%></td>
+											<%if(category.status){%>
+												<td><span class="label label-success">Hoạt động</span></td>
+											<%}else{%>
+												<td><span class="label label-danger">Không hoạt động</span></td>
+											<%}%>
 											<td class="form-group">
 												<a href="/" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
 												<a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
@@ -63,13 +67,13 @@
 							</div>
 							<div class="panel-footer">
 								<nav aria-label="Page navigation example">
-									<ul class="pagination">
+									<!-- <ul class="pagination">
 										<li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
 										<li class="page-item"><a class="page-link" href="#">1</a></li>
 										<li class="page-item"><a class="page-link" href="#">2</a></li>
 										<li class="page-item"><a class="page-link" href="#">3</a></li>
 										<li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-									</ul>
+									</ul> -->
 								</nav>
 							</div>
 						</div>
@@ -78,19 +82,25 @@
 	</div>	<!--/.main-->
 
 	<%- include('../layout/footer.ejs')%>	
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 	<script>
 	$('tbody').sortable({
 			placeholder:"ui-state-hightlight",
 			update :function(){
-				var ids=$('tbody').sortable("serialize");
-				var url="/admin/categories/reorder-categories";
-
-				$post(url,ids);
+				var ids= $('tbody').sortable('serialize');
+				var url="/admin/categories/reorder";
+				$.post(url,ids);
 			}
 	});
 	</script>
 </body>
+<style>
+	.ui-state-hightlight{
+		border:1px dashed #ccc;
+	}
+</style>
 
 
 </html>
