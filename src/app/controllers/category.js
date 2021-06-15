@@ -20,8 +20,12 @@ const edit = (req, res) => {
 
 };
 
-const dele = (req, res) => {
-  res.send("delete categories");
+const dele = async (req, res) => {
+  const id = req.params.id;
+
+  await CategoryModel.deleteOne({ _id: id });
+
+  res.redirect("back");
 };
 
 const reorder = async (req, res)=>{

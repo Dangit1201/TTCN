@@ -48,6 +48,7 @@
 									</thead>
 									<tbody>
 										<% categories.forEach(function(category){ %>
+										
 										<tr id="id_<%= category._id%>" class="<%=category.slug%>">
 											
 											<td><%= category.title%></td>
@@ -57,8 +58,8 @@
 												<td><span class="label label-danger">Không hoạt động</span></td>
 											<%}%>
 											<td class="form-group">
-												<a href="/" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-												<a href="/" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+												<a href="" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+												<a  href="" class="btn btn-danger" data-id="<%=category.id%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
 											</td>
 										</tr>
 										<%}); %>
@@ -81,8 +82,32 @@
 		</div><!--/.row-->
 	</div>	<!--/.main-->
 
-	<%- include('../layout/footer.ejs')%>	
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<form name="delete-form-danhmuc" method="post"></form>
+	<!-- confirm -->
+	<div id="delete-modal-dm"class="modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Xóa danh mục?</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body">
+			  <p>Bạn chắc chắn muốn xóa danh mục này?</p>
+			</div>
+			<div class="modal-footer">
+			  
+			  <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+			  <button  id="btn-delete-form" type="button" class="btn btn-danger">Xóa bỏ</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <!--end confirm -->
+
+	<%- include('../layout/footer.ejs')%>
+	
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
 	<script>
@@ -94,6 +119,27 @@
 				$.post(url,ids);
 			}
 	});
+	
+	</script>
+	<script>
+		document.addEventListener('DOMContentLoaded',function(){
+			$('#delete-modal-dm').on('show.bs.modal', function (event) {
+  			var button = $(event.relatedTarget) 
+  			ids = button.data('id') 
+			
+			})
+		});
+		
+		var formdele = document.forms['delete-form-danhmuc'];
+		var btndele = document.getElementById('btn-delete-form');
+		
+		btndele.onclick = function(){
+			
+			formdele.action='/admin/categories/delete/'+ids;
+			formdele.submit();
+		}
+		
+		
 	</script>
 </body>
 <style>

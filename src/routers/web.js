@@ -14,6 +14,7 @@ router.get("/admin/categories/create",CategoryController.create);
 router.get("/admin/categories/edit/:id",CategoryController.edit);
   
 router.get("/admin/categories/delete/:id",CategoryController.dele);
+router.post("/admin/categories/delete/:id",CategoryController.dele);
 
 router.post("/admin/categories/reorder",CategoryController.reorder);
 

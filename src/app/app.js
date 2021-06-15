@@ -8,7 +8,7 @@ const app = express();
 
 
 //middlewares
-//app.use(logger('dev'));
+app.use(logger('dev'));
 
 // doc data tu form voi 2 loai data la text, json
 app.use(express.urlencoded({extended:true}));
