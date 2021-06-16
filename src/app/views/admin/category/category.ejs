@@ -42,6 +42,7 @@
 									<tr>
 										
 										<th>Tên danh mục</th>
+										<th>Mô tả</th>
 										<th>Trạng thái</th>
 										<th>Hành động</th>
 									</tr>
@@ -52,13 +53,14 @@
 										<tr id="id_<%= category._id%>" class="<%=category.slug%>">
 											
 											<td><%= category.title%></td>
+											<td id="maxminwh"></td>
 											<%if(category.status){%>
 												<td><span class="label label-success">Hoạt động</span></td>
 											<%}else{%>
 												<td><span class="label label-danger">Không hoạt động</span></td>
 											<%}%>
 											<td class="form-group">
-												<a href="" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+												<a href="/admin/categories/edit/<%=category.id%>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
 												<a  href="" class="btn btn-danger" data-id="<%=category.id%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
 											</td>
 										</tr>
@@ -134,7 +136,6 @@
 		var btndele = document.getElementById('btn-delete-form');
 		
 		btndele.onclick = function(){
-			
 			formdele.action='/admin/categories/delete/'+ids;
 			formdele.submit();
 		}
@@ -145,6 +146,10 @@
 <style>
 	.ui-state-hightlight{
 		border:1px dashed #ccc;
+	}
+	#maxminwh{
+		max-height:200px;
+		max-width:200px;
 	}
 </style>
 

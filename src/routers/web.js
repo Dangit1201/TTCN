@@ -10,10 +10,11 @@ router.get("/admin",AdminController.index);
 router.get("/admin/categories",CategoryController.index);
   
 router.get("/admin/categories/create",CategoryController.create);
+
+router.post("/admin/categories/store",CategoryController.store);
   
 router.get("/admin/categories/edit/:id",CategoryController.edit);
   
-router.get("/admin/categories/delete/:id",CategoryController.dele);
 router.post("/admin/categories/delete/:id",CategoryController.dele);
 
 router.post("/admin/categories/reorder",CategoryController.reorder);

@@ -1,30 +1,53 @@
 const CategoryModel = require("../models/category");
+const slug = require("slug");
 
 const index = async (req, res) => {
-
   const categories = await CategoryModel.find().sort({cout:1})
   res.render("admin/category/category",{
       categories:categories,
   });
-  //return res.status(200).json({message : 'dang112'});
 };
 
 const create = (req, res) => {
-  res.render("admin/category/add_category");
-
+  res.render("admin/category/add_category", {data: {}});
 };
 
-const edit = (req, res) => {
-  res.render("admin/category/edit_category");
-  console.log(req.params);
+const store = async (req,res)=>{
+  const body = req.body;
+  let error;
+  const slugname = slug(body.title);
+  
+  const slugduplicate = await CategoryModel.find({slug:slugname});
+  if(slugduplicate.length > 0){
+    error = "Danh mục sản phẩm đã tồn tại !";
+  }
+  else{
+    await new CategoryModel({
+      title: body.title,
+      status: body.status,    
+      slug: slug(body.title)
+    }).save();
+    res.redirect("/admin/categories"); 
+  }
+  res.render("admin/category/add_category", {data: {error: error}});
+ 
+};
+
+const edit = async (req, res) => {
+  const id = req.params.id;
+  const categories = await CategoryModel.findById(id);
+  res.render("admin/category/edit_category",{
+      categories:categories,
+  });
+};
+
+const update = async (req,res)=>{
 
 };
 
 const dele = async (req, res) => {
   const id = req.params.id;
-
   await CategoryModel.deleteOne({ _id: id });
-
   res.redirect("back");
 };
 
@@ -47,4 +70,6 @@ module.exports = {
   edit: edit,
   dele: dele,
   reorder:reorder,
+  store:store,
+  update:update,
 };

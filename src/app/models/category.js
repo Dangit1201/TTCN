@@ -17,7 +17,7 @@ const categorySchema = new mongoose.Schema(
     },
     cout:{
         type: String,
-        default:"1",
+        default:"0",
     },
     status:{
       type: Boolean,
