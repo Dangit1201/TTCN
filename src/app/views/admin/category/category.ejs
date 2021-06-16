@@ -52,16 +52,16 @@
 										
 										<tr id="id_<%= category._id%>" class="<%=category.slug%>">
 											
-											<td><%= category.title%></td>
-											<td id="maxminwh"></td>
+											<td id="maxminid"><%= category.title%></td>
+											<td id="maxminwh"><%= category.descriptions%> </td>
 											<%if(category.status){%>
 												<td><span class="label label-success">Hoạt động</span></td>
 											<%}else{%>
 												<td><span class="label label-danger">Không hoạt động</span></td>
 											<%}%>
-											<td class="form-group">
+											<td maxminact class="form-group">
 												<a href="/admin/categories/edit/<%=category.id%>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-												<a  href="" class="btn btn-danger" data-id="<%=category.id%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
+												<a  href="" class="btn btn-danger" data-id="<%=category.id%>" data-title="<%=category.title%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
 											</td>
 										</tr>
 										<%}); %>
@@ -86,17 +86,15 @@
 
 	<form name="delete-form-danhmuc" method="post"></form>
 	<!-- confirm -->
+	
 	<div id="delete-modal-dm"class="modal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title">Xóa danh mục?</h5>
+			<div id="modal-title-name" class="modal-header">
+			<h5 class="modal-title">Bạn có muốn xóa danh mục sản phẩm này: <span id="spanproduct"></span> ?</h5>
 			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			  </button>
-			</div>
-			<div class="modal-body">
-			  <p>Bạn chắc chắn muốn xóa danh mục này?</p>
 			</div>
 			<div class="modal-footer">
 			  
@@ -106,6 +104,7 @@
 		  </div>
 		</div>
 	  </div>
+	  
 	  <!--end confirm -->
 
 	<%- include('../layout/footer.ejs')%>
@@ -128,6 +127,9 @@
 			$('#delete-modal-dm').on('show.bs.modal', function (event) {
   			var button = $(event.relatedTarget) 
   			ids = button.data('id') 
+			titles = button.data('title') 
+			let modaltitlename = document.getElementById("spanproduct");
+			modaltitlename.innerHTML = titles;
 			
 			})
 		});
@@ -147,10 +149,31 @@
 	.ui-state-hightlight{
 		border:1px dashed #ccc;
 	}
-	#maxminwh{
-		max-height:200px;
-		max-width:200px;
+	#maxminid{
+		height:60px;
+		width:60px;
 	}
+	#maxminwh{
+		max-height:350px;
+		max-width:350px;
+	}
+	#maxminact{
+		height:30px;
+		width:30px;
+	}
+	th ,td{
+		text-align: center;
+	}
+	.modal-title{
+		color: green;
+		text-align: center;
+		text-transform: uppercase capitalize;
+	}
+	#spanproduct{
+		color:blue;
+		text-transform: uppercase;
+	}
+	
 </style>
 
 

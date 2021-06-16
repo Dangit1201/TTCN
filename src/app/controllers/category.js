@@ -25,7 +25,8 @@ const store = async (req,res)=>{
     await new CategoryModel({
       title: body.title,
       status: body.status,    
-      slug: slug(body.title)
+      slug: slug(body.title),
+      descriptions:body.descriptions,
     }).save();
     res.redirect("/admin/categories"); 
   }
@@ -35,14 +36,24 @@ const store = async (req,res)=>{
 
 const edit = async (req, res) => {
   const id = req.params.id;
-  const categories = await CategoryModel.findById(id);
+  const category = await CategoryModel.findById(id);
   res.render("admin/category/edit_category",{
-      categories:categories,
+      category:category,
   });
 };
 
 const update = async (req,res)=>{
-
+  const id = req.params.id;
+    const body = req.body;
+    const catego = {
+      title: body.title,
+      status: body.status,    
+      slug: slug(body.title),
+      descriptions:body.descriptions,
+    }
+    
+    await CategoryModel.updateOne({_id: id}, {$set: catego});
+    res.redirect("/admin/categories");
 };
 
 const dele = async (req, res) => {

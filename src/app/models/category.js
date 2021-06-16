@@ -15,6 +15,10 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    descriptions:{
+      type: String,
+      required: true,
+    },
     cout:{
         type: String,
         default:"0",

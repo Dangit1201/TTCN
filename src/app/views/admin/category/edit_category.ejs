@@ -16,15 +16,15 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li><a href="">Quản lý danh mục</a></li>
-				<li class="active">Danh mục 1</li>
+				<li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li><a href="/admin/categories">Quản lý danh mục</a></li>
+				<li class="active"><span ><%=category.title%></span> </li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Danh mục:Danh mục 1</h1>
+				<h1 class="page-header">Danh mục:<span id="color-sapn"><%=category.title%></span></h1>
 			</div>
 		</div><!--/.row-->
         <div class="row">
@@ -32,27 +32,43 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-8">
-                            <div class="alert alert-danger">Danh mục đã tồn tại !</div>
-                        <form role="form" method="post">
+                            
+                        <form action="/admin/categories/update/<%=category._id%>"role="form" method="post">
                             <div class="form-group">
                                 <label>Tên danh mục:</label>
-                                <input type="text" name="cat_name" required value="Danh mục 1" class="form-control" placeholder="Tên danh mục...">
+                                <input type="text" name="title" required value="<%=category.title%>" class="form-control" placeholder="Tên danh mục...">
                             </div>
 							<div class="form-group">
 								<label>Trạng thái</label>
-								<select name="is_stock" class="form-control">
-									<option >Hoạt động</option>
-									<option >Không hoạt động</option>
+								<select name="status" class="form-control">
+									<option <% if(category.status){%>selected<%}%> value=1>Hoạt động</option>
+                                    <option <% if(!category.status){%>selected<%}%> value=0>Không hoạt động</option>
 								</select>
 							</div>
+							<div class="form-group">
+								<label>Mô tả danh mục</label>
+								<textarea required name="descriptions" class="form-control" rows="3"><%=category.descriptions%></textarea>
+							</div>
                             <button type="submit" name="sbm" class="btn btn-primary">Cập nhật</button>
-                            <button type="reset" class="btn btn-default">Làm mới</button>
+                            <button id="btn-exit" type="reset" class="btn btn-default">Thoát</button>
                         </div>
                     </form>
                     </div>
                 </div>
             </div><!-- /.col-->
+			<%- include('../layout/footer.ejs')%>
 	</div>	<!--/.main-->
+	<script>
+		$('#btn-exit').click(function() {
+    	window.location.href = '/admin/categories';
+    	return false;
+		});
+	</script>
+	<style>
+		#color-sapn{
+			color: blue;
+		}
+	</style>
 	<%- include('../layout/footer.ejs')%>	
 </body>
 
