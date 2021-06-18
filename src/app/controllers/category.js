@@ -1,15 +1,21 @@
 const CategoryModel = require("../models/category");
 const slug = require("slug");
+const ProductModel = require("../models/product");
 
 const index = async (req, res) => {
+  
   const categories = await CategoryModel.find().sort({cout:1})
+  
   res.render("admin/category/category",{
       categories:categories,
+      
   });
 };
 
-const create = (req, res) => {
-  res.render("admin/category/add_category", {data: {}});
+const create = async (req, res) => {
+  res.render("admin/category/add_category", {
+    data: {},
+  });
 };
 
 const store = async (req,res)=>{
@@ -22,6 +28,7 @@ const store = async (req,res)=>{
     error = "Danh mục sản phẩm đã tồn tại !";
   }
   else{
+    
     await new CategoryModel({
       title: body.title,
       status: body.status,    
@@ -39,11 +46,13 @@ const edit = async (req, res) => {
   const category = await CategoryModel.findById(id);
   res.render("admin/category/edit_category",{
       category:category,
+      data: {},
   });
 };
 
 const update = async (req,res)=>{
-  const id = req.params.id;
+
+    const id = req.params.id;
     const body = req.body;
     const catego = {
       title: body.title,
@@ -58,8 +67,22 @@ const update = async (req,res)=>{
 
 const dele = async (req, res) => {
   const id = req.params.id;
-  await CategoryModel.deleteOne({ _id: id });
-  res.redirect("back");
+  let idproexists = await ProductModel.find({cat_id:id});
+  const category = await CategoryModel.findById(id);
+    if(idproexists.length>0)
+    {
+      error = "Danh mục sản phẩm không thể xóa !";
+    }
+    else{
+      await CategoryModel.deleteOne({ _id: id });
+      res.redirect("/admin/categories");
+    }
+    res.render("admin/category/edit_category", {
+      data: {error: error},
+      category:category,
+    });
+  
+  
 };
 
 const reorder = async (req, res)=>{
@@ -73,6 +96,7 @@ const reorder = async (req, res)=>{
     data.cout = count;
     data.save();
   }
+ 
 };
 
 module.exports = {

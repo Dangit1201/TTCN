@@ -6,6 +6,9 @@ const CategoryController = require("../app/controllers/category");
 const AdminController = require("../app/controllers/admin");
 const ProductController = require("../app/controllers/product");
 
+//Goi middlewares
+const UploadMiddleware = require("../app/middlewares/upload");
+
 //===========admin================
 router.get("/admin",AdminController.index);
 
@@ -21,9 +24,9 @@ router.post("/admin/categories/reorder",CategoryController.reorder);
 //===========Product===============
 router.get("/admin/products",ProductController.index);
 router.get("/admin/products/create",ProductController.create);
-router.post("/admin/products/store",ProductController.store);
+router.post("/admin/products/store",UploadMiddleware.single("thumbnail"),ProductController.store);
 router.get("/admin/products/edit/:id",ProductController.edit);
-router.post("/admin/products/update/:id",ProductController.update);
+router.post("/admin/products/update/:id",UploadMiddleware.single("thumbnail"),ProductController.update);
 router.post("/admin/products/delete/:id",ProductController.dele);
 
 

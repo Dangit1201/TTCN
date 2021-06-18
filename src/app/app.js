@@ -8,7 +8,7 @@ const app = express();
 
 
 //middlewares
-app.use(logger('dev'));
+//app.use(logger('dev'));
 
 // doc data tu form voi 2 loai data la text, json
 app.use(express.urlencoded({extended:true}));
@@ -28,14 +28,14 @@ app.use("/static", express.static(config.get("app").static_folder));
 //routers
 app.use(router);
 //cath 404 errors
-app.use((req,res,next)=>{
+/* app.use((req,res,next)=>{
     const err = new Error('Not found');
     err.status = 404;
     next(err);
-});
+}); */
 
 //error handler function
-app.use((err,req,res,next)=>{
+/* app.use((err,req,res,next)=>{
     //err loi,lay status ko mac dinh 500
     const error = app.get('env') ==='development'? err:{};
     const status = err.status || 500;
@@ -46,7 +46,7 @@ app.use((err,req,res,next)=>{
             message : error.message
         }
     });
-});
+}); */
 
 // config session
 app.set("trust proxy", 1); // trust first proxy

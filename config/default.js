@@ -11,6 +11,6 @@ module.exports = {
       static_folder: __dirname + "/../src/public",
       session_key: "Dang",
       session_secure: false,
-      temp: __dirname + "/../temp",
+      tmp: __dirname+"/../temp",
     },
   };

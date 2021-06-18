@@ -1,14 +1,38 @@
 const ProductsModel = require("../models/product");
 const CategoriesModel = require("../models/category");
 const slug = require("slug");
+const paginate = require("../../common/paginate");
+const fs = require("fs");
+const path = require("path");
 
-const index =  (req, res) => {
- //category.js const categories = await CategoryModel.find().sort({cout:1})
-  res.render("admin/product/product");
+
+const index = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+    const limit = 6;
+    skip = page * limit - limit;
+
+    const total = await ProductsModel.find().countDocuments();
+    const totalPage = Math.ceil(total/limit);
+    // (paginate(page, totalPage);
+
+    const products = await ProductsModel.find()
+                                        .populate({ path: "cat_id" })
+                                        .skip(skip)
+                                        .limit(limit)
+                                        .sort({"_id": -1});
+    // console.log(products);
+    res.render("admin/product/product", 
+    { 
+        products: products,
+        pages: paginate(page, totalPage),
+        page: page,
+        totalPage: totalPage,
+        data: {}
+    });
 };
 
 const create = async (req, res) => {
-  const categories = await CategoriesModel.find();
+  const categories = await CategoriesModel.find().sort({cout:1});
    console.log(categories);
     res.render("admin/product/add_product", {categories:categories});
 };
@@ -16,22 +40,29 @@ const create = async (req, res) => {
 const store = async (req,res)=>{
   const body = req.body;
   let error;
-  const slugname = slug(body.title);
+  const file = req.file;
+  const slugname = slug(body.name);
   
-  const slugduplicate = await CategoryModel.find({slug:slugname});
-  if(slugduplicate.length > 0){
-    error = "Danh mục sản phẩm đã tồn tại !";
-  }
-  else{
-    await new CategoryModel({
-      title: body.title,
-      status: body.status,    
-      slug: slug(body.title),
-      descriptions:body.descriptions,
-    }).save();
-    res.redirect("/admin/categories"); 
-  }
-  res.render("admin/category/add_category", {data: {error: error}});
+  const slugduplicate = await ProductsModel.find({slug:slugname});
+  const product = {
+    description: body.description,
+    cat_id: body.cat_id,
+    price: body.price,
+    quantity: body.quantity,
+    featured: body.featured === "on",
+    promotion: body.promotion,
+    warranty: body.warranty,
+    accessories: body.accessories,
+    name: body.name,
+    slug: slug(body.name),
+    }
+    if(file){
+      const thumbnail = "products/"+file.originalname;
+      product["thumbnail"] = thumbnail;
+      fs.renameSync(file.path, path.resolve("src/public/images", thumbnail));
+      new ProductsModel(product).save();
+      res.redirect("/admin/products");
+    }
  
 };
 
