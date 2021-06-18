@@ -55,7 +55,7 @@
                                             <td style=""> <%= skip + count++ %></td>
                                             <td style=""><%=products[x].name%></td>
                                             <td style=""><%=products[x].price.toLocaleString('vi-VN')%> vnd</td>
-                                            <td style="text-align: center"><img width="150" height="130"
+                                            <td style="text-align: center"><img width="130" height="150"
                                                     src="/static/images/<%=products[x].thumbnail%>" /></td>
                                                                                         
                                             <td style=""><%=products[x].quantity%></td>
@@ -63,8 +63,7 @@
                                             <td class="form-group">
                                                 <a href="/admin/products/edit/<%=products[x]._id%>" class="btn btn-primary"><i
                                                         class="glyphicon glyphicon-pencil"></i></a>
-                                                <a href="/admin/products/delete/<%=products[x]._id%>" class="btn btn-danger"><i
-                                                        class="glyphicon glyphicon-remove"></i></a>
+                                                        <a  href="" class="btn btn-danger"  data-id="<%=products[x].id%>" data-title="<%=products[x].name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
                                             </td>
                                         </tr>
                                         <%}%>
@@ -90,8 +89,49 @@
                     </div>
                 </div>
                 <!--/.row-->
+
+                <form name="delete-form-danhmuc" method="post"></form>
+
+                <div id="delete-modal-dm"class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div id="modal-title-name" class="modal-header">
+                        <h5 class="modal-title">Bạn có muốn xóa sản phẩm này: <span id="spanproduct"></span> ?</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                          <button  id="btn-delete-form" type="button" class="btn btn-danger">Xóa bỏ</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
             </div>
+
             <!--/.main-->
+            <script>
+		
+                document.addEventListener('DOMContentLoaded',function(){
+                    $('#delete-modal-dm').on('show.bs.modal', function (event) {
+                      var button = $(event.relatedTarget) 
+                      ids = button.data('id') 
+                    titles = button.data('title') 
+                    let modaltitlename = document.getElementById("spanproduct");
+                    modaltitlename.innerHTML = titles;
+                    })
+                });
+                var formdele = document.forms['delete-form-danhmuc'];
+                var btndele = document.getElementById('btn-delete-form');
+                
+                btndele.onclick = function(){
+                    formdele.action='/admin/products/delete/'+ids;
+                    formdele.submit();
+                }
+            </script>
             <style>
                th ,td{
 		            text-align: center;
@@ -102,5 +142,24 @@
             <%- include("../layout/footer")%>
 
 </body>
+<style>
+	.ui-state-hightlight{
+		border:1px dashed #ccc;
+	}
+	
+	th ,td{
+		text-align: center;
+	}
+	.modal-title{
+		color: green;
+		text-align: center;
+		text-transform: uppercase capitalize;
+	}
+	#spanproduct{
+		color:blue;
+		text-transform: uppercase;
+	}
+	
+</style>
 
 </html>
