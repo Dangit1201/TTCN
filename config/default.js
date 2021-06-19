@@ -2,7 +2,7 @@
 module.exports = {
     // config cho app
     app: {
-      port: 3000,
+      port: 3001,
       // dường dẫn tới folder views để lấy giao diện
       // __dirname: đường dẫn đang ở trong folder config,
       // "/../src/app/views": đường dẫn để lấy views từ folder config

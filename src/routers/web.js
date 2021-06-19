@@ -5,6 +5,7 @@ const router = require('express-promise-router')()
 const CategoryController = require("../app/controllers/category");
 const AdminController = require("../app/controllers/admin");
 const ProductController = require("../app/controllers/product");
+const SiteContoller = require("../app/controllers/site");
 
 //Goi middlewares
 const UploadMiddleware = require("../app/middlewares/upload");
@@ -28,6 +29,14 @@ router.post("/admin/products/store",UploadMiddleware.single("thumbnail"),Product
 router.get("/admin/products/edit/:id",ProductController.edit);
 router.post("/admin/products/update/:id",UploadMiddleware.single("thumbnail"),ProductController.update);
 router.post("/admin/products/delete/:id",ProductController.dele);
+
+//===========Site===============
+router.get("/", SiteContoller.home);
+router.get("/category-:slug.:id", SiteContoller.category);
+router.get("/product-:slug.:id", SiteContoller.product);
+router.get("/search", SiteContoller.search);
+router.get("/cart", SiteContoller.cart);
+router.get("/success", SiteContoller.success);
 
 
 module.exports = router;
