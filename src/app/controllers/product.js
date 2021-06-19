@@ -8,20 +8,23 @@ const ProductModel = require("../models/product");
 
 
 const index = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
+    const page = parseInt(req.query.page) || 1;
     const limit = 6;
     skip = page * limit - limit;
 
     const total = await ProductsModel.find().countDocuments();
     const totalPage = Math.ceil(total/limit);
     // (paginate(page, totalPage);
+    /* console.log('pages',paginate(page, totalPage));
+    console.log('page',page);
+    console.log('totalPage',totalPage); */
 
     const products = await ProductsModel.find()
                                         .populate({ path: "cat_id" })
                                         .skip(skip)
                                         .limit(limit)
                                         .sort({"_id": -1});
-    // console.log(products);
+     
     res.render("admin/product/product", 
     { 
         products: products,

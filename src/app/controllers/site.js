@@ -1,11 +1,12 @@
 const CategoryModel = require("../models/category");
 const ProductModel = require("../models/product");
+const paginate = require("../../common/paginate");
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
     const FeaturedProducts = await ProductModel.find({
         featured: true,
-    }).limit(6);
+    }).sort({_id: -1}).limit(6);
     // console.log(LatestProducts);
     // console.log(FeaturedProducts);
     res.render("site/index", {
@@ -14,20 +15,55 @@ const home = async (req, res)=>{
     });
 }
 const category = async (req, res)=>{
-    // const slug = req.params.slug;
     const id = req.params.id;
-    const category = await CategoryModel.findById(id);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 3;
+    skip = page * limit - limit;
+
+    const total = await ProductModel.find({cat_id:id}).countDocuments();
+    const totalPage = Math.ceil(total/limit);
+    // (paginate(page, totalPage);
+
+    const products = await ProductModel.find({cat_id: id})
+                                        .populate({ path: "cat_id" })
+                                        .skip(skip)
+                                        .limit(limit)
+                                        .sort({"_id": -1});
+     
+    //console.log(products);
+    console.log('pages',paginate(page, totalPage));
+    console.log('page',page);
+    console.log('total',total);
+    console.log('totalPage',totalPage);
+
+
+    
+    const category = await CategoryModel.findById({_id:id});
     const title = category.title
     // console.log(category);
-    const products = await ProductModel.find({
+    /* const products = await ProductModel.find({
         cat_id: id
-    }).sort({_id: -1});
-    res.render("site/product-list", {title, products});
+    }).sort({_id: -1}); */
+    res.render("site/product-list", {
+        title:title,
+        products:products,
+        pages: paginate(page, totalPage),
+        page: page,
+        totalPage: totalPage,
+        category:category
+        });
 }
 const product = async (req, res)=>{
     const id = req.params.id;
     const product = await ProductModel.findById(id);
-    res.render("site/product-detail", {product});
+    const relatedProducts = await ProductModel.find(
+        {$and:[{'price': {$gte: product.price-(product.price/10) , $lte: product.price+(product.price/10)}}]}
+    ).sort({_id: -1}).limit(5);
+    
+    res.render("site/product-detail", {
+        product,
+        relatedProducts
+    });
 }
 const search = (req, res)=>{
     res.render("site/search");
