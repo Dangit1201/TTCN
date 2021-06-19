@@ -2,11 +2,8 @@ const CategoryModel = require("../models/category");
 const ProductModel = require("../models/product");
 const home = async (req, res)=>{
     
-    const LatestProducts = await ProductModel.find({
-        is_stock: true,
-    }).sort({_id: -1}).limit(6);
+    const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
     const FeaturedProducts = await ProductModel.find({
-        is_stock: true,
         featured: true,
     }).limit(6);
     // console.log(LatestProducts);
@@ -25,12 +22,12 @@ const category = async (req, res)=>{
     const products = await ProductModel.find({
         cat_id: id
     }).sort({_id: -1});
-    res.render("site/category", {title, products});
+    res.render("site/product-list", {title, products});
 }
 const product = async (req, res)=>{
     const id = req.params.id;
     const product = await ProductModel.findById(id);
-    res.render("site/product", {product});
+    res.render("site/product-detail", {product});
 }
 const search = (req, res)=>{
     res.render("site/search");
