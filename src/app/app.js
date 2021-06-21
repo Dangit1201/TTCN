@@ -12,10 +12,6 @@ app.use(require("../app/middlewares/share"));
 //middlewares
 //app.use(logger('dev'));
 
-// doc data tu form voi 2 loai data la text, json
-app.use(express.urlencoded({extended:true}));
-app.use(express.json());
-
 // cấu hình
 // cấu hình key "views" và đường dẫn tới folder views
 // bắt đầu từ trong thư mục views
@@ -27,8 +23,22 @@ app.set("view engine", config.get("app").view_engine);
 // /static đang là thư mục public
 app.use("/static", express.static(config.get("app").static_folder));
 
+// doc data tu form voi 2 loai data la text, json
+app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+
+// config session
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: config.get("app").session_key,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: config.get("app").session_secure }
+}));
+
 //routers
 app.use(router);
+
 //cath 404 errors
 /* app.use((req,res,next)=>{
     const err = new Error('Not found');
@@ -49,18 +59,6 @@ app.use(router);
         }
     });
 }); */
-
-// config session
-app.set("trust proxy", 1); // trust first proxy
-app.use(
-  session({
-    secret: config.get("app").session_key,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: config.get("app").session_secure },
-  })
-);
-
 
 
 // export app để file www.js dùng

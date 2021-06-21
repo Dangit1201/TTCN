@@ -6,29 +6,31 @@ const CategoryController = require("../app/controllers/category");
 const AdminController = require("../app/controllers/admin");
 const ProductController = require("../app/controllers/product");
 const SiteContoller = require("../app/controllers/site");
+const AuthContoller = require("../app/controllers/auth")
 
 //Goi middlewares
 const UploadMiddleware = require("../app/middlewares/upload");
+const AuthMiddleware = require("../app/middlewares/auth");
 
 //===========admin================
-router.get("/admin",AdminController.index);
+router.get("/admin",AuthMiddleware.checkAdmin,AdminController.index);
 
 //===========Category===============
-router.get("/admin/categories",CategoryController.index);
-router.get("/admin/categories/create",CategoryController.create);
-router.post("/admin/categories/store",CategoryController.store);
-router.get("/admin/categories/edit/:id",CategoryController.edit);
-router.post("/admin/categories/update/:id",CategoryController.update);
-router.post("/admin/categories/delete/:id",CategoryController.dele);
-router.post("/admin/categories/reorder",CategoryController.reorder);
+router.get("/admin/categories",AuthMiddleware.checkAdmin,CategoryController.index);
+router.get("/admin/categories/create",AuthMiddleware.checkAdmin,CategoryController.create);
+router.post("/admin/categories/store",AuthMiddleware.checkAdmin,CategoryController.store);
+router.get("/admin/categories/edit/:id",AuthMiddleware.checkAdmin,CategoryController.edit);
+router.post("/admin/categories/update/:id",AuthMiddleware.checkAdmin,CategoryController.update);
+router.post("/admin/categories/delete/:id",AuthMiddleware.checkAdmin,CategoryController.dele);
+router.post("/admin/categories/reorder",AuthMiddleware.checkAdmin,CategoryController.reorder);
 
 //===========Product===============
-router.get("/admin/products",ProductController.index);
-router.get("/admin/products/create",ProductController.create);
-router.post("/admin/products/store",UploadMiddleware.single("thumbnail"),ProductController.store);
-router.get("/admin/products/edit/:id",ProductController.edit);
-router.post("/admin/products/update/:id",UploadMiddleware.single("thumbnail"),ProductController.update);
-router.post("/admin/products/delete/:id",ProductController.dele);
+router.get("/admin/products",AuthMiddleware.checkAdmin,ProductController.index);
+router.get("/admin/products/create",AuthMiddleware.checkAdmin,ProductController.create);
+router.post("/admin/products/store",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),ProductController.store);
+router.get("/admin/products/edit/:id",AuthMiddleware.checkAdmin,ProductController.edit);
+router.post("/admin/products/update/:id",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),ProductController.update);
+router.post("/admin/products/delete/:id",AuthMiddleware.checkAdmin,ProductController.dele);
 
 //===========Site===============
 router.get("/", SiteContoller.home);
@@ -38,5 +40,10 @@ router.get("/search", SiteContoller.search);
 router.get("/cart", SiteContoller.cart);
 router.get("/success", SiteContoller.success);
 
+//===========Login and Register===============
+router.get("/login",AuthMiddleware.checkLoginAdmin,AuthContoller.Login);
+router.post("/login",AuthMiddleware.checkLoginAdmin, AuthContoller.postLogin);
+router.get("/register", AuthContoller.register);
+router.post("/registersuccess", AuthContoller.registersuccess);
 
 module.exports = router;

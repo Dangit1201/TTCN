@@ -8,7 +8,6 @@ const index = async (req, res) => {
   
   res.render("admin/category/category",{
       categories:categories,
-      
   });
 };
 
@@ -94,7 +93,7 @@ const reorder = async (req, res)=>{
     count++;
     var data = await CategoryModel.findById(id);
     data.cout = count;
-    data.save();
+    await data.save();
   }
  
 };
