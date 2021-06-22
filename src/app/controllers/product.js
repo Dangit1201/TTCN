@@ -5,6 +5,7 @@ const paginate = require("../../common/paginate");
 const fs = require("fs");
 const path = require("path");
 const ProductModel = require("../models/product");
+const ColorModel = require("../models/color");
 
 
 const index = async (req, res) => {
@@ -55,6 +56,13 @@ const store = async (req,res)=>{
       error = "Sản phẩm đã tồn tại !";
     }
     else{
+      const color={
+        red: body.red === "on",
+        while: body.while === "on",
+        blue: body.blue === "on",
+        yellow: body.yellow === "on",
+        black: body.black === "on",
+      }
       const product = {
         description: body.description,
         cat_id: body.cat_id,
@@ -71,7 +79,11 @@ const store = async (req,res)=>{
           const thumbnail = "products/"+file.originalname;
           product["thumbnail"] = thumbnail;
           fs.renameSync(file.path, path.resolve("src/public/images", thumbnail));
-          new ProductsModel(product).save();
+          const addcolor = await new ColorModel(color).save();
+          product.color_id = addcolor.id;
+          /* console.log("product.color_id",product.color_id);
+          console.log("ColorModel(color)._id",product); */
+          await ProductsModel(product).save();
           res.redirect("/admin/products");
         }
   }
@@ -85,7 +97,8 @@ const store = async (req,res)=>{
 const edit = async (req, res) => {
   const categories = await CategoriesModel.find();
   const id = req.params.id;
-  const product = await ProductsModel.findById(id);
+  const product = await ProductsModel.findById(id).populate({ path: "color_id" })
+  //console.log("product",product.color_id.yellow);
   res.render("admin/product/edit_product",{
     product:product,
     categories:categories
@@ -98,7 +111,15 @@ const update = async (req,res)=>{
   const file = req.file;
   const productid = await ProductsModel.findById(id);
   var quantityupdate=  Number(productid.quantity) + Number(body.quantity);
+  const colorIdUpdate= productid.color_id;
 
+  const color={
+    red: body.red === "on",
+    while: body.while === "on",
+    blue: body.blue === "on",
+    yellow: body.yellow === "on",
+    black: body.black === "on",
+  }
   const product = {
     description: body.description,
     cat_id: body.cat_id,
@@ -110,6 +131,7 @@ const update = async (req,res)=>{
     accessories: body.accessories,
     name: body.name,
     slug: slug(body.name),
+    color_id:colorIdUpdate,
     }
      //console.log('product',product);
     if(file){
@@ -117,12 +139,16 @@ const update = async (req,res)=>{
         product["thumbnail"] = thumbnail;
         fs.renameSync(file.path, path.resolve("src/public/images", thumbnail));
       }
+      const editcolor = await ColorModel.updateOne({_id: colorIdUpdate}, {$set: color});
       await ProductsModel.updateOne({_id: id}, {$set: product});
       res.redirect("/admin/products");
 };
 
 const dele = async (req, res) => {
   const id = req.params.id;
+  const productid = await ProductsModel.findById(id);
+  const colorIdUpdate= productid.color_id;
+  await ColorModel.deleteOne({_id: colorIdUpdate});
   await ProductsModel.deleteOne({_id: id});
   res.redirect("/admin/products");
 };

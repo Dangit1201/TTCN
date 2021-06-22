@@ -49,7 +49,7 @@ const category = async (req, res)=>{
 }
 const product = async (req, res)=>{
     const id = req.params.id;
-    const product = await ProductModel.findById(id);
+    const product = await ProductModel.findById(id).populate('color_id');
     const relatedProducts = await ProductModel.find(
         {$and:[{'price': {$gte: product.price-(product.price/10) , $lte: product.price+(product.price/10)}}]}
     ).sort({_id: -1}).limit(5);

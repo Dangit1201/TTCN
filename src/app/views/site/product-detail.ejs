@@ -60,9 +60,22 @@
                                         <div class="p-color">
                                             <h4>Màu:</h4>
                                             <div class="btn-group btn-group-sm">
-                                                <button type="button" class="btn">White</button>
-                                                <button type="button" class="btn">Black</button>
-                                                <button type="button" class="btn">Blue</button>
+                                                <% if(product.color_id.while){%>
+                                                    <label class="while"><input  name="color" type="radio" value="on">trắng</label>
+                                                <% }%>
+                                                <% if(product.color_id.black){%>
+                                                    <label class="black"><input  name="color" type="radio" value="on">đen</label>
+                                                <% }%>
+                                                <% if(product.color_id.yellow){%>
+                                                    <label class="yellow"><input  name="color" type="radio" value="on">vàng</label>
+                                                <% }%>
+                                                <% if(product.color_id.blue){%>
+                                                    <label class="blue"><input  name="color" type="radio" value="on">xanh dương</label>
+                                                <% }%>
+                                                <% if(product.color_id.red){%>
+                                                    <label class="red"><input  name="color" type="radio" value="on">đỏ</label>
+                                                <% }%>
+                                        
                                             </div> 
                                         </div>
                                         <div class="action">
@@ -207,6 +220,29 @@
         <!-- Brand End -->
         
         <!-- Footer Start -->
+        <style>
+            .black{
+                color: black;
+                margin-right: 7px;
+                
+            }
+            .while{
+                color: rgba(31, 22, 22, 0.144);
+                margin-right: 7px;
+            }
+            .red{
+                color: red;
+                margin-right: 7px;
+            }
+            .blue{
+                color: blue;
+                margin-right: 7px;
+            }
+            .yellow{
+                color: yellow;
+                margin-right: 7px;
+            }
+        </style>
         <%-include("layout/footer")%>
     </body>
 </html>
