@@ -42,6 +42,7 @@
                                         <tr>
                                             <th data-field="id" data-sortable="true">ID</th>
                                             <th data-field="name" data-sortable="true">Tên sản phẩm</th>
+                                            <th>Danh mục</th>
                                             <th data-field="price" data-sortable="true">Giá</th>
                                             <th>Ảnh sản phẩm</th>
                                             <th>Số lượng</th>
@@ -54,6 +55,7 @@
                                         <tr>
                                             <td style=""> <%= skip + count++ %></td>
                                             <td style=""><%=products[x].name%></td>
+                                            <td style=""><%=products[x].cat_id.title%></td>
                                             <td style=""><%=products[x].price.toLocaleString('vi-VN')%> vnd</td>
                                             <td style="text-align: center"><img width="130" height="150"
                                                     src="/static/images/<%=products[x].thumbnail%>" /></td>

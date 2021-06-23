@@ -44,6 +44,6 @@ router.get("/success", SiteContoller.success);
 router.get("/login",AuthMiddleware.checkLoginAdmin,AuthContoller.Login);
 router.post("/login",AuthMiddleware.checkLoginAdmin, AuthContoller.postLogin);
 router.get("/register", AuthContoller.register);
-router.post("/registersuccess", AuthContoller.registersuccess);
+router.post("/register", AuthContoller.registersuccess);
 
 module.exports = router;

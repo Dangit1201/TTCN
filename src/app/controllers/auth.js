@@ -62,7 +62,7 @@ const registersuccess = async (req, res)=>{
         }
         
         await new UserModel(user).save();
-        res.redirect("/login");
+        res.render("site/registersuccess");
     }
   
     res.render("site/register",{data: {error: error}});

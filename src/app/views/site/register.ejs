@@ -25,11 +25,14 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6 mx-auto">   
-                    <form action="/registersuccess" role="form" method="post" > 
+                    <form action="/register" role="form" method="post" > 
                         <div class="register-form">
                             <div class="row">
                                 
                                 <legend class="text-center"><b>Đăng ký</b></legend>
+                                <% if(data && data.error){%>
+                                    <div class="col-md-12 alert alert-danger"><%=data.error%></div>
+                                <% }%>
                                 <div class="col-md-6">
                                     <label>Họ và tên</label>
                                     <input class="form-control" name="full_name" required type="text" placeholder="Họ và tên">
@@ -55,9 +58,7 @@
                                     <button class="btn">Đăng ký</button>
                                 </div>
 
-                                <% if(data && data.error){%>
-                                    <div class="col-md-12 alert alert-danger"><%=data.error%></div>
-                                <% }%>
+                               
                                 
                                
                                

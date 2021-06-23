@@ -30,9 +30,12 @@
                             <div id="loginsite" class="login-form">
                                 <div class="row">
                                     <legend class="text-center"><b>Đăng nhập</b></legend>
+                                    <% if(data && data.error){%>
+                                        <div class="col-md-12 alert alert-danger"><%=data.error%></div>
+                                    <% }%>
                                     <div class="col-md-6">
                                         <label>Email</label>
-                                        <input class="form-control" name="email" type="email" placeholder="Nhập email"autofocus>
+                                        <input class="form-control" name="email" type="email" placeholder="Nhập email" autofocus>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Mật khẩu</label>
@@ -49,7 +52,7 @@
                                         
                                     </div>
                                     <div id="btnregistersite"class="col-md-12 text-center">
-                                        <a href="/register">Quên mật khẩu?</a>
+                                        <a href="#">Quên mật khẩu?</a>
                                     </div>
                                     <div class="col-md-12 ">
                                         <hr>
@@ -73,11 +76,16 @@
             #registersite{
                 background :#ec1d1d;
                 
-            }
-
-            
+            }   
         </style>
+        
         <!-- Footer Start -->
         <%-include("layout/footer")%>
+        <script>
+            $('#registersite').click(function() {
+            window.location.href = '/register';
+            return false;
+            });
+        </script>
     </body>
 </html>
