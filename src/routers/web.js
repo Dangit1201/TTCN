@@ -6,7 +6,8 @@ const CategoryController = require("../app/controllers/category");
 const AdminController = require("../app/controllers/admin");
 const ProductController = require("../app/controllers/product");
 const SiteContoller = require("../app/controllers/site");
-const AuthContoller = require("../app/controllers/auth")
+const AuthContoller = require("../app/controllers/auth");
+const UserContoller = require("../app/controllers/user");
 
 //Goi middlewares
 const UploadMiddleware = require("../app/middlewares/upload");
@@ -24,6 +25,16 @@ router.post("/admin/categories/update/:id",AuthMiddleware.checkAdmin,CategoryCon
 router.post("/admin/categories/delete/:id",AuthMiddleware.checkAdmin,CategoryController.dele);
 router.post("/admin/categories/reorder",AuthMiddleware.checkAdmin,CategoryController.reorder);
 
+//===========User===============
+router.get("/admin/users",UserContoller.index);
+router.get("/admin/users/create",UserContoller.create);
+router.post("/admin/users/store",UserContoller.store);
+router.get("/admin/users/edit/:id",UserContoller.edit);
+router.post("/admin/users/update/:id",UserContoller.update);
+router.post("/admin/users/delete/:id",UserContoller.dele);
+/* router.post("/admin/users/search",UserContoller.searchUser);
+router.post("/admin/users/searchpagi",UserContoller.searchUserPagi); */
+
 //===========Product===============
 router.get("/admin/products",AuthMiddleware.checkAdmin,ProductController.index);
 router.get("/admin/products/create",AuthMiddleware.checkAdmin,ProductController.create);
@@ -31,6 +42,9 @@ router.post("/admin/products/store",AuthMiddleware.checkAdmin,UploadMiddleware.s
 router.get("/admin/products/edit/:id",AuthMiddleware.checkAdmin,ProductController.edit);
 router.post("/admin/products/update/:id",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),ProductController.update);
 router.post("/admin/products/delete/:id",AuthMiddleware.checkAdmin,ProductController.dele);
+router.get("/testdata",ProductController.test);
+
+
 
 //===========Site===============
 router.get("/", SiteContoller.home);

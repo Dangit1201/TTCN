@@ -1,7 +1,7 @@
 const UserModel = require("../models/user");
 
 const Login = (req, res) => {
-  res.render("site/login", { data: {} });
+  res.render("site/login/login", { data: {} });
 };
 
 const postLogin = async (req, res) => {
@@ -37,12 +37,12 @@ const postLogin = async (req, res) => {
   } else {
     error = "Tài khoản không hợp lệ!";
   }
-  res.render("site/login", { data: { error: error } });
+  res.render("site/login/login", { data: { error: error } });
 };
 
 
 const register = (req, res)=>{
-    res.render("site/register",{ data: {} });
+    res.render("site/login/register",{ data: {} });
 }
 const registersuccess = async (req, res)=>{
     const body = req.body;
@@ -62,10 +62,10 @@ const registersuccess = async (req, res)=>{
         }
         
         await new UserModel(user).save();
-        res.render("site/registersuccess");
+        res.render("site/login/registersuccess");
     }
   
-    res.render("site/register",{data: {error: error}});
+    res.render("site/login/register",{data: {error: error}});
 }
 module.exports = {
     Login: Login,

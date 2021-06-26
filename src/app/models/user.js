@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     type: String,
     // không được để trống
     default: null,
+   // text: true,
   },
 
   email: {

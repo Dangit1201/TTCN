@@ -9,36 +9,18 @@ const ColorModel = require("../models/color");
 
 
 const index = async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = 6;
-    skip = page * limit - limit;
-
-    const total = await ProductsModel.find().countDocuments();
-    const totalPage = Math.ceil(total/limit);
-    // (paginate(page, totalPage);
-    /* console.log('pages',paginate(page, totalPage));
-    console.log('page',page);
-    console.log('totalPage',totalPage); */
-
     const products = await ProductsModel.find()
                                         .populate({ path: "cat_id" })
-                                        .skip(skip)
-                                        .limit(limit)
                                         .sort({"_id": -1});
-     
     res.render("admin/product/product", 
     { 
         products: products,
-        pages: paginate(page, totalPage),
-        page: page,
-        totalPage: totalPage,
         data: {}
     });
 };
 
 const create = async (req, res) => {
   const categories = await CategoriesModel.find().sort({cout:1});
-  //console.log(categories);
     res.render("admin/product/add_product", {
       categories:categories,
       data: {},
@@ -152,6 +134,11 @@ const dele = async (req, res) => {
   await ProductsModel.deleteOne({_id: id});
   res.redirect("/admin/products");
 };
+const test = async (req, res) => {
+  const products = await ProductsModel.find()                                   
+  res.render("admin/product/test",{products})
+};
+
 
 
 module.exports = {
@@ -161,4 +148,5 @@ module.exports = {
   dele: dele,
   store:store,
   update:update,
+  test:test,
 };

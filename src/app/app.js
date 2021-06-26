@@ -4,10 +4,13 @@ const router = require("../routers/web");
 const config = require("config");
 const session = require("express-session");
 
+
 const app = express();
 
 // Share
 app.use(require("../app/middlewares/share"));
+
+
 
 //middlewares
 //app.use(logger('dev'));

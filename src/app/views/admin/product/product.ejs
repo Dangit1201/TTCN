@@ -26,24 +26,27 @@
                         <h1 class="page-header">Danh sách sản phẩm</h1>
                     </div>
                 </div>
-                <!--/.row-->
+
                 <div id="toolbar" class="btn-group">
                     <a href="/admin/products/create" class="btn btn-success">
-                        <i class="glyphicon glyphicon-plus"></i> Thêm sản phẩm
-                    </a>
+                        <i class="glyphicon glyphicon-plus"></i> Thêm sản phẩm </a>
                 </div>
+                <!--/.row-->
+                
+               
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <table data-toolbar="#toolbar" data-toggle="table">
-
+                                <table id="example" 
+                                data-toolbar="#toolbar" 
+                                data-toggle="table">
                                     <thead>
                                         <tr>
-                                            <th data-field="id" data-sortable="true">ID</th>
-                                            <th data-field="name" data-sortable="true">Tên sản phẩm</th>
+                                            <th>ID</th>
+                                            <th>Tên sản phẩm</th>
                                             <th>Danh mục</th>
-                                            <th data-field="price" data-sortable="true">Giá</th>
+                                            <th>Giá</th>
                                             <th>Ảnh sản phẩm</th>
                                             <th>Số lượng</th>
                                             <th>Hành động</th>
@@ -53,15 +56,15 @@
                                         <% let count=1 %>
                                         <%for(x in products){%>
                                         <tr>
-                                            <td style=""> <%= skip + count++ %></td>
-                                            <td style=""><%=products[x].name%></td>
-                                            <td style=""><%=products[x].cat_id.title%></td>
-                                            <td style=""><%=products[x].price.toLocaleString('vi-VN')%> vnd</td>
+                                            <td><%=count++ %></td>
+                                            <td><%=products[x].name%></td>
+                                            <td><%=products[x].cat_id.title%></td>
+                                            <td ><%=products[x].price.toLocaleString('vi-VN')%> vnd</td>
                                             <td style="text-align: center"><img width="130" height="150"
                                                     src="/static/images/<%=products[x].thumbnail%>" /></td>
                                                                                         
-                                            <td style=""><%=products[x].quantity%></td>
-                                           <!--  <td><%=products[x].cat_id.title%></td> -->
+                                            <td ><%=products[x].quantity%></td>
+                                            <!-- <td><%=products[x].cat_id.title%></td> -->
                                             <td class="form-group">
                                                 <a href="/admin/products/edit/<%=products[x]._id%>" class="btn btn-primary"><i
                                                         class="glyphicon glyphicon-pencil"></i></a>
@@ -72,21 +75,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="panel-footer">
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
-                                        <%if(page > 1){%>
-                                        <li class="page-item"><a class="page-link" href="/admin/products/?page=<%=page-1%>">&laquo;</a></li>
-                                        <%}%>
-                                        <%for(x in pages){%>
-                                        <li class="page-item <%=pages[x]===page? 'active': ''%>"><a class="page-link" href="/admin/products/?page=<%=pages[x]%>"><%=pages[x]%></a></li>
-                                        <%}%>
-                                        <%if(page < totalPage){%>
-                                        <li class="page-item"><a class="page-link" href="/admin/products/?page=<%=page+1%>">&raquo;</a></li>
-                                        <%}%>
-                                    </ul>
-                                </nav>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -97,27 +86,31 @@
                 <div id="delete-modal-dm"class="modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
-                        <div id="modal-title-name" class="modal-header">
-                        <h5 class="modal-title">Bạn có muốn xóa sản phẩm này: <span id="spanproduct"></span> ?</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
+                            <div id="modal-title-name" class="modal-header">
+                            <h5 class="modal-title">Bạn có muốn xóa sản phẩm này: <span id="spanproduct"></span> ?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
                         
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                          <button  id="btn-delete-form" type="button" class="btn btn-danger">Xóa bỏ</button>
-                        </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button  id="btn-delete-form" type="button" class="btn btn-danger">Xóa bỏ</button>
+                            </div>
                       </div>
                     </div>
-                  </div>
+                </div>
 
             </div>
 
             <!--/.main-->
+            <%- include('../layout/footer.ejs')%>	
+            <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
             <script>
 		
                 document.addEventListener('DOMContentLoaded',function(){
+                    
                     $('#delete-modal-dm').on('show.bs.modal', function (event) {
                       var button = $(event.relatedTarget) 
                       ids = button.data('id') 
@@ -134,34 +127,60 @@
                     formdele.submit();
                 }
             </script>
+            <script>
+                $(document).ready(function() {
+                    $('#example').DataTable({
+                        "language": {
+                            "lengthMenu": "Hiện _MENU_ thành viên",
+                            "zeroRecords": "Nothing found - sorry",
+                            "info": "Trang _PAGE_ của _PAGES_",
+                            "infoEmpty": "No records available",
+                            "infoFiltered": "(filtered from _MAX_ total records)"
+                        }
+                    });
+                } );
+            </script>
             <style>
                th ,td{
 		            text-align: center;
 	            }
-            
-        </style>
+                .dataTables_length{
+                    margin-top: 12px;
+                }
+                #example_filter{
+                    margin-top: 12px;
+                    margin-right: 12px;
+                }
+               
+                #example_info{
+                    margin-left: 12px;
+                }
+                #example_paginate{
+                    margin-right: 12px;
+                }
+                #example_length{
+                    margin-left: 12px;
+                }
+                .ui-state-hightlight{
+                    border:1px dashed #ccc;
+                }
+                
+                th ,td{
+                    text-align: center;
+                }
+                .modal-title{
+                    color: green;
+                    text-align: center;
+                    text-transform: uppercase capitalize;
+                }
+                #spanproduct{
+                    color:blue;
+                    text-transform: uppercase;
+                }
+            </style>
 
             <%- include("../layout/footer")%>
 
 </body>
-<style>
-	.ui-state-hightlight{
-		border:1px dashed #ccc;
-	}
-	
-	th ,td{
-		text-align: center;
-	}
-	.modal-title{
-		color: green;
-		text-align: center;
-		text-transform: uppercase capitalize;
-	}
-	#spanproduct{
-		color:blue;
-		text-transform: uppercase;
-	}
-	
-</style>
 
 </html>
