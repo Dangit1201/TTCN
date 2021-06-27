@@ -2394,3 +2394,54 @@ h2 {
         text-align: center; 
     } 
 }
+
+
+/* CSS FOR Rating */
+/*CSS for rating */
+/* .rating {
+    display: flex;
+    transform: translateX(0) rotateY(180deg);
+    float: left;
+} 
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    display: block;
+    cursor: pointer;
+    width: 50px;
+}
+
+.rating label:before {
+    content: '\f005';
+    font-family: fontAwesome;
+    position: relative;
+    top: 0px;
+    display: block;
+    font-size: 30px;
+    color: gray;
+}
+
+.rating label:after {
+    content: '\f005';
+    font-family: fontAwesome;
+    position: absolute;
+    top: 0px;
+    display: block;
+    font-size: 30px;
+    color: #FF6F61;
+    opacity: 0;
+    transition: .2s;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+}
+
+.rating label:hover:after,
+.rating label:hover~label:after,
+.rating input:checked~label:after {
+    opacity: 1;
+}
+.clearfix {
+    clear: both;
+} */

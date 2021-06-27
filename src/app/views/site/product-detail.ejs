@@ -97,7 +97,10 @@
                                         <a class="nav-link" data-toggle="pill" href="#specification">Các khuyến mãi</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#reviews">Đánh giá(1)</a>
+                                        <a class="nav-link" data-toggle="pill" href="#reviews"> Đánh giá 
+                                            <% var i=0; for(c of comments) { i++ %>
+                                            <% }  %>
+                                            (<%=i%>)</a>
                                     </li>
                                 </ul>
 
@@ -112,43 +115,82 @@
                                         
                                     </div>
                                     <div id="reviews" class="container tab-pane fade">
-                                        <div class="reviews-submitted">
-                                            <div class="reviewer">Phasellus Gravida - <span>01 Jan 2020</span></div>
-                                            <div class="ratting">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                        <% for(comment of comments) { %>
+                                            <div class="reviews-submitted">
+                                                <div class="reviewer">
+                                                    <%= comment.full_name %> - <span><%=comment.createdAt.toLocaleString()%></span></div>
+                                                <div class="ratting">
+                                                    <% if(comment.rating >= 1) {  %> <i class="fa fa-star"></i>
+                                                        <% } %>
+                                                            <% if(comment.rating >= 2) {  %> <i class="fa fa-star"></i>
+                                                                <% } %>
+                                                                    <% if(comment.rating >= 3) {  %> <i class="fa fa-star"></i>
+                                                                        <% } %>
+                                                                            <% if(comment.rating >= 4) {  %> <i class="fa fa-star"></i>
+                                                                                <% } %>
+                                                                                    <% if(comment.rating >= 5) {  %> <i class="fa fa-star"></i>
+                                                                                        <% } %>
+                                                </div>
+                                                <p>
+                                                    <%=comment.body%>
+                                                </p>
+                                                
                                             </div>
-                                            <p>
-                                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
-                                            </p>
-                                        </div>
-                                        <div class="reviews-submit">
-                                            <h4>Give your Review:</h4>
-                                            <div class="ratting">
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
+                                            <% } %>
+                                            <div class="panel-footer">
+                                                <nav aria-label="Page navigation example">
+                                                    <ul class="pagination">
+                                                        <%if(page > 1){%>
+                                                            <li class="page-item"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=page-1%>">&laquo;</a></li>
+                                                            <%}%>
+                                                            <%for(x in pages){%>
+                                                            <li class="page-item <%=pages[x]===page? 'active': ''%>"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=pages[x]%>"><%=pages[x]%></a></li>
+                                                            <%}%>
+                                                            <%if(page < totalPage){%>
+                                                            <li class="page-item"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=page+1%>">&raquo;</a></li>
+                                                            <%}%>
+                                                           
+                                                    </ul>
+                                                </nav>
                                             </div>
-                                            <div class="row form">
-                                                <div class="col-sm-6">
-                                                    <input type="text" placeholder="Name">
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <input type="email" placeholder="Email">
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <textarea placeholder="Review"></textarea>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <button>Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                            
+                                                <form  method="post">
+                                                    <div class="reviews-submit">
+                                                        <div class="field">
+                                                            <h4>Viết đánh giá của bạn:</h4>
+                                                            <div class="control">
+                                                                <div class="rating">
+                                                                    <input type="radio" name="star" id="star1" value="5"><label for="star1">
+                                                                </label>
+                                                                    <input type="radio" name="star" id="star2" value="4"><label for="star2">
+                                                                </label>
+                                                                    <input type="radio" name="star" id="star3" value="3"><label for="star3">
+                                                                </label>
+                                                                    <input type="radio" name="star" id="star4" value="2"><label for="star4">
+                                                                </label>
+                                                                    <input type="radio" name="star" id="star5" value="1"><label for="star5">
+                                                                </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="row form clearfix">
+                                                            <div class="col-sm-6">
+                                                                <input name="full_name" required type="text" placeholder="Tên">
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <input name="email" required  type="email" placeholder="Email">
+                                                            </div>
+                                                            <div class="col-sm-12">
+                                                                <textarea name="body"  placeholder="Đánh giá..." required></textarea>
+                                                            </div>
+                                                            
+                                                            <div class="col-sm-12">
+                                                                <button type="submit" name="sbm" class="btn btn-primary">Gửi</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                     </div>
                                 </div>
                             </div>
@@ -242,6 +284,53 @@
                 color: yellow;
                 margin-right: 7px;
             }
+            .rating {
+    display: flex;
+    transform: translateX(0) rotateY(180deg);
+    float: left;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    display: block;
+    cursor: pointer;
+    width: 50px;
+}
+
+.rating label:before {
+    content: '\f005';
+    font-family: 'Font Awesome 5 Free';
+    position: relative;
+    top: 0px;
+    display: block;
+    font-size: 30px;
+    color: gray;
+} 
+
+.rating label:after {
+    content: '\f005';
+    font-family: 'Font Awesome 5 Free';
+    position: absolute;
+    top: 0px;
+    display: block;
+    font-size: 30px;
+    color: #FF6F61;
+    opacity: 0;
+    transition: .2s;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+}
+
+.rating label:hover:after,
+.rating label:hover~label:after,
+.rating input:checked~label:after {
+    opacity: 1;
+}
+.clearfix {
+    clear: both;
+}
         </style>
         <%-include("layout/footer")%>
     </body>

@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require("path");
 const ProductModel = require("../models/product");
 const ColorModel = require("../models/color");
+const CommentModel = require("../models/comment");
 
 
 const index = async (req, res) => {
@@ -132,6 +133,7 @@ const dele = async (req, res) => {
   const colorIdUpdate= productid.color_id;
   await ColorModel.deleteOne({_id: colorIdUpdate});
   await ProductsModel.deleteOne({_id: id});
+  await CommentModel.deleteOne({prd_id:id });
   res.redirect("/admin/products");
 };
 const test = async (req, res) => {

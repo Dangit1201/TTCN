@@ -26,12 +26,12 @@ router.post("/admin/categories/delete/:id",AuthMiddleware.checkAdmin,CategoryCon
 router.post("/admin/categories/reorder",AuthMiddleware.checkAdmin,CategoryController.reorder);
 
 //===========User===============
-router.get("/admin/users",UserContoller.index);
-router.get("/admin/users/create",UserContoller.create);
-router.post("/admin/users/store",UserContoller.store);
-router.get("/admin/users/edit/:id",UserContoller.edit);
-router.post("/admin/users/update/:id",UserContoller.update);
-router.post("/admin/users/delete/:id",UserContoller.dele);
+router.get("/admin/users",AuthMiddleware.checkAdmin,UserContoller.index);
+router.get("/admin/users/create",AuthMiddleware.checkAdmin,UserContoller.create);
+router.post("/admin/users/store",AuthMiddleware.checkAdmin,UserContoller.store);
+router.get("/admin/users/edit/:id",AuthMiddleware.checkAdmin,UserContoller.edit);
+router.post("/admin/users/update/:id",AuthMiddleware.checkAdmin,UserContoller.update);
+router.post("/admin/users/delete/:id",AuthMiddleware.checkAdmin,UserContoller.dele);
 /* router.post("/admin/users/search",UserContoller.searchUser);
 router.post("/admin/users/searchpagi",UserContoller.searchUserPagi); */
 
@@ -53,6 +53,7 @@ router.get("/product-:slug.:id", SiteContoller.product);
 router.get("/search", SiteContoller.search);
 router.get("/cart", SiteContoller.cart);
 router.get("/success", SiteContoller.success);
+router.post("/product-:slug.:id", SiteContoller.comment);
 
 //===========Login and Register===============
 router.get("/login",AuthMiddleware.checkLoginAdmin,AuthContoller.Login);
