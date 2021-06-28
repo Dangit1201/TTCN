@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%- include('../layout/head.ejs', {title: "Danh sách sản phẩm" })%>
+    <%- include('../layout/head.ejs', {title: "Danh sách bình luận" })%>
 
 </head>
 
@@ -14,20 +14,16 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Danh sách sản phẩm</li>
+				<li class="active">Danh sách bình luận</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Danh sách sản phẩm</h1>
+				<h1 class="page-header">Danh sách luận</h1>
 			</div>
 		</div><!--/.row-->
-		<div id="toolbar" class="btn-group">
-            <a href="/admin/products/create" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i> Thêm sản phẩm
-            </a>
-        </div>
+		
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -39,36 +35,33 @@
 
 						    <thead>
 						    <tr>
-                                <th>ID</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Danh mục</th>
-                                <th>Giá</th>
-                                <th>Ảnh sản phẩm</th>
-                                <th>Số lượng</th>
+                                <th >TT</th>
+						        <th >Họ & Tên</th>
+                                <th>Sản phẩm bình luận</th>
+                                <th >Số sao</th>
+                                <th>Nội dung</th>
                                 <th>Hành động</th>
                                 
 						    </tr>
                             </thead>
                             <tbody id="divpagination">
                                 <% let count=1 %>
-                                <%for(x in products){%>
+                                <%for(x in comments){%>
                                 <tr>
-                                    <td><%=count++ %></td>
-                                    <td><%=products[x].name%></td>
-                                    <td><%=products[x].cat_id.title%></td>
-                                    <td ><%=products[x].price.toLocaleString('vi-VN')%> vnd</td>
-                                    <td style="text-align: center"><img width="130" height="150"
-                                            src="/static/images/<%=products[x].thumbnail%>" /></td>
-                                                                                
-                                    <td ><%=products[x].quantity%></td>
-                                    <!-- <td><%=products[x].cat_id.title%></td> -->
+                                    <td style=""><%= count++ %></td>
+                                    <td style=""><%=comments[x].full_name%></td>
+                                    <td style=""><%=comments[x].name%></td>
+                                    <td style=""><%=comments[x].rating%></td>
+                                    <td style=""><%=comments[x].body%></td>
+                                    
+                                   
                                     <td class="form-group">
-                                        <a href="/admin/products/edit/<%=products[x]._id%>" class="btn btn-primary"><i
-                                                class="glyphicon glyphicon-pencil"></i></a>
-                                                <a  href="" class="btn btn-danger"  data-id="<%=products[x].id%>" data-title="<%=products[x].name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
-                                    </td>
+                                    
+                                        <a href="" class="btn btn-danger"  data-id="<%=comments[x].id%>" data-title="<%=comments[x].full_name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
+                                    </>
                                 </tr>
-                                <%}%>
+                               
+                            <%}%>
                                 
                             </tbody>
 						</table>
@@ -80,7 +73,7 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                                 <div id="modal-title-name" class="modal-header">
-                                <h5 class="modal-title">Bạn có muốn xóa sản phẩm này: <span id="spanproduct"></span> ?</h5>
+                                <h5 class="modal-title">Bạn có muốn xóa bình luận của: <span id="spanproduct"></span> ?</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -116,22 +109,9 @@
         var btndele = document.getElementById('btn-delete-form');
         
         btndele.onclick = function(){
-            formdele.action='/admin/products/delete/'+ids;
+            formdele.action='/admin/comments/delete/'+ids;
             formdele.submit();
-            /* $.ajax({
-                async:false,
-                type:"POST",
-                url:'/admin/users/delete/'+ids,
-                contentType:"application/x-www-form-urlencoded",
-                dataType:"html",
-                data:{ids:ids},
-                success:function(response){
-                    window.location.replace("/admin/users");
-                },
-                error:function(xhr,ajaxOptions, thrownError){
-                    alert("xay ra loi");
-                }
-            }); */
+            
         }
     </script>
     <script>
@@ -139,10 +119,10 @@
         $('#example').DataTable({
             "language": {
             "lengthMenu": "Hiện _MENU_ thành viên",
-            "zeroRecords": "Không tìm kiếm được - Xin lỗi",
+            "zeroRecords": "Nothing found - sorry",
             "info": "Trang _PAGE_ của _PAGES_",
-            "infoEmpty": "Không có sản phẩm nào",
-            "infoFiltered": "(Lọc từ _MAX_ tổng số sản phẩm)"
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
         }
         });
         } );

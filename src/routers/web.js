@@ -44,6 +44,19 @@ router.post("/admin/products/update/:id",AuthMiddleware.checkAdmin,UploadMiddlew
 router.post("/admin/products/delete/:id",AuthMiddleware.checkAdmin,ProductController.dele);
 router.get("/testdata",ProductController.test);
 
+//===========commentadmin===============
+router.get("/admin/comments",ProductController.commentindex);
+router.post("/admin/comments/delete/:id",ProductController.commentdele);
+
+//===========advertisement===============
+router.get("/admin/advertisements",AuthMiddleware.checkAdmin,UserContoller.index);
+router.get("/admin/advertisements/create",AuthMiddleware.checkAdmin,UserContoller.create);
+router.post("/admin/advertisements/store",AuthMiddleware.checkAdmin,UserContoller.store);
+router.get("/admin/advertisements/edit/:id",AuthMiddleware.checkAdmin,UserContoller.edit);
+router.post("/admin/advertisements/update/:id",AuthMiddleware.checkAdmin,UserContoller.update);
+router.post("/admin/advertisements/delete/:id",AuthMiddleware.checkAdmin,UserContoller.dele);
+
+
 
 
 //===========Site===============

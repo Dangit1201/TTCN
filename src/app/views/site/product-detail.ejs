@@ -51,9 +51,9 @@
                                         <div class="quantity">
                                             <h4>Số lượng:</h4>
                                             <div class="qty">
-                                                <button class="btn-minus"><i class="fa fa-minus"></i></button>
-                                                <input type="text" value="1">
-                                                <button class="btn-plus"><i class="fa fa-plus"></i></button>
+                                                <button id="btnmul" class="btn-minus" disabled = "true" style = "background-color:rgb(120, 120, 120)"><i class="fa fa-minus"></i></button>
+                                                <input id="inputprice" type="text" value="1" readonly="true">
+                                                <button id="btnadd" class="btn-plus" ><i class="fa fa-plus" ></i></button>
                                             </div>
                                         </div>
                                        
@@ -141,13 +141,13 @@
                                                 <nav aria-label="Page navigation example">
                                                     <ul class="pagination">
                                                         <%if(page > 1){%>
-                                                            <li class="page-item"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=page-1%>">&laquo;</a></li>
+                                                            <li  class="page-item"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=page-1%>">&laquo;</a></li>
                                                             <%}%>
                                                             <%for(x in pages){%>
-                                                            <li class="page-item <%=pages[x]===page? 'active': ''%>"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=pages[x]%>"><%=pages[x]%></a></li>
+                                                            <li  class="page-item <%=pages[x]===page? 'active': ''%>"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=pages[x]%>"><%=pages[x]%></a></li>
                                                             <%}%>
                                                             <%if(page < totalPage){%>
-                                                            <li class="page-item"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=page+1%>">&raquo;</a></li>
+                                                            <li  class="page-item"><a class="page-link" href="/product-<%=product.slug%>.<%=product._id%>/?page=<%=page+1%>">&raquo;</a></li>
                                                             <%}%>
                                                            
                                                     </ul>
@@ -159,7 +159,7 @@
                                                         <div class="field">
                                                             <h4>Viết đánh giá của bạn:</h4>
                                                             <div class="control">
-                                                                <div class="rating">
+                                                                <div class="rating ratingbl">
                                                                     <input type="radio" name="star" id="star1" value="5"><label for="star1">
                                                                 </label>
                                                                     <input type="radio" name="star" id="star2" value="4"><label for="star2">
@@ -263,6 +263,7 @@
         
         <!-- Footer Start -->
         <style>
+            
             .black{
                 color: black;
                 margin-right: 7px;
@@ -281,57 +282,82 @@
                 margin-right: 7px;
             }
             .yellow{
-                color: yellow;
+                color: rgb(247, 247, 8);
                 margin-right: 7px;
             }
             .rating {
-    display: flex;
-    transform: translateX(0) rotateY(180deg);
-    float: left;
-}
+                display: flex;
+                transform: translateX(0) rotateY(180deg);
+                float: left;
+                margin-bottom: 5px;
+            }
 
-.rating input {
-    display: none;
-}
+            .rating input {
+                display: none;
+            }
 
-.rating label {
-    display: block;
-    cursor: pointer;
-    width: 50px;
-}
+            .rating label {
+                display: block;
+                cursor: pointer;
+                width: 50px;
+            }
 
-.rating label:before {
-    content: '\f005';
-    font-family: 'Font Awesome 5 Free';
-    position: relative;
-    top: 0px;
-    display: block;
-    font-size: 30px;
-    color: gray;
-} 
+            .rating label:before {
+                content: '\f005';
+                font-family: 'Font Awesome 5 Free';
+                position: relative;
+                top: 0px;
+                display: block;
+                font-size: 30px;
+                color: gray;
+            } 
 
-.rating label:after {
-    content: '\f005';
-    font-family: 'Font Awesome 5 Free';
-    position: absolute;
-    top: 0px;
-    display: block;
-    font-size: 30px;
-    color: #FF6F61;
-    opacity: 0;
-    transition: .2s;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
-}
+            .rating label:after {
+                content: '\f005';
+                font-family: 'Font Awesome 5 Free';
+                position: absolute;
+                top: 0px;
+                display: block;
+                font-size: 30px;
+                color: #FF6F61;
+                opacity: 0;
+                transition: .2s;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, .5);
+            }
+            
 
-.rating label:hover:after,
-.rating label:hover~label:after,
-.rating input:checked~label:after {
-    opacity: 1;
-}
-.clearfix {
-    clear: both;
-}
+            .rating label:hover:after,
+            .rating label:hover~label:after,
+            .rating input:checked~label:after {
+                opacity: 1;
+            }
+            .clearfix {
+                clear: both;
+            }
+            
+            
         </style>
         <%-include("layout/footer")%>
+        <script> 
+           var total = document.getElementById('inputprice');
+
+                document.getElementById('btnadd').addEventListener('click', function() {
+                if (total.value > 1) {
+                    console.log('enabled');
+                    document.getElementById('btnmul').disabled = false;
+                    document.getElementById('btnmul').style = "background-color:#FF6F61";
+                }
+
+                });
+
+                document.getElementById('btnmul').addEventListener('click', function() {
+                if (total.value ==1 ) {
+                    console.log('disabled');
+                    document.getElementById('btnmul').disabled = true;
+                    document.getElementById('btnmul').style = "background-color:rgb(120, 120, 120)";
+                }
+                });
+                
+        </script>
     </body>
 </html>

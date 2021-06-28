@@ -1216,11 +1216,19 @@ h2 {
     font-weight: 900;
     padding-right: 5px;
 }
+.product-detail .tab-content ul li.page-item.active::before {  
+     
+    display: none;
+}
+
+
+
 
 .product-detail .tab-content .reviews-submitted {
     position: relative;
-    margin-bottom: 45px;
+    /* margin-bottom: 45px; */
 }
+
 
 .product-detail .tab-content .reviewer {
     color: #FF6F61;
@@ -2445,3 +2453,4 @@ h2 {
 .clearfix {
     clear: both;
 } */
+.product-detail .tab-content .reviews-submitted

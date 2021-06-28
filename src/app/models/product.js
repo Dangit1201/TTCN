@@ -1,6 +1,11 @@
 const mongoose = require("../../common/database")();
 
 const productSchema = new mongoose.Schema({
+    name:{
+        type: String,
+        required: true,
+        text: true,
+    },
     cat_id:{
         type: mongoose.Types.ObjectId,
         ref: "Category",
@@ -11,11 +16,7 @@ const productSchema = new mongoose.Schema({
         ref: "Color",
         
     },
-    name:{
-        type: String,
-        required: true,
-        text: true,
-    },
+    
     slug:{
         type: String,
         required: true,

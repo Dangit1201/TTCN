@@ -1,12 +1,6 @@
 const mongoose = require("../../common/database")();
 
-const commentSchema = mongoose.Schema(
-    {
-
-        prd_id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product",
-        },
+const commentSchema = mongoose.Schema({
         rating:{
             type:Number,
             default:5,
@@ -16,6 +10,15 @@ const commentSchema = mongoose.Schema(
             default: null,
         },
         email: {
+            type: String,
+            default: null,
+        },
+        prd_id: {
+            type: mongoose.Types.ObjectId,
+            ref: "Product",
+            required: true,
+        },
+        name: {
             type: String,
             default: null,
         },
@@ -29,5 +32,5 @@ const commentSchema = mongoose.Schema(
     }
 );
 
-const CommentModel = mongoose.model("Comment", commentSchema, "Comments");
+const CommentModel = mongoose.model("Comment", commentSchema, "comments");
 module.exports = CommentModel;

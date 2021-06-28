@@ -82,17 +82,20 @@ const success = (req, res)=>{
     res.render("site/success");
 }
 const comment = async (req, res)=>{
-    const id = req.params.id;
+    const id = req.params.id.toString();
+    const productcomment = await ProductModel.findById(id);
     const comment = {
         prd_id: id,
         rating: req.body.star,
         full_name: req.body.full_name,
         email: req.body.email,
         body: req.body.body,
+        name: productcomment.name,
     }
     await new CommentModel(comment).save();
     res.redirect(req.path);
 }
+
 
 
 
