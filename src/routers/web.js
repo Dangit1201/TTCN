@@ -8,6 +8,8 @@ const ProductController = require("../app/controllers/product");
 const SiteContoller = require("../app/controllers/site");
 const AuthContoller = require("../app/controllers/auth");
 const UserContoller = require("../app/controllers/user");
+const AdvertisementContoller = require("../app/controllers/advertisement");
+
 
 //Goi middlewares
 const UploadMiddleware = require("../app/middlewares/upload");
@@ -49,12 +51,12 @@ router.get("/admin/comments",ProductController.commentindex);
 router.post("/admin/comments/delete/:id",ProductController.commentdele);
 
 //===========advertisement===============
-router.get("/admin/advertisements",AuthMiddleware.checkAdmin,UserContoller.index);
-router.get("/admin/advertisements/create",AuthMiddleware.checkAdmin,UserContoller.create);
-router.post("/admin/advertisements/store",AuthMiddleware.checkAdmin,UserContoller.store);
-router.get("/admin/advertisements/edit/:id",AuthMiddleware.checkAdmin,UserContoller.edit);
-router.post("/admin/advertisements/update/:id",AuthMiddleware.checkAdmin,UserContoller.update);
-router.post("/admin/advertisements/delete/:id",AuthMiddleware.checkAdmin,UserContoller.dele);
+router.get("/admin/advertisements",AdvertisementContoller.index);
+router.get("/admin/advertisements/create",AdvertisementContoller.create);
+router.post("/admin/advertisements/store",UploadMiddleware.single("thumbnail"),AdvertisementContoller.store);
+router.get("/admin/advertisements/edit/:id",AdvertisementContoller.edit);
+router.post("/admin/advertisements/update/:id",UploadMiddleware.single("thumbnail"),AdvertisementContoller.update);
+router.post("/admin/advertisements/delete/:id",AdvertisementContoller.dele);
 
 
 

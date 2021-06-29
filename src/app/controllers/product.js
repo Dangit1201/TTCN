@@ -4,7 +4,6 @@ const slug = require("slug");
 const paginate = require("../../common/paginate");
 const fs = require("fs");
 const path = require("path");
-const ProductModel = require("../models/product");
 const ColorModel = require("../models/color");
 const CommentModel = require("../models/comment");
 

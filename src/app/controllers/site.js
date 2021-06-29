@@ -2,9 +2,11 @@ const CategoryModel = require("../models/category");
 const ProductModel = require("../models/product");
 const paginate = require("../../common/paginate");
 const CommentModel = require("../models/comment");
+const AdvertisementsModel = require("../models/advertisement");
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
+    const Banner = await AdvertisementsModel.find().sort({_id: -1}).limit(3);
     const FeaturedProducts = await ProductModel.find({
         featured: true,
     }).sort({_id: -1}).limit(6);
@@ -13,6 +15,7 @@ const home = async (req, res)=>{
     res.render("site/index", {
         LatestProducts:LatestProducts,
         FeaturedProducts:FeaturedProducts,
+        Banner:Banner,
     });
 }
 const category = async (req, res)=>{

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%- include('../layout/head.ejs', {title: "Danh sách người dùng" })%>
+    <%- include('../layout/head.ejs', {title: "Danh sách quảng cáo" })%>
 
 </head>
 
@@ -14,18 +14,18 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Danh sách thành viên</li>
+				<li class="active">Danh sách quảng cáo</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Danh sách thành viên</h1>
+				<h1 class="page-header">Danh sách quảng cáo</h1>
 			</div>
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
-            <a href="/admin/products/create" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i> Thêm thành viên
+            <a href="/admin/advertisements/create" class="btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i> Thêm quảng cáo
             </a>
         </div>
 
@@ -39,33 +39,28 @@
 
 						    <thead>
 						    <tr>
-                                <th>ID</th>
-                                <th>Tên sản phẩm</th>
-                                <th>Danh mục</th>
-                                <th>Giá</th>
-                                <th>Ảnh sản phẩm</th>
-                                <th>Số lượng</th>
+                                <th>TT</th>
+                                <th>Nội dung</th>
+                                <th>Hình ảnh</th>
+                                <th>Loại quảng cáo</th>
                                 <th>Hành động</th>
                                 
 						    </tr>
                             </thead>
                             <tbody id="divpagination">
                                 <% let count=1 %>
-                                <%for(x in products){%>
+                                <%for(x in advertisements){%>
                                 <tr>
                                     <td><%=count++ %></td>
-                                    <td><%=products[x].name%></td>
-                                    <td><%=products[x].cat_id.title%></td>
-                                    <td ><%=products[x].price.toLocaleString('vi-VN')%> vnd</td>
-                                    <td style="text-align: center"><img width="130" height="150"
-                                            src="/static/images/<%=products[x].thumbnail%>" /></td>
-                                                                                
-                                    <td ><%=products[x].quantity%></td>
-                                    <!-- <td><%=products[x].cat_id.title%></td> -->
+                                    <td id="idcontent"><%=advertisements[x].content%></td>
+                                    <td style="text-align: center"><img width="160" height="120"
+                                        src="/static/images/<%=advertisements[x].thumbnail%>" /></td>
+                                    <td><%=advertisements[x].typeofadv%></td>                                         
+                                    
                                     <td class="form-group">
-                                        <a href="/admin/products/edit/<%=products[x]._id%>" class="btn btn-primary"><i
+                                        <a href="/admin/advertisements/edit/<%=advertisements[x]._id%>" class="btn btn-primary"><i
                                                 class="glyphicon glyphicon-pencil"></i></a>
-                                                <a  href="" class="btn btn-danger"  data-id="<%=products[x].id%>" data-title="<%=products[x].name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
+                                                <a  href="" class="btn btn-danger"  data-id="<%=advertisements[x].id%>" data-title="" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
                                     </td>
                                 </tr>
                                 <%}%>
@@ -80,7 +75,7 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                                 <div id="modal-title-name" class="modal-header">
-                                <h5 class="modal-title">Bạn có muốn xóa sản phẩm này: <span id="spanproduct"></span> ?</h5>
+                                <h5 class="modal-title">Bạn có muốn xóa quảng cáo này <span id="spanproduct"></span> ?</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -116,29 +111,16 @@
         var btndele = document.getElementById('btn-delete-form');
         
         btndele.onclick = function(){
-            formdele.action='/admin/products/delete/'+ids;
+            formdele.action='/admin/advertisements/delete/'+ids;
             formdele.submit();
-            /* $.ajax({
-                async:false,
-                type:"POST",
-                url:'/admin/users/delete/'+ids,
-                contentType:"application/x-www-form-urlencoded",
-                dataType:"html",
-                data:{ids:ids},
-                success:function(response){
-                    window.location.replace("/admin/users");
-                },
-                error:function(xhr,ajaxOptions, thrownError){
-                    alert("xay ra loi");
-                }
-            }); */
+            
         }
     </script>
     <script>
         $(document).ready(function() {
         $('#example').DataTable({
             "language": {
-            "lengthMenu": "Hiện _MENU_ thành viên",
+            "lengthMenu": "Hiện _MENU_ quảng cáo",
             "zeroRecords": "Nothing found - sorry",
             "info": "Trang _PAGE_ của _PAGES_",
             "infoEmpty": "No records available",
@@ -178,6 +160,10 @@
         #spanproduct{
             color:blue;
             text-transform: uppercase;
+        }
+        #idcontent{
+            width: 320px;
+           /*  height: 70px; */
         }
         
     </style>

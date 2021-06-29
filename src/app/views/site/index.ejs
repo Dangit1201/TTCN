@@ -30,41 +30,30 @@
                     </div>
                     <div class="col-md-6">
                         <div class="header-slider normal-slider">
+                            <% for(let banner of Banner){%>
                             <div class="header-slider-item">
-                                <img src="/static/site/img/slider-1.jpg" alt="Slider Image" />
+                                <img src="/static/images/<%=banner.thumbnail%>" alt="Slider Image" />
                                 <div class="header-slider-caption">
-                                    <p>Some text goes here that describes the image</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                                    <p><%=banner.content%></p>
+                                    <a class="btn" href="<%=banner.link%>"><i class="fa fa-shopping-cart"></i>Shop Now</a>
                                 </div>
                             </div>
-                            <div class="header-slider-item">
-                                <img src="/static/site/img/slider-2.jpg" alt="Slider Image" />
-                                <div class="header-slider-caption">
-                                    <p>Some text goes here that describes the image</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
-                                </div>
-                            </div>
-                            <div class="header-slider-item">
-                                <img src="/static/site/img/slider-3.jpg" alt="Slider Image" />
-                                <div class="header-slider-caption">
-                                    <p>Some text goes here that describes the image</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
-                                </div>
-                            </div>
+                            <% }%>
+                            
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="header-img">
                             <div class="img-item">
-                                <img src="/static/site/img/qc1n.jpg" />
-                                <a class="img-text" href="">
-                                    <p>Some text goes here that describes the image</p>
+                                <img src="/static/site/img/qca4.png" />
+                                <a class="img-text" >
+                                    <p>Galaxy Z Fold3 và Galaxy Z Flip3 lộ kích thước màn hình, có chút khác biệt so với các phiên bản đời trước</p>
                                 </a>
                             </div>
                             <div class="img-item">
-                                <img src="/static/site/img/category-2.jpg" />
-                                <a class="img-text" href="">
-                                    <p>Some text goes here that describes the image</p>
+                                <img src="/static/site/img/qca3.png" />
+                                <a class="img-text" >
+                                    <p>Galaxy M52 5G Chip Snapdragon 778G hoàn toàn mới, màn hình 144Hz, các bạn đoán giá thử nào</p>
                                 </a>
                             </div>
                         </div>
@@ -75,18 +64,18 @@
         <!-- Main Slider End -->      
         
         <!-- Brand Start -->
+        
         <div class="brand">
             <div class="container-fluid">
                 <div class="brand-slider">
-                    <div class="brand-item"><img src="/static/site/img/brand-1.png" alt=""></div>
-                    <div class="brand-item"><img src="/static/site/img/brand-2.png" alt=""></div>
-                    <div class="brand-item"><img src="/static/site/img/brand-3.png" alt=""></div>
-                    <div class="brand-item"><img src="/static/site/img/brand-4.png" alt=""></div>
-                    <div class="brand-item"><img src="/static/site/img/brand-5.png" alt=""></div>
-                    <div class="brand-item"><img src="/static/site/img/brand-6.png" alt=""></div>
+                    <% for(let x of advertisementsshare){%>
+                    <div class="brand-item"><img src="/static/images/<%=x.thumbnail%>" alt=""></div>
+                    <% }%>
                 </div>
             </div>
+           
         </div>
+        
         <!-- Brand End -->      
         
         <!-- Feature Start-->
@@ -140,45 +129,45 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="category-item ch-400">
-                            <img src="/static/site/img/category-3.jpg" />
-                            <a class="category-name" href="">
-                                <p>Some text goes here that describes the image</p>
+                            <img src="/static/site/img/qcd2.png" />
+                            <a class="category-name" >
+                                <p>Kỳ vọng Sony Xperia 1 III Pro: Mới tinh với chip Snapdragon 895, RAM 16 GB, viên pin lớn hơn cùng nhiều thứ Pro hơn</p>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="category-item ch-250">
-                            <img src="/static/site/img/category-4.jpg" />
-                            <a class="category-name" href="">
-                                <p>Some text goes here that describes the image</p>
+                            <img src="/static/site/img/qcb3.png" />
+                            <a class="category-name" >
+                                <p>Chúng ta có thể thấy ít thông tin rò rỉ về iPhone hơn trong thời gian tới</p>
                             </a>
                         </div>
                         <div class="category-item ch-150">
-                            <img src="/static/site/img/category-5.jpg" />
-                            <a class="category-name" href="">
-                                <p>Some text goes here that describes the image</p>
+                            <img src="/static/site/img/qcc1.png" />
+                            <a class="category-name" >
+                                <p>Thông tin quan trọng đầu tiên về Xiaomi Redmi Note 11 vừa được hé lộ</p>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="category-item ch-150">
-                            <img src="/static/site/img/category-6.jpg" />
-                            <a class="category-name" href="">
-                                <p>Some text goes here that describes the image</p>
+                            <img src="/static/site/img/qcc2.png" />
+                            <a class="category-name" >
+                                <p>Camera góc siêu rộng của dòng iPhone 13 Pro sẽ hỗ trợ tự động lấy nét</p>
                             </a>
                         </div>
                         <div class="category-item ch-250">
-                            <img src="/static/site/img/category-7.jpg" />
-                            <a class="category-name" href="">
-                                <p>Some text goes here that describes the image</p>
+                            <img src="/static/site/img/qcb1.png" />
+                            <a class="category-name" >
+                                <p>Trải nghiệm một buổi rèn luyện sức khỏe cùng với camera trên chiếc Galaxy A72, vừa khỏe vừa có được video chất lượng</p>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="category-item ch-400">
-                            <img src="/static/site/img/category-8.jpg" />
+                            <img src="/static/site/img/qcd3.png" />
                             <a class="category-name" href="">
-                                <p>Some text goes here that describes the image</p>
+                                <p>Apple nới lỏng giới hạn dung lượng RAM tối đa, cho phép các ứng dụng tận dụng đối đa sức mạnh của iPhone và iPad</p>
                             </a>
                         </div>
                     </div>
