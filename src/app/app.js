@@ -7,10 +7,6 @@ const session = require("express-session");
 
 const app = express();
 
-// Share
-app.use(require("../app/middlewares/share"));
-
-
 
 //middlewares
 //app.use(logger('dev'));
@@ -38,6 +34,9 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: config.get("app").session_secure }
 }));
+
+// Share
+app.use(require("../app/middlewares/share"));
 
 //routers
 app.use(router);

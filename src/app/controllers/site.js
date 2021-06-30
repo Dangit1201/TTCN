@@ -99,6 +99,28 @@ const comment = async (req, res)=>{
     res.redirect(req.path);
 }
 
+const allcategory = async (req, res)=>{
+    const id = req.params.id;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    skip = page * limit - limit;
+
+    const total = await ProductModel.find().countDocuments();
+    const totalPage = Math.ceil(total/limit);
+
+    const products = await ProductModel.find()
+                                        .skip(skip)
+                                        .limit(limit)
+                                        .sort({"_id": -1});
+     
+    res.render("site/product-all-list", {
+        products:products,
+        pages: paginate(page, totalPage),
+        page: page,
+        totalPage: totalPage,
+        });
+}
+
 
 
 
@@ -110,5 +132,6 @@ module.exports = {
     cart:cart,
     success:success,
     comment:comment,
+    allcategory:allcategory,
     
 }
