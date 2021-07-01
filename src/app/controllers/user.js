@@ -3,12 +3,36 @@ const paginate = require("../../common/paginate");
 
 
 const index = async (req, res) => {
-    const users = await UserModel.find().sort({"_id": -1});
-    res.render("admin/user/user2", 
-    { 
-        users: users,
-        data: {}
-    });
+    let sort = req.query.sort;
+
+    if(sort=='admin'){
+      const users = await UserModel.find({role:'admin'}).sort({"_id": -1});
+      res.render("admin/user/user2", 
+      { 
+          users: users,
+          data: {},
+          sort
+      });
+    }else if(sort=='user'){
+      const users = await UserModel.find({role:'member'}).sort({"_id": -1});
+      res.render("admin/user/user2", 
+      { 
+          users: users,
+          data: {},
+          sort
+      });
+    } else{
+      sort = null;
+      const users = await UserModel.find().sort({"_id": -1});
+      res.render("admin/user/user2", 
+      { 
+          users: users,
+          data: {},
+          sort
+      });
+    }
+    
+    
 };
   
 const create = async (req, res) => {

@@ -13,9 +13,8 @@
         <div class="breadcrumb-wrap">
             <div class="container-fluid">
                 <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Products</a></li>
-                    <li class="breadcrumb-item active">Product List</li>
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Danh sách <%=title%></li>
                 </ul>
             </div>
         </div>
@@ -36,33 +35,33 @@
                                                 <button><i class="fa fa-search"></i></button>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="product-short">
-                                                <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product short by</div>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">Newest</a>
-                                                        <a href="#" class="dropdown-item">Popular</a>
-                                                        <a href="#" class="dropdown-item">Most sale</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                       
                                         <div class="col-md-4">
                                             <div class="product-price-range">
                                                 <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
+                                                    <% if(sort==null){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">Tìm theo giá điện thoại</div>
+                                                    <% }%>
+                                                    <% if(sort=='14'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">1tr đến 4tr</div>
+                                                    <% }%>
+                                                    <% if(sort=='48'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">4tr đến 8tr</div>
+                                                    <% }%>
+                                                    <% if(sort=='815'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">8tr đến 15tr</div>
+                                                    <% }%>
+                                                    <% if(sort=='gte15'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">trên 15 tr</div>
+                                                    <% }%>
+                                                   
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">$0 to $50</a>
-                                                        <a href="#" class="dropdown-item">$51 to $100</a>
-                                                        <a href="#" class="dropdown-item">$101 to $150</a>
-                                                        <a href="#" class="dropdown-item">$151 to $200</a>
-                                                        <a href="#" class="dropdown-item">$201 to $250</a>
-                                                        <a href="#" class="dropdown-item">$251 to $300</a>
-                                                        <a href="#" class="dropdown-item">$301 to $350</a>
-                                                        <a href="#" class="dropdown-item">$351 to $400</a>
-                                                        <a href="#" class="dropdown-item">$401 to $450</a>
-                                                        <a href="#" class="dropdown-item">$451 to $500</a>
+                                                        <a href="/category-<%=category.title%>.<%=category.id%>" class="dropdown-item">Mọi giá</a>
+                                                        <a href="/category-<%=category.title%>.<%=category.id%>?sort=14" class="dropdown-item">1tr đến 4tr</a>
+                                                        <a href="/category-<%=category.title%>.<%=category.id%>?sort=48" class="dropdown-item">4tr đến 8tr</a>
+                                                        <a href="/category-<%=category.title%>.<%=category.id%>?sort=815" class="dropdown-item">8tr đến 15tr</a>
+                                                        <a href="/category-<%=category.title%>.<%=category.id%>?sort=gte15" class="dropdown-item">trên 15 tr</a>
+                                                      
                                                     </div>
                                                 </div>
                                             </div>

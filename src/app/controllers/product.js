@@ -6,19 +6,39 @@ const fs = require("fs");
 const path = require("path");
 const ColorModel = require("../models/color");
 const CommentModel = require("../models/comment");
+const CategoryModel = require("../models/category");
 
 
 const index = async (req, res) => {
-    const products = await ProductsModel.find()
+    const categories = await CategoryModel.find().sort({"cout":-1});
+    const sort = req.query.sort;
+    for(x in categories){
+    if(sort==categories[x].id){
+    const products = await ProductsModel.find({cat_id:sort})
                                         .populate({ path: "cat_id" })
                                         .sort({"_id": -1});
-    
     res.render("admin/product/product", 
     { 
         products: products,
+        categories:categories,
         data: {}
     });
-};
+  } 
+}
+  if(sort==null){
+    const products = await ProductsModel.find()
+                                        .populate({ path: "cat_id" })
+                                        .sort({"_id": -1});
+    res.render("admin/product/product", 
+    { 
+        products: products,
+        categories:categories,
+        data: {}
+    });
+  }
+
+
+}
 
 const create = async (req, res) => {
   const categories = await CategoriesModel.find().sort({cout:1});
@@ -167,4 +187,4 @@ module.exports = {
   test:test,
   commentindex:commentindex,
   commentdele:commentdele,
-};
+}

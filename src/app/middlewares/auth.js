@@ -1,6 +1,6 @@
 const checkLoginAdmin = (req, res, next) => {
     if (req.session.email_user && req.session.pass_user) {
-      return res.redirect("/register");
+      return res.redirect("/account");
     }
     if (req.session.email_admin && req.session.pass_admin) {
       return res.redirect("/admin");

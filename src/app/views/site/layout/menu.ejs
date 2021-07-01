@@ -27,10 +27,12 @@
                 <div class="navbar-nav mr-auto">
                     <a href="/" class="nav-item nav-link active">Trang chủ</a>
                     <a href="/category" class="nav-item nav-link">Sản phẩm</a>
-                    <a href="product-detail.html" class="nav-item nav-link">Chi tiết sản phẩm</a>
+                    
                     <a href="cart.html" class="nav-item nav-link">Giỏ hàng</a>
                     <a href="checkout.html" class="nav-item nav-link">Thanh toán</a>
-                    <a href="my-account.html" class="nav-item nav-link">Tài khoản</a>
+                    <% if(usershare==1){%>
+                        <a href="/account" class="nav-item nav-link">Tài khoản</a>
+                     <%} %>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                         <div class="dropdown-menu">
@@ -39,14 +41,22 @@
                             <a href="contact.html" class="dropdown-item">Liên hệ</a>
                         </div>
                     </div>
+                    <a href="/contact" class="nav-item nav-link">Liên hệ</a>
                 </div>
                 <div class="navbar-nav ml-auto">
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tài khoản người dùng</a>
-                        <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Đăng nhập</a>
-                            <a href="#" class="dropdown-item">Đăng ký</a>
-                        </div>
+
+                        <% if(usershare==2){%>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tài khoản</a>
+                            <div class="dropdown-menu">
+                            <a href="/login" class="dropdown-item">Đăng nhập</a>
+                            <a href="/register" class="dropdown-item">Đăng ký</a>
+                            </div>
+                         <%} else{ %>  
+                            <a href="/logout" class="dropdown-item">Đăng xuất</a>
+                        <% } %>
+
+                        
                     </div>
                 </div>
             </div>

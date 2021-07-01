@@ -35,33 +35,33 @@
                                                 <button><i class="fa fa-search"></i></button>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="product-short">
-                                                <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product short by</div>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">Newest</a>
-                                                        <a href="#" class="dropdown-item">Popular</a>
-                                                        <a href="#" class="dropdown-item">Most sale</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="col-md-4">
                                             <div class="product-price-range">
                                                 <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
+                                                    <% if(sort==null){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">Tìm theo giá điện thoại</div>
+                                                    <% }%>
+                                                    <% if(sort=='14'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">1tr đến 4tr</div>
+                                                    <% }%>
+                                                    <% if(sort=='48'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">4tr đến 8tr</div>
+                                                    <% }%>
+                                                    <% if(sort=='815'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">8tr đến 15tr</div>
+                                                    <% }%>
+                                                    <% if(sort=='gte15'){%>
+                                                        <div class="dropdown-toggle" data-toggle="dropdown">trên 15 tr</div>
+                                                    <% }%>
+                                                   
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">$0 to $50</a>
-                                                        <a href="#" class="dropdown-item">$51 to $100</a>
-                                                        <a href="#" class="dropdown-item">$101 to $150</a>
-                                                        <a href="#" class="dropdown-item">$151 to $200</a>
-                                                        <a href="#" class="dropdown-item">$201 to $250</a>
-                                                        <a href="#" class="dropdown-item">$251 to $300</a>
-                                                        <a href="#" class="dropdown-item">$301 to $350</a>
-                                                        <a href="#" class="dropdown-item">$351 to $400</a>
-                                                        <a href="#" class="dropdown-item">$401 to $450</a>
-                                                        <a href="#" class="dropdown-item">$451 to $500</a>
+                                                        <a href="/category" class="dropdown-item">Mọi giá</a>
+                                                        <a href="/category?sort=14" class="dropdown-item">1tr đến 4tr</a>
+                                                        <a href="/category?sort=48" class="dropdown-item">4tr đến 8tr</a>
+                                                        <a href="/category?sort=815" class="dropdown-item">8tr đến 15tr</a>
+                                                        <a href="/category?sort=gte15" class="dropdown-item">trên 15 tr</a>
+                                                      
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,15 +85,32 @@
                         <div class="col-md-12">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <%if(page > 1){%>
-                                        <li class="page-item"><a class="page-link" href="/category/?page=<%=page-1%>">&laquo;</a></li>
-                                        <%}%>
-                                        <%for(x in pages){%>
-                                        <li class="page-item <%=pages[x]===page? 'active': ''%>"><a class="page-link" href="/category/?page=<%=pages[x]%>"><%=pages[x]%></a></li>
-                                        <%}%>
-                                        <%if(page < totalPage){%>
-                                        <li class="page-item"><a class="page-link" href="/category/?page=<%=page+1%>">&raquo;</a></li>
-                                        <%}%>
+                        
+                                        <%if(page>1){%>
+                                            <li class="page-item"><a class="page-link"
+                                                    href="/category?sort=<%=sort%>&page=<%= page-1%>">&laquo;</a>
+                                            </li>
+                                            <%}%>
+                                                <%for(x in pages){%>
+                                                    <%if(pages[x]!=='...'){%>
+                                                        <li class="page-item <%=pages[x]===page ? 'active':''%>"><a
+                                                                class="page-link"
+                                                                href="/category?sort=<%=sort%>&page=<%= pages[x]%>">
+                                                                <%=pages[x]%>
+                                                            </a></li>
+                                                        <%} else {%>
+                                                            <li class="page-item"><a class="page-link"
+                                                                    onclick="return false"
+                                                                    href="/category?sort=<%=sort%>&page=<%= pages[x]%>">
+                                                                    <%=pages[x]%>
+                                                                </a></li>
+                                                            <%}%>
+                                                                <%}%>
+                                                                    <%if(page<totalPage){%>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="/category?sort=<%=sort%>&page=<%= page+1%>">&raquo;</a>
+                                                                        </li>
+                                                                        <%}%>
                                        
                                 </ul>
                             </nav>

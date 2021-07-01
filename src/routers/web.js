@@ -70,6 +70,9 @@ router.get("/cart", SiteContoller.cart);
 router.get("/success", SiteContoller.success);
 router.post("/product-:slug.:id", SiteContoller.comment);
 router.get("/category", SiteContoller.allcategory);
+/* router.get("/category?:sort", SiteContoller.allcategory); */
+router.get("/contact", SiteContoller.contact);
+router.get("/account", SiteContoller.account);
 
 //===========Login and Register===============
 router.get("/login",AuthMiddleware.checkLoginAdmin,AuthContoller.Login);

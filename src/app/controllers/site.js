@@ -20,36 +20,136 @@ const home = async (req, res)=>{
 }
 const category = async (req, res)=>{
     const id = req.params.id;
-    const page = parseInt(req.query.page) || 1;
-    const limit = 9;
-    skip = page * limit - limit;
-
-    const total = await ProductModel.find({cat_id:id}).countDocuments();
-    const totalPage = Math.ceil(total/limit);
-    // (paginate(page, totalPage);
-
-    const products = await ProductModel.find({cat_id: id})
-                                        .populate({ path: "cat_id" })
-                                        .skip(skip)
-                                        .limit(limit)
-                                        .sort({"_id": -1});
-     
-    //console.log(products);
-    /* console.log('pages',paginate(page, totalPage));
-    console.log('page',page);
-    console.log('total',total);
-    console.log('totalPage',totalPage); */
-
+                                        
     const category = await CategoryModel.findById({_id:id});
     const title = category.title
-    res.render("site/product-list", {
-        title:title,
-        products:products,
-        pages: paginate(page, totalPage),
-        page: page,
-        totalPage: totalPage,
-        category:category
-        });
+    
+        let sort = req.query.sort;
+        if(sort==='14'){
+            
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+            const total = await ProductModel.find({cat_id:id,price:{ $gte:1000000 , $lte:4000000}}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,price:{ $gte:1000000 , $lte:4000000}})
+                                                .populate({ path: "cat_id" })
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                sort,
+                title:title,
+                category:category
+                });
+        }else if(sort=='48'){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+    
+            console.log('sort48',typeof(sort))
+            const total = await ProductModel.find({cat_id:id,price:{ $gte:4000000 , $lte:8000000}}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,price:{ $gte:4000000 , $lte:8000000}})
+                                                .populate({ path: "cat_id" })
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            console.log("product.js",products);
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                sort,
+                title:title,
+                category:category
+                });
+        }else if(sort==='815'){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+    
+            const total = await ProductModel.find({cat_id:id,price:{ $gte:8000000 , $lte:15000000}}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,price:{ $gte:8000000 , $lte:15000000}})
+                                                .populate({ path: "cat_id" })
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                sort,
+                title:title,
+                category:category
+                });
+        }else if(sort==='gte15'){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+            const total = await ProductModel.find({cat_id:id,price:{ $gte:15000000 }}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,price:{ $gte:15000000 }})
+                                                .populate({ path: "cat_id" })
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                sort,
+                title:title,
+                category:category
+                });
+        }else{
+            sort = null;
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+            const total = await ProductModel.find({cat_id:id}).countDocuments();
+            const totalPage = Math.ceil(total/limit);
+            
+            const products = await ProductModel.find({cat_id:id})
+                                                .populate({ path: "cat_id" })
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"_id": -1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                sort,
+                title:title,
+                category:category
+                });
+        }
+
+
+
+
 }
 const product = async (req, res)=>{
     const id = req.params.id;
@@ -100,29 +200,122 @@ const comment = async (req, res)=>{
 }
 
 const allcategory = async (req, res)=>{
-    const id = req.params.id;
-    const page = parseInt(req.query.page) || 1;
-    const limit = 9;
-    skip = page * limit - limit;
+    let sort = req.query.sort;
+    if(sort==='14'){
+        
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+        const total = await ProductModel.find({price:{ $gte:1000000 , $lte:4000000}}).count();
+        
+        const totalPage = Math.ceil(total/limit);
 
-    const total = await ProductModel.find().countDocuments();
-    const totalPage = Math.ceil(total/limit);
+        const products = await ProductModel.find({price:{ $gte:1000000 , $lte:4000000}})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort
+            });
+    }else if(sort=='48'){
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
 
-    const products = await ProductModel.find()
-                                        .skip(skip)
-                                        .limit(limit)
-                                        .sort({"_id": -1});
-     
-    res.render("site/product-all-list", {
-        products:products,
-        pages: paginate(page, totalPage),
-        page: page,
-        totalPage: totalPage,
-        });
+        console.log('sort48',typeof(sort))
+        const total = await ProductModel.find({price:{ $gte:4000000 , $lte:8000000}}).count();
+        
+        const totalPage = Math.ceil(total/limit);
+
+        const products = await ProductModel.find({price:{ $gte:4000000 , $lte:8000000}})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        console.log("product.js",products);
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort
+            });
+    }else if(sort==='815'){
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+
+        const total = await ProductModel.find({price:{ $gte:8000000 , $lte:15000000}}).count();
+        
+        const totalPage = Math.ceil(total/limit);
+
+        const products = await ProductModel.find({price:{ $gte:8000000 , $lte:15000000}})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort,
+            });
+    }else if(sort==='gte15'){
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+        const total = await ProductModel.find({price:{ $gte:15000000 }}).count();
+        
+        const totalPage = Math.ceil(total/limit);
+
+        const products = await ProductModel.find({price:{ $gte:15000000 }})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort
+            });
+    }else{
+        sort = null;
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+        const total = await ProductModel.find().countDocuments();
+        const totalPage = Math.ceil(total/limit);
+        
+        const products = await ProductModel.find()
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"_id": -1});
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort
+            });
+    }
+ 
 }
 
-
-
+const contact = (req, res)=>{
+    res.render("site/contact");
+}
+const account = (req, res)=>{
+    res.render("site/my-account");
+}
 
 module.exports = {
     home:home,
@@ -133,5 +326,7 @@ module.exports = {
     success:success,
     comment:comment,
     allcategory:allcategory,
+    contact:contact,
+    account:account,
     
 }

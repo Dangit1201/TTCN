@@ -38,6 +38,7 @@ app.use(session({
 // Share
 app.use(require("../app/middlewares/share"));
 
+
 //routers
 app.use(router);
 

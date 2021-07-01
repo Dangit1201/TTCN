@@ -24,11 +24,35 @@
 			</div>
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
+            
             <a href="/admin/users/create" class="btn btn-success">
                 <i class="glyphicon glyphicon-plus"></i> Thêm thành viên
             </a>
-        </div>
 
+            <% if(sort==null){%>
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Phân loại thành viên
+                    <span class="caret"></span></button>
+            <% }%>
+            <% if(sort=='user'){%>
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Người dùng
+                    <span class="caret"></span></button>
+            <% }%>
+            <% if(sort=="admin"){%>
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Admin
+                    <span class="caret"></span></button>
+            <% }%>
+            
+                <ul id="btndroplist2" class="dropdown-menu">
+                  <li id="target"><a href="/admin/users">Tất cả</a></li>
+                  <li id="target"><a href="/admin/users?sort=admin">Admin</a></li>
+                  <li id="target"><a href="/admin/users?sort=user">Người dùng</a></li>
+                </ul>
+           
+
+               
+            
+        </div>
+        
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
@@ -36,7 +60,6 @@
                         <table id="example"
                             data-toolbar="#toolbar"
                             data-toggle="table">
-
 						    <thead>
 						    <tr>
                                 <th >ID</th>
@@ -130,6 +153,7 @@
                 }
             }); */
         }
+        
     </script>
     <script>
         $(document).ready(function() {
@@ -175,6 +199,12 @@
         #spanproduct{
             color:blue;
             text-transform: uppercase;
+        }
+        #btndroplist{
+            margin-left: 100px;
+        }
+        #btndroplist2{
+            margin-left: 246px;
         }
         
     </style>

@@ -1,8 +1,14 @@
 const CategoryModel = require("../models/category");
 const ProductModel = require("../models/product");
 const AdvertisementsModel = require("../models/advertisement");
+const UserModel = require("../models/user");
 module.exports = async (req, res, next)=>{
 
+    if(req.session.email_user && req.session.pass_user){
+        res.locals.usershare = 1;
+    }else{
+        res.locals.usershare = 2;
+    }
     res.locals.categoriesshare = await CategoryModel.find({status:true}).sort({cout:1});
     res.locals.advertisementsshare = await AdvertisementsModel.find({typeofadv:'banner'}).sort({cout:-1}).limit(8);
     res.locals.FeaturedProductsshare = await ProductModel.find({

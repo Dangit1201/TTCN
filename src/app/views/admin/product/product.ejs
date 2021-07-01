@@ -27,6 +27,17 @@
             <a href="/admin/products/create" class="btn btn-success">
                 <i class="glyphicon glyphicon-plus"></i> Thêm sản phẩm
             </a>
+
+            
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Phân loại theo danh mục
+                    <span class="caret"></span></button>
+                <ul id="btndroplist2" class="dropdown-menu">
+                  <li id="target"><a href="/admin/products">Tất cả</a></li>
+                  <%for(x in categories){%>
+                  <li id="target"><a href="/admin/products?sort=<%=categories[x].id%>"><%=categories[x].title%></a></li>
+                  <%}%>
+                </ul>
+
         </div>
 
 		<div class="row">
@@ -179,7 +190,12 @@
             color:blue;
             text-transform: uppercase;
         }
-        
+        #btndroplist{
+            margin-left: 100px;
+        }
+        #btndroplist2{
+            margin-left: 246px;
+        }
     </style>
 
 
