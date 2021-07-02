@@ -33,14 +33,7 @@
                     <% if(usershare==1){%>
                         <a href="/account" class="nav-item nav-link">Tài khoản</a>
                      <%} %>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
-                        <div class="dropdown-menu">
-                            <a href="wishlist.html" class="dropdown-item">Sản phẩm yêu thích</a>
-                            <a href="login.html" class="dropdown-item">Login & Register</a>
-                            <a href="contact.html" class="dropdown-item">Liên hệ</a>
-                        </div>
-                    </div>
+                    
                     <a href="/contact" class="nav-item nav-link">Liên hệ</a>
                 </div>
                 <div class="navbar-nav ml-auto">
@@ -78,9 +71,9 @@
             </div>
         
             <div class="col-md-6">
-                <form class="form-inline" action="/search"></form>
+                <form class="form-inline" action="/search">
                 <div class="search">
-                    <input type="text" name="keyword" placeholder="Tìm kiếm">
+                    <input id="searchweb" type="text" name="term" placeholder="Tìm kiếm">
                     <button type="submit"><i class="fa fa-search"></i></button>
                 </div>
                 </form>
@@ -88,10 +81,6 @@
         
             <div class="col-md-3">
                 <div class="user">
-                    <a href="wishlist.html" class="btn wishlist">
-                        <i class="fa fa-heart"></i>
-                        <span>(0)</span>
-                    </a>
                     <a href="cart.html" class="btn cart">
                         <i class="fa fa-shopping-cart"></i>
                         <span>(0)</span>
@@ -101,3 +90,5 @@
         </div>
     </div>
 </div>
+
+  

@@ -14,7 +14,7 @@
             <div class="container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a >Tất cả sản phẩm</a></li>
+                    <li class="breadcrumb-item"><a >Tìm kiếm  <%= keyword%></a></li>
                 </ul>
             </div>
         </div>
@@ -29,43 +29,9 @@
                             <div class="col-md-12">
                                 <div class="product-view-top">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="product-search">
-                                                <input id="myInput" type="email" placeholder="Tìm kiếm tên sản phẩm" autocomplete="off">
-                                                <button><i class="fa fa-search"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="product-short">
-                                                <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product short by</div>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">Newest</a>
-                                                        <a href="#" class="dropdown-item">Popular</a>
-                                                        <a href="#" class="dropdown-item">Most sale</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="product-price-range">
-                                                <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">$0 to $50</a>
-                                                        <a href="#" class="dropdown-item">$51 to $100</a>
-                                                        <a href="#" class="dropdown-item">$101 to $150</a>
-                                                        <a href="#" class="dropdown-item">$151 to $200</a>
-                                                        <a href="#" class="dropdown-item">$201 to $250</a>
-                                                        <a href="#" class="dropdown-item">$251 to $300</a>
-                                                        <a href="#" class="dropdown-item">$301 to $350</a>
-                                                        <a href="#" class="dropdown-item">$351 to $400</a>
-                                                        <a href="#" class="dropdown-item">$401 to $450</a>
-                                                        <a href="#" class="dropdown-item">$451 to $500</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
+                                <div>Kết quả tìm kiếm với sản phẩm: <span id="spancolor"><%=keyword%></span></div>
+                                
                                     </div>
                                 </div>
                             </div>
@@ -85,20 +51,36 @@
                         <div class="col-md-12">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <%if(page > 1){%>
-                                        <li class="page-item"><a class="page-link" href="/category/?page=<%=page-1%>">&laquo;</a></li>
-                                        <%}%>
-                                        <%for(x in pages){%>
-                                        <li class="page-item <%=pages[x]===page? 'active': ''%>"><a class="page-link" href="/category/?page=<%=pages[x]%>"><%=pages[x]%></a></li>
-                                        <%}%>
-                                        <%if(page < totalPage){%>
-                                        <li class="page-item"><a class="page-link" href="/category/?page=<%=page+1%>">&raquo;</a></li>
-                                        <%}%>
+                        
+                                        <%if(page>1){%>
+                                            <li class="page-item"><a class="page-link"
+                                                    href="/search?term=<%=keyword%>&page=<%= page-1%>">&laquo;</a>
+                                            </li>
+                                            <%}%>
+                                                <%for(x in pages){%>
+                                                    <%if(pages[x]!=='...'){%>
+                                                        <li class="page-item <%=pages[x]===page ? 'active':''%>"><a
+                                                                class="page-link"
+                                                                href="/search?term=<%=keyword%>&page=<%= pages[x]%>">
+                                                                <%=pages[x]%>
+                                                            </a></li>
+                                                        <%} else {%>
+                                                            <li class="page-item"><a class="page-link"
+                                                                    onclick="return false"
+                                                                    href="/search?term=<%=keyword%>&page=<%= pages[x]%>">
+                                                                    <%=pages[x]%>
+                                                                </a></li>
+                                                            <%}%>
+                                                                <%}%>
+                                                                    <%if(page<totalPage){%>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="/search?term=<%=keyword%>&page=<%= page+1%>">&raquo;</a>
+                                                                        </li>
+                                                                        <%}%>
                                        
                                 </ul>
                             </nav>
                         </div>
-
                       
                         <!-- Pagination Start -->
                     </div>           
@@ -126,16 +108,11 @@
         
         <!-- Footer Start -->
         <%-include("layout/footer")%>
-        <script>
-            // Search Product
-            $(document).ready(function() {
-                $("#myInput").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable .col-md-4").filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-            });
-        </script>
+        <style>
+            #spancolor{
+                color:red;
+            }
+        </style>
+        
     </body>
 </html>

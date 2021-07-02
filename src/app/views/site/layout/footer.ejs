@@ -95,5 +95,30 @@
 <script src="/static/site/lib/easing/easing.min.js"></script>
 <script src="/static/site/lib/slick/slick.min.js"></script>
 
+<!-- test -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- Template Javascript -->
 <script src="/static/site/js/main.js"></script>
+
+<script>
+   $(document).ready(function(){
+       $('#searchweb').autocomplete({
+           source: async function(req,res){
+               let data = await fetch(`http://localhost:3001/autocomplete?term=${req.term}`)
+                .then(results => results.json())
+                .then(results => results.map(result=>{
+                    return {label: result.name, value:result.name , id:result._id,slug:result.slug}
+                }));
+            res(data);
+           },
+           minLenght:2,
+           select: function(event,ui){
+               window.location.href = "/product-"+ui.item.slug+"."+ui.item.id+"";
+              
+           }
+       })
+   }) 
+</script>

@@ -27,6 +27,26 @@
             <a href="/admin/advertisements/create" class="btn btn-success">
                 <i class="glyphicon glyphicon-plus"></i> Thêm quảng cáo
             </a>
+
+            <% if(sort==null){%>
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Phân loại quảng cáo
+                    <span class="caret"></span></button>
+            <% }%>
+            <% if(sort=='slider'){%>
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Slider
+                    <span class="caret"></span></button>
+            <% }%>
+            <% if(sort=="banner"){%>
+                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Banner
+                    <span class="caret"></span></button>
+            <% }%>
+            
+                <ul id="btndroplist2" class="dropdown-menu">
+                  <li id="target"><a href="/admin/advertisements">Tất cả</a></li>
+                  <li id="target"><a href="/admin/advertisements?sort=slider">Slider</a></li>
+                  <li id="target"><a href="/admin/advertisements?sort=banner">Banner</a></li>
+                </ul>
+
         </div>
 
 		<div class="row">
@@ -164,6 +184,12 @@
         #idcontent{
             width: 320px;
            /*  height: 70px; */
+        }
+        #btndroplist{
+            margin-left: 100px;
+        }
+        #btndroplist2{
+            margin-left: 246px;
         }
         
     </style>

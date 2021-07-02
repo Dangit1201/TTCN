@@ -51,12 +51,12 @@ router.get("/admin/comments",ProductController.commentindex);
 router.post("/admin/comments/delete/:id",ProductController.commentdele);
 
 //===========advertisement===============
-router.get("/admin/advertisements",AdvertisementContoller.index);
-router.get("/admin/advertisements/create",AdvertisementContoller.create);
-router.post("/admin/advertisements/store",UploadMiddleware.single("thumbnail"),AdvertisementContoller.store);
-router.get("/admin/advertisements/edit/:id",AdvertisementContoller.edit);
-router.post("/admin/advertisements/update/:id",UploadMiddleware.single("thumbnail"),AdvertisementContoller.update);
-router.post("/admin/advertisements/delete/:id",AdvertisementContoller.dele);
+router.get("/admin/advertisements",AuthMiddleware.checkAdmin,AdvertisementContoller.index);
+router.get("/admin/advertisements/create",AuthMiddleware.checkAdmin,AdvertisementContoller.create);
+router.post("/admin/advertisements/store",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),AdvertisementContoller.store);
+router.get("/admin/advertisements/edit/:id",AuthMiddleware.checkAdmin,AdvertisementContoller.edit);
+router.post("/admin/advertisements/update/:id",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),AdvertisementContoller.update);
+router.post("/admin/advertisements/delete/:id",AuthMiddleware.checkAdmin,AdvertisementContoller.dele);
 
 
 
@@ -70,9 +70,10 @@ router.get("/cart", SiteContoller.cart);
 router.get("/success", SiteContoller.success);
 router.post("/product-:slug.:id", SiteContoller.comment);
 router.get("/category", SiteContoller.allcategory);
-/* router.get("/category?:sort", SiteContoller.allcategory); */
 router.get("/contact", SiteContoller.contact);
 router.get("/account", SiteContoller.account);
+router.get("/blog", SiteContoller.blog);
+router.get("/autocomplete", SiteContoller.autocomplete);
 
 //===========Login and Register===============
 router.get("/login",AuthMiddleware.checkLoginAdmin,AuthContoller.Login);

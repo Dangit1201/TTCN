@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%-include("layout/head", {title: "Tất cả sản phẩm"})%>
+    </head>
+
+    <body>
+        <!-- Top bar Start -->
+        <%-include("layout/menu")%>
+        <!-- Bottom Bar End -->  
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">24h công nghệ</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Product List Start -->
+        <div class="product-view">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                           
+                            <div class="col-md-12">
+                                <div class="product-view-top">
+                                    <div class="row">
+                                        
+                                       
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                                
+                                      <div class="col-sm-12 card" style="width: 18rem;">
+                                        
+                                        <img id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="160px" height="100px">
+                                        <div id="cardbody"class="card-body">
+                                          <h5 class="card-title">Card title</h5>
+                                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                          <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                      </div>
+
+                                      
+                                
+                        </div>
+                        
+                        <!-- Pagination Start -->
+                        <div class="col-md-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                 
+                                </ul>
+                            </nav>
+                        </div>
+
+                       
+                    </div>           
+                    
+                    <!-- Side Bar Start -->
+                    <%-include("layout/sidebar")%>
+                    <!-- Side Bar End -->
+                </div>
+            </div>
+        </div>
+        <!-- Product List End -->  
+        
+        <!-- Brand Start -->
+        <div class="brand">
+            <div class="container-fluid">
+                <div class="brand-slider">
+                  <a>â</a>
+                </div>
+            </div>
+           
+        </div>
+        <!-- Brand End -->
+        
+        <!-- Footer Start -->
+        <%-include("layout/footer")%>
+        
+        <script>
+            // Search Product
+            $(document).ready(function() {
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable .col-md-4").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
+            });
+        </script>
+        <style>
+           #imgleft{
+            float:left;
+            width:160px;
+            height:100px;
+           }
+           #cardbody{
+            float:right;
+           }
+           
+        </style>
+    </body>
+</html>

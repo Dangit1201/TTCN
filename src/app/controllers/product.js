@@ -10,7 +10,7 @@ const CategoryModel = require("../models/category");
 
 
 const index = async (req, res) => {
-    const categories = await CategoryModel.find().sort({"cout":-1});
+    const categories = await CategoryModel.find().sort({"cout":1});
     const sort = req.query.sort;
     for(x in categories){
     if(sort==categories[x].id){

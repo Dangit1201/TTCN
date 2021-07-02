@@ -175,9 +175,7 @@ const product = async (req, res)=>{
         totalPage: totalPage,
     });
 }
-const search = (req, res)=>{
-    res.render("site/search");
-}
+
 const cart = (req, res)=>{
     res.render("site/cart");
 }
@@ -316,7 +314,39 @@ const contact = (req, res)=>{
 const account = (req, res)=>{
     res.render("site/my-account");
 }
+const blog = (req, res)=>{
+    res.render("site/blog");
+}
+const autocomplete = async (req, res)=>{
+    var regax = new RegExp(req.query["term"],'i'); 
+   try{
+       let result = await ProductModel.find({name:regax}).sort({"updatedAt":-1}).sort({"createdAt":-1}).limit(8); 
+       res.send(result);
+   } catch(e){
+       res.status(500).send({message:e.message});
+   }
+    
+}
+const search = async(req, res)=>{
+    var keyword = req.query.term;
+    var regax = new RegExp(req.query["term"],'i');
 
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    skip = page * limit - limit;
+    let total = await ProductModel.find({name:regax}).countDocuments();
+    const totalPage = Math.ceil(total/limit);
+
+    let products = await ProductModel.find({name:regax}).sort({"updatedAt":-1}).sort({"createdAt":-1}).skip(skip)
+    .limit(limit); 
+     
+    res.render("site/search",{products,
+        keyword,
+        pages: paginate(page, totalPage),
+        page: page,
+        totalPage: totalPage,
+    });
+}
 module.exports = {
     home:home,
     category:category,
@@ -328,5 +358,7 @@ module.exports = {
     allcategory:allcategory,
     contact:contact,
     account:account,
+    blog:blog,
+    autocomplete:autocomplete,
     
 }

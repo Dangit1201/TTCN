@@ -3,9 +3,18 @@ const fs = require("fs");
 const path = require("path");
 
 const index = async (req, res) => {
-    const advertisements = await AdvertisementsModel.find().sort({"_id": -1});
-    
-    res.render("admin/advertisement/advertisement",{advertisements});
+    let sort = req.query.sort;
+    if(sort=="banner"){
+      const advertisements = await AdvertisementsModel.find({typeofadv:"banner"}).sort({"_id": -1});
+      res.render("admin/advertisement/advertisement",{advertisements,sort});
+    } else if(sort=="slider"){
+      const advertisements = await AdvertisementsModel.find({typeofadv:"slider"}).sort({"_id": -1});
+      res.render("admin/advertisement/advertisement",{advertisements,sort});
+    } else{
+      sort= null;
+      const advertisements = await AdvertisementsModel.find().sort({"_id": -1});
+      res.render("admin/advertisement/advertisement",{advertisements,sort});
+    }
 };
 const create = async (req, res) => {
     res.render("admin/advertisement/add_advertisement");
