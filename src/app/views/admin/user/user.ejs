@@ -111,24 +111,7 @@
             });
        });
 
-       $(document).on("keyup","#input_search",function(){
-            var data = $(this).val();
-            console.log("du lieu tai client khi nhap:"+data);
-            $.ajax({
-                async:false,
-                type:"POST",
-                url:"/admin/users/searchpagi",
-                contentType:"application/x-www-form-urlencoded",
-                dataType:"html",
-                data:{data:data},
-                success:function(response){
-                    $("#divpagination").replaceWith(response); 
-                },
-                error:function(xhr,ajaxOptions, thrownError){
-                    alert("xay ra loi");
-                }
-            });
-       });
+       
     })
     </script>
 </body>

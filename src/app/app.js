@@ -36,7 +36,9 @@ app.use(session({
 }));
 
 // Share
+app.use(require("../app/middlewares/cart"));
 app.use(require("../app/middlewares/share"));
+
 
 
 //routers

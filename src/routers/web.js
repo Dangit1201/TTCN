@@ -74,11 +74,20 @@ router.get("/contact", SiteContoller.contact);
 router.get("/account", SiteContoller.account);
 router.get("/blog", SiteContoller.blog);
 router.get("/autocomplete", SiteContoller.autocomplete);
+router.post("/searchallcat", SiteContoller.searchallcat);
+router.post("/add-to-cart", SiteContoller.addToCart);
+router.get("/del-cart-:id", SiteContoller.delCart);
+router.post("/update-cart", SiteContoller.updateCart);
+
 
 //===========Login and Register===============
-router.get("/login",AuthMiddleware.checkLoginAdmin,AuthContoller.Login);
-router.post("/login",AuthMiddleware.checkLoginAdmin, AuthContoller.postLogin);
+router.get("/login",AuthMiddleware.checkLoginUser,AuthContoller.Login);
+router.post("/login",AuthMiddleware.checkLoginUser, AuthContoller.postLogin);
+router.get("/adminlogin",AuthMiddleware.checkLoginAdmin,AuthContoller.adminLogin);
+router.post("/adminlogin",AuthMiddleware.checkLoginAdmin, AuthContoller.adminPostLogin);
 router.get("/register", AuthContoller.register);
 router.post("/register", AuthContoller.registersuccess);
+router.get("/adminlogout", AuthMiddleware.checkAdmin, AuthContoller.adminlogout);
+router.get("/logout", AuthMiddleware.checkUser, AuthContoller.logout);
 
 module.exports = router;

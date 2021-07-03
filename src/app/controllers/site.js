@@ -177,7 +177,9 @@ const product = async (req, res)=>{
 }
 
 const cart = (req, res)=>{
-    res.render("site/cart");
+    const products = req.session.cart;
+    
+    res.render("site/cart",{products, totalPrice: 0,totalprd:0,totalPricePrd:0});
 }
 const success = (req, res)=>{
     res.render("site/success");
@@ -347,6 +349,73 @@ const search = async(req, res)=>{
         totalPage: totalPage,
     });
 }
+const searchallcat = async (req, res)=>{
+    const keyword = req.body.data || "";
+    
+    var regax = new RegExp(keyword,'i');
+    let products = await ProductModel.find({name:regax}).sort({"updatedAt":-1}).sort({"createdAt":-1});
+
+    res.render("site/components/table",{products,keyword});
+}
+
+const addToCart = async (req, res)=>{
+    const body = req.body;
+    const items = req.session.cart;
+
+    //	Sản phẩm mua rồi thì tăng số lượng
+	let isUpdate = false;
+    items.map((item)=>{
+        if(body.id === item.id && body.color=== item.color){
+            isUpdate = true;
+            item.qty += parseInt(body.qty);
+        }
+        return item;
+    });
+
+    //	Sản phẩm chưa mua thì thêm mới
+	if(!isUpdate){
+        const product = await ProductModel.findById(body.id);
+        items.push({
+            id: product._id,
+            name: product.name,
+            price: product.price,
+            img: product.thumbnail,
+            qty: parseInt(body.qty),
+            color: body.color,
+        });
+    }
+    req.session.cart = items;
+    
+    res.redirect("/cart");
+}
+
+const delCart = (req, res)=>{
+    const id = req.params.id;
+    const items = req.session.cart;
+    items.map((item, key)=>{
+        if(item.id === id){
+            items.splice(key, 1);
+        }
+        return item;
+    });
+    req.session.cart = items;
+    res.redirect("/cart");
+} 
+const updateCart = (req, res) => {
+    const products = req.body.products;
+    const body = req.body;   
+    const items = req.session.cart;
+
+    items.map((item) => { 
+        if (products[item.color][item.id]) {
+            
+            item.qty = parseInt(products[item.color][item.id]);
+        }
+        return item;
+    });
+    res.redirect("/cart"); 
+}
+    
 module.exports = {
     home:home,
     category:category,
@@ -360,5 +429,9 @@ module.exports = {
     account:account,
     blog:blog,
     autocomplete:autocomplete,
+    searchallcat:searchallcat,
+    addToCart:addToCart,
+    delCart:delCart,
+    updateCart:updateCart,
     
 }

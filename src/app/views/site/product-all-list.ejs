@@ -29,12 +29,7 @@
                             <div class="col-md-12">
                                 <div class="product-view-top">
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="product-search">
-                                                <input id="myInput" type="email" placeholder="Tìm kiếm tên sản phẩm" autocomplete="off">
-                                                <button><i class="fa fa-search"></i></button>
-                                            </div>
-                                        </div>
+                                        
                                         
                                         <div class="col-md-4">
                                             <div class="product-price-range">
@@ -70,10 +65,37 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-12">
+                            <div id="tabletoreplace"class="col-md-12">
                                 <div id="myTable" class="row">
                                     <% for(let product of products){%>
-                                        <%- include("components/product-item", {product})%>
+                                        <div class="col-md-4">
+                                            <div class="product-item">
+                                                <div class="product-title">
+                                                    <a href="/product-<%=product.slug%>.<%=product._id%>"><%=product.name%></a>
+                                                    <div class="ratting">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="product-image">
+                                                    <a href="/product-<%=product.slug%>.<%=product._id%>">
+                                                        <img src="/static/images/<%=product.thumbnail%>" alt="Product Image">
+                                                    </a>
+                                                    <div class="product-action">
+                                                        <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                                       
+                                                        <a href="/product-<%=product.slug%>.<%=product._id%>"><i class="fa fa-search"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="product-price">
+                                                    <h3><span><%=product.price.toLocaleString('vi-VN')%>đ</span></h3>
+                                                    <a class="btn" href="/product-<%=product.slug%>.<%=product._id%>"><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <% }%>  
                                 </div>
                             </div>
@@ -82,7 +104,7 @@
                         </div>
                         
                         <!-- Pagination Start -->
-                        <div class="col-md-12">
+                        <div id="pagisort" class="col-md-12">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
                         
@@ -143,16 +165,32 @@
         
         <!-- Footer Start -->
         <%-include("layout/footer")%>
-        <script>
-            // Search Product
-            $(document).ready(function() {
-                $("#myInput").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable .col-md-4").filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        <script> 
+            document.addEventListener('DOMContentLoaded',function(){
+               $(document).on("keyup","#myInput",function(){
+                    var data = $(this).val();
+                    console.log("du lieu tai client khi nhap:"+data);
+                    $.ajax({
+                        async:false,
+                        type:"POST",
+                        url:"/searchallcat",
+                        contentType:"application/x-www-form-urlencoded",
+                        dataType:"html",
+                        data:{data:data},
+                        success:function(response){
+                            $("#myTable").replaceWith(response);
+                        },
+                        error:function(xhr,ajaxOptions, thrownError){
+                            alert("xay ra loi");
+                        }
                     });
-                });
-            });
+               });
+        
+               
+            })
         </script>
+
+
+        
     </body>
 </html>

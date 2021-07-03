@@ -47,40 +47,44 @@
                                             <h4>Giá:</h4>
                                             <p><%=product.price.toLocaleString('vi-VN')%>đ</p>
                                         </div>
+                                    <form method="post" action="/add-to-cart">
+                                        <input type="hidden" name="id" value=<%=product.id%>>
                                         <div class="quantity">
                                             <h4>Số lượng:</h4>
                                             <div class="qty">
-                                                <button id="btnmul" class="btn-minus" disabled = "true" style = "background-color:rgb(120, 120, 120)"><i class="fa fa-minus"></i></button>
-                                                <input id="inputprice" type="text" value="1" readonly="true">
-                                                <button id="btnadd" class="btn-plus" ><i class="fa fa-plus" ></i></button>
+                                                <button id="btnmul" type="button" class="btn-minus" disabled = "true" style = "background-color:rgb(120, 120, 120)"><i class="fa fa-minus"></i></button>
+                                                <input id="inputprice" type="text" name="qty"value="1" readonly="true">
+                                                <button id="btnadd" type="button" class="btn-plus" ><i class="fa fa-plus" ></i></button>
                                             </div>
                                         </div>
-                                       
+                                        
                                         <div class="p-color">
                                             <h4>Màu:</h4>
                                             <div class="btn-group btn-group-sm">
                                                 <% if(product.color_id.while){%>
-                                                    <label class="while"><input  name="color" type="radio" value="on">trắng</label>
+                                                    <label class="while"><input checked="checked" name="color" type="radio" value="trắng">trắng</label>
                                                 <% }%>
                                                 <% if(product.color_id.black){%>
-                                                    <label class="black"><input  name="color" type="radio" value="on">đen</label>
+                                                    <label class="black"><input checked="checked" name="color" type="radio" value="đen">đen</label>
                                                 <% }%>
                                                 <% if(product.color_id.yellow){%>
-                                                    <label class="yellow"><input  name="color" type="radio" value="on">vàng</label>
+                                                    <label class="yellow"><input checked="checked" name="color" type="radio" value="vàng">vàng</label>
                                                 <% }%>
                                                 <% if(product.color_id.blue){%>
-                                                    <label class="blue"><input  name="color" type="radio" value="on">xanh dương</label>
+                                                    <label class="blue"><input checked="checked" name="color" type="radio" value="xanh">xanh</label>
                                                 <% }%>
                                                 <% if(product.color_id.red){%>
-                                                    <label class="red"><input  name="color" type="radio" value="on">đỏ</label>
+                                                    <label class="red"><input checked="checked" name="color" type="radio" value="đỏ">đỏ</label>
                                                 <% }%>
                                         
                                             </div> 
                                         </div>
                                         <div class="action">
-                                            <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</a>
-                                            <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Mua ngay</a>
+                                            
+                                            <button class="btn"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ</button>
+                                            <button class="btn" type="submit"><i class="fa fa-shopping-bag"></i>Mua ngay</button>
                                         </div>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -159,15 +163,15 @@
                                                             <h4>Viết đánh giá của bạn:</h4>
                                                             <div class="control">
                                                                 <div class="rating ratingbl">
-                                                                    <input type="radio" name="star" id="star1" value="5"><label for="star1">
+                                                                    <input  type="radio" name="star" id="star1" value="5"><label for="star1">
                                                                 </label>
-                                                                    <input type="radio" name="star" id="star2" value="4"><label for="star2">
+                                                                    <input  type="radio" name="star" id="star2" value="4"><label for="star2">
                                                                 </label>
-                                                                    <input type="radio" name="star" id="star3" value="3"><label for="star3">
+                                                                    <input  type="radio" name="star" id="star3" value="3"><label for="star3">
                                                                 </label>
-                                                                    <input type="radio" name="star" id="star4" value="2"><label for="star4">
+                                                                    <input  type="radio" name="star" id="star4" value="2"><label for="star4">
                                                                 </label>
-                                                                    <input type="radio" name="star" id="star5" value="1"><label for="star5">
+                                                                    <input  type="radio" name="star" id="star5" value="1"><label for="star5">
                                                                 </label>
                                                                 </div>
                                                             </div>
@@ -310,6 +314,9 @@
         </style>
         <%-include("layout/footer")%>
         <script> 
+        
+           
+        
            var total = document.getElementById('inputprice');
 
                 document.getElementById('btnadd').addEventListener('click', function() {
