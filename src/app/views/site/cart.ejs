@@ -31,7 +31,8 @@
                             <% if(totalCartItems==0){%>
                             <p>Giỏ hàng rỗng</p>
                             <% }%>
-                        <form method="post" action="/update-cart">
+                           
+                        <form  id="update-cart" method="post" action="/update-cart">
                             <% if(totalCartItems!=0){%>
                                 <table class="table table-bordered">
                                     <thead class="thead-dark">
@@ -64,9 +65,9 @@
                                             </td>
                                             <td>
                                                 <div class="qty">
-                                                    <button id="btnmul"  class="btn-minus" ><i class="fa fa-minus"></i></button>
+                                                    <button id="btnmul" type="submit" class="btn-minus" ><i class="fa fa-minus"></i></button>
                                                     <input name="products[<%=product.color%>][<%=product.id%>]" id="inputprice" class="inputprd" type="text"  value=<%=product.qty%> readonly="true" min="1">
-                                                    <button id="btnadd"  class="btn-plus" ><i class="fa fa-plus" ></i></button>
+                                                    <button id="btnadd" type="submit" class="btn-plus" ><i class="fa fa-plus" ></i></button>
                                                 </div>
                                             </td>
                                             <td><%=(product.qty*product.price).toLocaleString('vi-VN')%>đ%></td>
@@ -110,17 +111,40 @@
         <!-- Footer Start -->
         <%-include("layout/footer")%>
         <script> 
+            /* $(document).ready(function(){
+                $('#update-cart').on('submit',function(event){
+                    event.preventDefault();
+                    const personData = $(this).serialize();
+                    console.log(personData);
+
+                    $ajax({
+                        url:'/update-cart',
+                        method:'post',
+                        data:personData,
+                        success: function(result,status,xhr){
+                            console.log('ok');
+                        },
+                        error:function(result,status,xhr){
+                            console.log('no');
+                        },
+                    })
+                    
+                })
+            }); */
             $(function(){
                
-                var inputVal = $('input.inputprd').val();
-                console.log(inputVal)
-                if(inputVal==1){
-                    $('button.btn-minus').attr({
+                var dem = $('input.inputprd').length;
+                
+                for(var i = 0; i <= dem; i++){
+                    var inputVal = $('input.inputprd').val()
+                    if(inputVal==1){
+                    $('.btn-minus').attr({
                         'disabled': 'true',
                         'style': 'background-color:rgb(120, 120, 120)'
                     });
-                   
-                } 
+                    
+                }
+            }
                 
             });
 
