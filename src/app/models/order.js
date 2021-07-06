@@ -2,7 +2,7 @@
 const mongoose = require("../../common/database")();
 
 // Bước 2: sử dụng schema để mô tả collection user
-const userSchema = mongoose.Schema({
+const orderSchema = mongoose.Schema({
   full_name: {
     type: String,
     // không được để trống
@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
 
   email: {
     type: String,
-    // không được để trống
+    // không được trùng
     required: true,
   },
   phone: {
@@ -26,17 +26,30 @@ const userSchema = mongoose.Schema({
     required: true,
   },
 
-  password: {
+  note: {
     type: String,
     default: null,
   },
-
-  role: {
+  totalprd: {
+    type: String,
+    required: true,
+  },
+  idorder: {
+    type: String,
+    required: true,
+  },
+  status: {
     type: String,
     // người dùng chỉ được phép nhập giá trị thuộc tập mảng enum
-    enum: ["member", "admin"],
-    default: "member",
+    enum: ["Tiếp nhận đơn hàng", "Vận chuyển","Đã hoàn thành đơn hàng"],
+    default: "Tiếp nhận đơn hàng",
   },
+  totalprice: {
+    type: String,
+    required: true,
+  },
+}, {
+    timestamps: true,
 });
 
 // Bước 3: Biến lớp user schema thành Model
@@ -44,6 +57,6 @@ const userSchema = mongoose.Schema({
 // tham số thứ 1: là bí danh của user khi được mô tả sang dạng model (đặt tên gì cũng được)
 // tham số thứ 2: là đối tượng schema mới được khởi tạo
 // tham số thứ 3: là tến collection mà schema quản lý (ở đây là collection user)
-const UserModel = mongoose.model("User", userSchema, "users");
+const OrderModel = mongoose.model("Order", orderSchema, "orders");
 
-module.exports = UserModel;
+module.exports = OrderModel;

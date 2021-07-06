@@ -3,6 +3,9 @@ const ProductModel = require("../models/product");
 const paginate = require("../../common/paginate");
 const CommentModel = require("../models/comment");
 const AdvertisementsModel = require("../models/advertisement");
+const UserModel = require("../models/user");
+const OrderModel = require("../models/order");
+const OrderdetailsModel = require("../models/orderdetails");
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
@@ -310,15 +313,6 @@ const allcategory = async (req, res)=>{
  
 }
 
-const contact = (req, res)=>{
-    res.render("site/contact");
-}
-const account = (req, res)=>{
-    res.render("site/my-account");
-}
-const blog = (req, res)=>{
-    res.render("site/blog");
-}
 const autocomplete = async (req, res)=>{
     var regax = new RegExp(req.query["term"],'i'); 
    try{
@@ -405,17 +399,92 @@ const updateCart = (req, res) => {
     const products = req.body.products;
     const body = req.body;   
     const items = req.session.cart;
-
-    items.map((item) => { 
+    console.log(items);
+    items.map((item,key) => { 
         if (products[item.color][item.id]) {
             
             item.qty = parseInt(products[item.color][item.id]);
         }
+        if (item.qty==0) {
+            
+            items.splice(key, key);
+        }
         return item;
     });
+    
     res.redirect("/cart"); 
 }
+
+const contact = (req, res)=>{
+    res.render("site/contact");
+}
+const account = (req, res)=>{
+    res.render("site/my-account");
+}
+const blogdetail = (req, res)=>{
+    res.render("site/blogdetail");
+}
+const blog = (req, res)=>{
+    res.render("site/blog");
+}
+const checkout = async (req, res)=>{
+        const products = req.session.cart;
+       
+        var totalPrice=0;
+        var totalprd=0;
+        for(let product of products){
+            
+             totalPrice += product.qty * product.price
+             totalprd += product.qty
+        }
+        const pass = req.session.pass_user;
+        const email = req.session.email_user;
+        const user = await UserModel.find({password: pass, email: email});
+        res.render("site/checkout",{user,totalPrice,totalprd});
+  
     
+}
+const updatecheckout = async (req, res)=>{
+
+    const body = req.body;
+    const products = req.session.cart;
+    var today = new Date();
+    const idorder = body.email.toLowerCase()+'-'+today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()+'+'+today.getHours() + ":" + today.getMinutes()+":"+ today.getSeconds();
+    for(let product of products){
+        if(product.id){
+            const productid = await ProductModel.findById(product.id);
+            const quantity = productid.quantity-product.qty;
+            await ProductModel.updateOne({_id:product.id}, {$set: {quantity:quantity}});
+        }
+            
+        orderdetails ={
+            qty:parseInt(product.qty),
+            price:parseInt(product.price),
+            color:product.color,
+            img:product.img,
+            name:product.name,
+            idorder:idorder,
+        }
+        await OrderdetailsModel(orderdetails).save();
+       
+    }
+    
+    const order = {
+        full_name: body.full_name,
+        email: body.email.toLowerCase(),
+        phone: body.phone,
+        address: body.address,
+        note:body.note,
+        totalprd:body.totalprd,
+        totalprice:body.totalPrice,
+        idorder:idorder,
+        }
+    await OrderModel(order).save();
+
+
+    req.session.cart=[];
+    res.redirect("/blog"); 
+}  
 module.exports = {
     home:home,
     category:category,
@@ -433,5 +502,8 @@ module.exports = {
     addToCart:addToCart,
     delCart:delCart,
     updateCart:updateCart,
+    checkout:checkout,
+    updatecheckout:updatecheckout,
+    blogdetail:blogdetail,
     
 }

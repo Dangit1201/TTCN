@@ -7,11 +7,11 @@ const commentSchema = mongoose.Schema({
         },
         full_name: {
             type: String,
-            default: null,
+            required: true,
         },
         email: {
             type: String,
-            default: null,
+            required: true,
         },
         prd_id: {
             type: mongoose.Types.ObjectId,
@@ -20,11 +20,11 @@ const commentSchema = mongoose.Schema({
         },
         name: {
             type: String,
-            default: null,
+            required: true,
         },
         body: {
             type: String,
-            default: null,
+            required: true,
         }
     },
     {

@@ -26,36 +26,47 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="row">
-                           
-                            <div class="col-md-12">
-                                <div class="product-view-top">
-                                    <div class="row">
-                                        
-                                       
-                                        
-                                    </div>
+                          
+                            <div class="col-md-12 bloglink">
+                                <div >
+                                   <a> <img href="#" id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="200px" height="125px"></a>
+                                    <h5 class="card-title titlecom"><a id="idcontent" href="#">Some quick example text to build on the card title and make up the bulk of the card's content.</a></h5>
+                                    <p class="timepost">17/05/2021</p>
+                                    
                                 </div>
                             </div>
-                                
-                                      <div class="col-sm-12 card" style="width: 18rem;">
-                                        
-                                        <img id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="160px" height="100px">
-                                        <div id="cardbody"class="card-body">
-                                          <h5 class="card-title">Card title</h5>
-                                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                          <a href="#" class="btn btn-primary">Go somewhere</a>
-                                        </div>
-                                      </div>
-
+                            <div class="col-md-12 bloglink">
+                                <div >
+                                        <img id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="200px" height="125px">
+                                        <h5 class="card-title titlecom">Some quick exampadding: 15px 0; padding: 15px 0;e cardpadding: 15px 0;padding: 15px 0;padding: 15px 0; title and make up the bulk of the card's content.build on the</h5>
+                                        <p class="timepost"> 17/05/2021</p>
+                                       
+                                </div>
+                            </div>
+                            <div class="col-md-12 bloglink">
+                                <div >
+                                    <img href="#" id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="200px" height="125px">
+                                    <h5 class="card-title titlecom"><a id="idcontent" href="#">Some quick example text to build on the card title and make up the bulk of the card's content.</a></h5>
+                                    <p class="timepost">17/05/2021</p>
+                                    
+                                </div>
+                            </div>
                                       
-                                
                         </div>
                         
                         <!-- Pagination Start -->
-                        <div class="col-md-12">
+                        <div class="col-md-12 pageblog">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                 
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">&raquo;</a>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
@@ -85,26 +96,48 @@
         <!-- Footer Start -->
         <%-include("layout/footer")%>
         
-        <script>
-            // Search Product
-            $(document).ready(function() {
-                $("#myInput").on("keyup", function() {
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable .col-md-4").filter(function() {
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                    });
-                });
-            });
-        </script>
+        
         <style>
            #imgleft{
             float:left;
-            width:160px;
-            height:100px;
+            width:200px;
+            height:125px;
            }
            #cardbody{
             float:right;
            }
+           .bloglink{
+            background: white;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+           }
+           .titlecom {
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                padding-left: 10px;
+            }
+            .timepost {
+                display: block;
+                overflow: hidden;
+                font-size: 12px;
+                color: #999;
+                padding-left: 10px;
+                margin: 0;
+            }
+            .pageblog{
+                margin-top: 20px;
+            }
+            #idcontent{
+                color :#333333;
+                font-weight: bold;
+                font-style: normal;
+            }
+            #idcontent:hover{
+                color: #288ad6;
+            }
            
         </style>
     </body>

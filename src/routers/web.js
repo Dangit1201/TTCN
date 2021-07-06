@@ -78,6 +78,13 @@ router.post("/searchallcat", SiteContoller.searchallcat);
 router.post("/add-to-cart", SiteContoller.addToCart);
 router.get("/del-cart-:id", SiteContoller.delCart);
 router.post("/update-cart", SiteContoller.updateCart);
+router.get("/checkout",AuthMiddleware.checkUser, SiteContoller.checkout);
+router.post("/checkout", SiteContoller.updatecheckout);
+router.get("/blogdetail", SiteContoller.blogdetail);
+
+
+
+
 
 
 //===========Login and Register===============

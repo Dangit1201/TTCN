@@ -14,6 +14,6 @@ module.exports = async (req, res, next)=>{
     res.locals.FeaturedProductsshare = await ProductModel.find({
         featured: true,
     }).sort({_id: -1}).limit(6);
-    res.locals.totalCartItems = req.session.cart.reduce((total, product)=>total + product.qty, 0);
+    res.locals.totalCartItems = await req.session.cart.reduce((total, product)=>total + product.qty, 0);
     next();
 }

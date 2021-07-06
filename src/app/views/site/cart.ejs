@@ -65,9 +65,9 @@
                                             </td>
                                             <td>
                                                 <div class="qty">
-                                                    <button id="btnmul" type="submit" class="btn-minus" ><i class="fa fa-minus"></i></button>
+                                                    <button onclick="clickmul()" id="btnmul" type="submit" class="btn-minus" ><i class="fa fa-minus"></i></button>
                                                     <input name="products[<%=product.color%>][<%=product.id%>]" id="inputprice" class="inputprd" type="text"  value=<%=product.qty%> readonly="true" min="1">
-                                                    <button id="btnadd" type="submit" class="btn-plus" ><i class="fa fa-plus" ></i></button>
+                                                    <button  onclick="clickplus()" id="btnadd" type="submit" class="btn-plus" ><i class="fa fa-plus" ></i></button>
                                                 </div>
                                             </td>
                                             <td><%=(product.qty*product.price).toLocaleString('vi-VN')%>đ%></td>
@@ -94,10 +94,11 @@
                                             <p>Phí ship:<span>Miễn phí</span></p>
                                             <h2>Tổng tiền<span><%=totalPrice.toLocaleString('vi-VN')%>đ%></span></h2>
                                         </div>
-                                        <div class="cart-btn">
-                                            
-                                            <button>Thanh toán</button>
+                                  
+                                        <div  class="cart-btn" id="cart-btn">
+                                            <button onclick="window.location.href='/checkout'" id="cart-btn-ckecout">Thanh toán</button>
                                         </div>
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -131,14 +132,16 @@
                     
                 })
             }); */
-            $(function(){
+           /*  $(function(){
                
                 var dem = $('input.inputprd').length;
+             console.log(dem); 
                 
-                for(var i = 0; i <= dem; i++){
-                    var inputVal = $('input.inputprd').val()
+                for(var i = 0; i < dem; i++){
+                    var inputVal = $('#inputprice').val();
+                    console.log($('#inputprice').val());
                     if(inputVal==1){
-                    $('.btn-minus').attr({
+                    $('#btnmul').attr({
                         'disabled': 'true',
                         'style': 'background-color:rgb(120, 120, 120)'
                     });
@@ -146,10 +149,45 @@
                 }
             }
                 
-            });
+            }); */
+            /* var total = document.querySelectorAll('.inputprd');
+            var i;
+            var plus=document.querySelectorAll('.btn-minus');
+            var id = document.getElementsByClassName("inputprd");
+            console.log(total.length);
+            
+            function clickplus(){
+           
+                for (i = 0; i <= total.length; i++) {
+                    console.log(id[0].value);
+                    console.log(id[1].value);
+                    console.log(id[2].value);
+                    if (id[i].value > 1) {
+                    plus[i].disabled = false;
+                    plus[i].style = "background-color:#FF6F61";
+                }  
+            }
+            };
 
+            function clickmul() {
+            
+                for (i = 0; i <= total.length; i++) {
+                    if (id[i].value =='1' ) {
+                    plus[i].disabled = true;
+                    plus[i].style = "background-color:rgb(120, 120, 120)";
+                } 
+            }
+            }; */
             
                  
          </script>
+         <style>
+             #cart-btn{
+                text-align: center;
+             }
+             #cart-btn-ckecout{
+                width: 100%;
+             }
+         </style>
     </body>
 </html>
