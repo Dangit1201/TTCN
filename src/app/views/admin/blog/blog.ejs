@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%- include('../layout/head.ejs', {title: "Danh sách quảng cáo" })%>
+    <%- include('../layout/head.ejs', {title: "Danh sách bài viết" })%>
 
 </head>
 
@@ -14,38 +14,19 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Danh sách quảng cáo</li>
+				<li class="active">Danh sách bài viết</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Danh sách quảng cáo</h1>
+				<h1 class="page-header">Danh sách bìa viết</h1>
 			</div>
 		</div><!--/.row-->
 		<div id="toolbar" class="btn-group">
-            <a href="/admin/advertisements/create" class="btn btn-success">
-                <i class="glyphicon glyphicon-plus"></i> Thêm quảng cáo
+            <a href="/admin/blogs/create" class="btn btn-success">
+                <i class="glyphicon glyphicon-plus"></i> Thêm bài viết
             </a>
-
-            <% if(sort==null){%>
-                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Phân loại quảng cáo
-                    <span class="caret"></span></button>
-            <% }%>
-            <% if(sort=='slider'){%>
-                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Slider
-                    <span class="caret"></span></button>
-            <% }%>
-            <% if(sort=="banner"){%>
-                <button id="btndroplist" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Banner
-                    <span class="caret"></span></button>
-            <% }%>
-            
-                <ul id="btndroplist2" class="dropdown-menu">
-                  <li id="target"><a href="/admin/advertisements">Tất cả</a></li>
-                  <li id="target"><a href="/admin/advertisements?sort=slider">Slider</a></li>
-                  <li id="target"><a href="/admin/advertisements?sort=banner">Banner</a></li>
-                </ul>
 
         </div>
 
@@ -60,27 +41,27 @@
 						    <thead>
 						    <tr>
                                 <th>TT</th>
-                                <th>Nội dung</th>
+                                <th>Tiêu đề</th>
                                 <th>Hình ảnh</th>
-                                <th>Loại quảng cáo</th>
+                                <th>Tác giả</th>
                                 <th>Hành động</th>
                                 
 						    </tr>
                             </thead>
                             <tbody id="divpagination">
                                 <% let count=1 %>
-                                <%for(x in advertisements){%>
+                                <%for(x in blogs){%>
                                 <tr>
                                     <td><%=count++ %></td>
-                                    <td id="idcontent"><%=advertisements[x].content%></td>
+                                    <td id="idcontent"><%=blogs[x].title%></td>
                                     <td style="text-align: center"><img width="160" height="120"
-                                        src="/static/images/<%=advertisements[x].thumbnail%>" /></td>
-                                    <td><%=advertisements[x].typeofadv%></td>                                         
+                                        src="/static/images/<%=blogs[x].thumbnail%>" /></td>
+                                    <td><%=blogs[x].nameuser%></td>                                         
                                     
                                     <td class="form-group">
-                                        <a href="/admin/advertisements/edit/<%=advertisements[x]._id%>" class="btn btn-primary"><i
+                                        <a href="/admin/blogs/edit/<%=blogs[x]._id%>" class="btn btn-primary"><i
                                                 class="glyphicon glyphicon-pencil"></i></a>
-                                                <a  href="" class="btn btn-danger"  data-id="<%=advertisements[x].id%>" data-title="" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
+                                                <a  href="" class="btn btn-danger"  data-id="<%=blogs[x].id%>" data-title="<%=blogs[x].nameuser%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove" ></i></a>
                                     </td>
                                 </tr>
                                 <%}%>
@@ -95,7 +76,7 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                                 <div id="modal-title-name" class="modal-header">
-                                <h5 class="modal-title">Bạn có muốn xóa quảng cáo này <span id="spanproduct"></span> ?</h5>
+                                <h5 class="modal-title">Bạn có muốn xóa bài viết của <span id="spanproduct"></span> không ?</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -131,7 +112,7 @@
         var btndele = document.getElementById('btn-delete-form');
         
         btndele.onclick = function(){
-            formdele.action='/admin/advertisements/delete/'+ids;
+            formdele.action='/admin/blogs/delete/'+ids;
             formdele.submit();
             
         }
@@ -141,10 +122,10 @@
         $('#example').DataTable({
             "language": {
             "lengthMenu": "Hiện _MENU_ quảng cáo",
-            "zeroRecords": "Nothing found - sorry",
+            "zeroRecords": "Không tìm kiếm ",
             "info": "Trang _PAGE_ của _PAGES_",
-            "infoEmpty": "No records available",
-            "infoFiltered": "(filtered from _MAX_ total records)"
+            "infoEmpty": "Không có bài viết nào",
+            "infoFiltered": "(Lọc từ _MAX_ bài viết)"
         }
         });
         } );

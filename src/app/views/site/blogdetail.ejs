@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%-include("layout/head", {title: "Trang Chủ"})%>
+        <%-include("layout/head", {title: "Chi tiết bài viết"})%>
     </head>
 
     <body>
@@ -14,8 +14,8 @@
             <div class="container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-            
-                    <li class="breadcrumb-item active">Đăng nhập</li>
+                    <li class="breadcrumb-item"><a href="/blog">24h công nghệ</a></li>
+                    <li class="breadcrumb-item active">Chi tiết bài viết</li>
                 </ul>
             </div>
         </div>
@@ -25,65 +25,76 @@
         <div id="wrapper" class="login">
             <div  class="container-fluid">
                 <div  class="row">
-                    <div  class="col-lg-12 mx-auto">
-                        <form role="form" method="post">
+                    <div  class="col-lg-9 mx-auto">
+                        
                             <div id="loginsite" class="login-form">
-                                <div class="row">
-                                    <legend class="text-center"><b>Đăng nhập</b></legend>
-                                    
-                                    <div class="col-md-6">
-                                        <label>Email</label>
-                                        <input class="form-control" name="email" type="email" placeholder="Nhập email" autofocus>
+                               <h2><%=blog.title%></h2>
+                               <div><p><%=blog.nameuser%>    <%=blog.updatedAt.toLocaleString('vi-VN')%></p>
+                                <hr>
+                                </div>
+                               <div>
+                                <img  id="imgleft" class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap">
+                               </div>
+                               <div>
+                                   <p><%-blog.content%></p>
+                               </div>
+                            </div>
+
+                            <div id="idblogless" class="product">
+                                <div id="section-header-blog" class="section-header">
+                                    <h1>Các bài viết tương tự</h1>
+                                </div>
+                                <div class="row align-items-center product-slider product-slider-3">
+                                    <div class="col-md-2">
+                                        <div class="card" style="width: 18rem;">
+                                            <img class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap">
+                                            <div class="card-body">
+                                              <a href="#" <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></a>
+                                            </div>
+                                          </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label>Mật khẩu</label>
-                                        <input class="form-control" name="pass" type="password" placeholder="Nhập mật khẩu" value="">
+                                    <div class="col-md-4">
+                                        <div class="card" style="width: 18rem;">
+                                            <img class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap">
+                                            <div class="card-body">
+                                              <a href="#" <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></a>
+                                            </div>
+                                          </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="newaccount">
-                                            <label class="custom-control-label" for="newaccount">Nhớ đăng nhập</label>
-                                        </div>
+                                    <div class="col-md-4">
+                                        <div class="card" style="width: 18rem;">
+                                            <img class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap">
+                                            <div class="card-body">
+                                              <a href="#" <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></a>
+                                            </div>
+                                          </div>
                                     </div>
-                                    <div class="col-md-12 text-center">
-                                        <button class="btn" type="submit">Đăng nhập</button>
-                                        
-                                    </div>
-                                    <div id="btnregistersite"class="col-md-12 text-center">
-                                        <a href="#">Quên mật khẩu?</a>
-                                    </div>
-                                    <div class="col-md-12 ">
-                                        <hr>
-                                    </div>
-                                    <div class="col-md-12 text-center">
-                                        <button id="registersite" class="btn">Tạo tài khoản mới</button>
-                                        
+                                    <div class="col-md-4">
+                                        <div class="card" style="width: 18rem;">
+                                            <img class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap">
+                                            <div class="card-body">
+                                              <a href="#" <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p></a>
+                                            </div>
+                                          </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>    
+                            </div>   
                     </div>
                 </div>
             </div>
         </div>
         <!-- Login End -->
         <style>
-            #btnregistersite{
-                margin-top: 20px;
+            #idblogless{
+                margin-bottom: 10px;
             }
-            #registersite{
-                background :#ec1d1d;
-                
-            }   
+            #section-header-blog{
+                margin-bottom: 10px;
+            }
         </style>
         
         <!-- Footer Start -->
         <%-include("layout/footer")%>
-        <script>
-            $('#registersite').click(function() {
-            window.location.href = '/register';
-            return false;
-            });
-        </script>
+        
     </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%- include('../layout/head.ejs', {title: "Thêm quảng cáo" })%>
+	<%- include('../layout/head.ejs', {title: "Thêm bài viết" })%>
 
 </head>
 
@@ -16,14 +16,14 @@
 		<div class="row">
 			<ol class="breadcrumb">
                 <li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                <li><a href="">Quản lý quảng cáo</a></li>
-				<li class="active">Thêm quảng cáo</li>
+                <li><a href="/admin/blogs">Quản lý bài viết</a></li>
+				<li class="active">Thêm bài viết</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Thêm quảng cáo</h1>
+				<h1 class="page-header">Thêm bài viết</h1>
 			</div>
         </div><!--/.row-->
         <div class="row">
@@ -31,30 +31,27 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="col-md-8">
-                                <form action="/admin/advertisements/store" role="form" method="post" enctype="multipart/form-data">
+                                <form action="/admin/blogs/store" role="form" method="post" enctype="multipart/form-data">
+                               
                                 <div class="form-group">
-                                    <label>Ảnh sản phẩm</label>
+                                    <label>Tiêu đề bài viết</label>
+                                    <input name="title" type="text" class="form-control" placeholder="tiêu đề">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ảnh bài viết</label>
                                     <input required name="thumbnail" type="file">
                                     <br>
                                     <div>
                                         <img src="img/download.jpeg">
                                 </div>
                                 <div class="form-group">
-                                    <label>Nội dung</label>
-                                    <input name="content" type="text" class="form-control" placeholder="">
+                                    <label>Nội dung bài viết</label>
+                                    <textarea required name="content" class="form-control" rows="3"></textarea>
+                                    <script>
+                                        CKEDITOR.replace("content");
+                                    </script>
                                 </div>
-                                <div class="form-group">
-                                    <label>Link quảng cáo</label>
-                                    <input name="link"  type="text" class="form-control">
-                                </div>                       
                                 
-                                <div class="form-group">
-                                    <label>Loại quảng cáo</label>
-                                    <select name="typeofadv" class="form-control">
-                                        <option value="slider">Slider</option>
-                                        <option value="banner">Banner</option>
-                                    </select>
-                                </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm mới</button>
                                 <button id="btn-exit" type="reset" class="btn btn-default">Thoát</button>
                             </div>
@@ -66,7 +63,7 @@
 			<%- include('../layout/footer.ejs')%>
             <script>
                 $('#btn-exit').click(function() {
-                window.location.href = '/admin/categories';
+                window.location.href = '/admin/blogs';
                 return false;
                 });
             </script>

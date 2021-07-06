@@ -31,33 +31,29 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="col-md-8">
-                                <form action="/admin/advertisements/update/<%=advertisement._id%>" role="form" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label>Ảnh sản phẩm(slider:600*400,banner:150*80)</label>
-                                    <input  name="thumbnail" type="file">
-                                    <br>
-                                    <div>
-                                        <img width="150" height="80" src="/static/images/<%=advertisement.thumbnail%>">
+                                <form action="/admin/blogs/update/<%=blog._id%>" role="form" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label>Tiêu đề bài viết</label>
+                                        <input name="title" value="<%=blog.title%>" type="text" class="form-control" placeholder="tiêu đề">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ảnh bài viết</label>
+                                        <input  name="thumbnail" type="file">
+                                        <br>
+                                        <div>
+                                            <img width="150" height="80" src="/static/images/<%=blog.thumbnail%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nội dung bài viết</label>
+                                        <textarea required name="content"  class="form-control" rows="3"><%=blog.content%></textarea>
+                                        <script>
+                                            CKEDITOR.replace("content");
+                                        </script>
+                                    </div>
+                                    
+                                    <button name="sbm" type="submit" class="btn btn-success">Sửa</button>
+                                    <button id="btn-exit" type="reset" class="btn btn-default">Thoát</button>
                                 </div>
-                                <div class="form-group">
-                                    <label>Nội dung</label>
-                                    <input name="content" type="text" value="<%=advertisement.content%>" class="form-control" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Link quảng cáo</label>
-                                    <input name="link" value="<%=advertisement.link%>" type="text" class="form-control">
-                                </div>                       
-                                
-                                <div class="form-group">
-                                    <label>Loại quảng cáo</label>
-                                        <select name="typeofadv" class="form-control">
-                                            <option <% if(advertisement.typeofadv=="slider"){%>selected<%}%> value="slider">Slider</option>
-                                            <option <% if(advertisement.typeofadv=="banner"){%>selected<%}%> value="banner">Banner</option>
-                                        </select>
-                                </div>
-                                <button name="sbm" type="submit" class="btn btn-success">Sửa</button>
-                                <button id="btn-exit" type="reset" class="btn btn-default">Thoát</button>
-                            </div>
                         </form>
                         </div>
                     </div>

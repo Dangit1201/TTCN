@@ -10,6 +10,8 @@ const AuthContoller = require("../app/controllers/auth");
 const UserContoller = require("../app/controllers/user");
 const AdvertisementContoller = require("../app/controllers/advertisement");
 const OrderController = require("../app/controllers/order");
+const BlogController = require("../app/controllers/blog");
+
 
 
 //Goi middlewares
@@ -48,8 +50,8 @@ router.post("/admin/products/delete/:id",AuthMiddleware.checkAdmin,ProductContro
 router.get("/testdata",ProductController.test);
 
 //===========commentadmin===============
-router.get("/admin/comments",ProductController.commentindex);
-router.post("/admin/comments/delete/:id",ProductController.commentdele);
+router.get("/admin/comments",AuthMiddleware.checkAdmin,ProductController.commentindex);
+router.post("/admin/comments/delete/:id",AuthMiddleware.checkAdmin,ProductController.commentdele);
 
 //===========advertisement===============
 router.get("/admin/advertisements",AuthMiddleware.checkAdmin,AdvertisementContoller.index);
@@ -81,7 +83,7 @@ router.get("/del-cart-:id", SiteContoller.delCart);
 router.post("/update-cart", SiteContoller.updateCart);
 router.get("/checkout",AuthMiddleware.checkUser, SiteContoller.checkout);
 router.post("/checkout", SiteContoller.updatecheckout);
-router.get("/blogdetail", SiteContoller.blogdetail);
+router.get("/blogdetail/:id", SiteContoller.blogdetail);
 
 
 
@@ -106,5 +108,13 @@ router.post("/admin/orders/delete/:id",OrderController.dele);
 router.post("/admin/orders/updatetransport/:id",OrderController.updatetransport);
 
 router.get("/admin/orderdetails",OrderController.indexdetail);
+
+//===========blog===============
+router.get("/admin/blogs",AuthMiddleware.checkAdmin,BlogController.index);
+router.get("/admin/blogs/create",AuthMiddleware.checkAdmin,BlogController.create);
+router.post("/admin/blogs/store",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),BlogController.store);
+router.get("/admin/blogs/edit/:id",AuthMiddleware.checkAdmin,BlogController.edit);
+router.post("/admin/blogs/update/:id",AuthMiddleware.checkAdmin,UploadMiddleware.single("thumbnail"),BlogController.update);
+router.post("/admin/blogs/delete/:id",AuthMiddleware.checkAdmin,BlogController.dele);
 
 module.exports = router;

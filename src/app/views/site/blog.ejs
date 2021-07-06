@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%-include("layout/head", {title: "Tất cả sản phẩm"})%>
+        <%-include("layout/head", {title: "24h công nghệ"})%>
     </head>
 
     <body>
@@ -26,31 +26,18 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="row">
-                          
+                            <% for(let blog of blogs){%>
+                            
                             <div class="col-md-12 bloglink">
                                 <div >
-                                   <a> <img href="#" id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="200px" height="125px"></a>
-                                    <h5 class="card-title titlecom"><a id="idcontent" href="#">Some quick example text to build on the card title and make up the bulk of the card's content.</a></h5>
-                                    <p class="timepost">17/05/2021</p>
+                                   <a> <img  id="imgleft" class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap" width="200px" height="125px"></a>
+                                    <h5 class="card-title titlecom"><a id="idcontent" href="/blogdetail/<%=blog.id%>"><%=blog.title%></a></h5>
+                                    <p class="timepost"><%=blog.nameuser%>  <%=blog.updatedAt.toLocaleString('vi-VN')%></p>
                                     
                                 </div>
                             </div>
-                            <div class="col-md-12 bloglink">
-                                <div >
-                                        <img id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="200px" height="125px">
-                                        <h5 class="card-title titlecom">Some quick exampadding: 15px 0; padding: 15px 0;e cardpadding: 15px 0;padding: 15px 0;padding: 15px 0; title and make up the bulk of the card's content.build on the</h5>
-                                        <p class="timepost"> 17/05/2021</p>
-                                       
-                                </div>
-                            </div>
-                            <div class="col-md-12 bloglink">
-                                <div >
-                                    <img href="#" id="imgleft" class="card-img-top" src="/static/site/img/dang.jpg" alt="Card image cap" width="200px" height="125px">
-                                    <h5 class="card-title titlecom"><a id="idcontent" href="#">Some quick example text to build on the card title and make up the bulk of the card's content.</a></h5>
-                                    <p class="timepost">17/05/2021</p>
-                                    
-                                </div>
-                            </div>
+                           
+                            <% }%> 
                                       
                         </div>
                         

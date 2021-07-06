@@ -6,6 +6,7 @@ const AdvertisementsModel = require("../models/advertisement");
 const UserModel = require("../models/user");
 const OrderModel = require("../models/order");
 const OrderdetailsModel = require("../models/orderdetails");
+const BlogsModel = require("../models/blog");
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
@@ -114,7 +115,7 @@ const category = async (req, res)=>{
                                                 .populate({ path: "cat_id" })
                                                 .skip(skip)
                                                 .limit(limit)
-                                                .sort({"price": 1});
+                                                .sort({"price": -1});
             
             res.render("site/product-list", {
                 products:products,
@@ -421,11 +422,28 @@ const contact = (req, res)=>{
 const account = (req, res)=>{
     res.render("site/my-account");
 }
-const blogdetail = (req, res)=>{
-    res.render("site/blogdetail");
+const blogdetail =async (req, res)=>{
+    const id = req.params.id;
+    const blog = await BlogsModel.findById(id);
+    res.render("site/blogdetail",{blog});
 }
-const blog = (req, res)=>{
-    res.render("site/blog");
+const blog = async (req, res)=>{
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    skip = page * limit - limit;
+    const total = await BlogsModel.find().countDocuments();
+    
+    const totalPage = Math.ceil(total/limit);
+
+    const blogs = await BlogsModel.find().sort({_id:-1})
+                                        .skip(skip)
+                                        .limit(limit);
+    res.render("site/blog",{
+        pages: paginate(page, totalPage),
+        page: page,
+        totalPage: totalPage,
+        blogs,
+    });
 }
 const checkout = async (req, res)=>{
         const products = req.session.cart;
