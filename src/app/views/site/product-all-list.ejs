@@ -68,7 +68,7 @@
                             <div id="tabletoreplace"class="col-md-12">
                                 <div id="myTable" class="row">
                                     <% for(let product of products){%>
-                                        <div class="col-md-4">
+                                        <div id="div-phone" class="col-md-4">
                                             <div class="product-item">
                                                 <div class="product-title">
                                                     <a href="/product-<%=product.slug%>.<%=product._id%>"><%=product.name%></a>
@@ -189,7 +189,11 @@
                
             })
         </script>
-
+        <style>
+            #div-phone{
+                padding-right: 1px;
+            }
+        </style>
 
         
     </body>

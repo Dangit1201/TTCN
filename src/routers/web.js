@@ -9,6 +9,7 @@ const SiteContoller = require("../app/controllers/site");
 const AuthContoller = require("../app/controllers/auth");
 const UserContoller = require("../app/controllers/user");
 const AdvertisementContoller = require("../app/controllers/advertisement");
+const OrderController = require("../app/controllers/order");
 
 
 //Goi middlewares
@@ -84,9 +85,6 @@ router.get("/blogdetail", SiteContoller.blogdetail);
 
 
 
-
-
-
 //===========Login and Register===============
 router.get("/login",AuthMiddleware.checkLoginUser,AuthContoller.Login);
 router.post("/login",AuthMiddleware.checkLoginUser, AuthContoller.postLogin);
@@ -96,5 +94,17 @@ router.get("/register", AuthContoller.register);
 router.post("/register", AuthContoller.registersuccess);
 router.get("/adminlogout", AuthMiddleware.checkAdmin, AuthContoller.adminlogout);
 router.get("/logout", AuthMiddleware.checkUser, AuthContoller.logout);
+
+
+//===========Order===============
+router.get("/admin/orders",OrderController.index);
+router.get("/admin/orders/create",OrderController.create);
+router.post("/admin/orders/store",OrderController.store);
+router.get("/admin/orders/edit/:id",OrderController.edit);
+router.post("/admin/orders/update/:id",OrderController.update);
+router.post("/admin/orders/delete/:id",OrderController.dele);
+router.post("/admin/orders/updatetransport/:id",OrderController.updatetransport);
+
+router.get("/admin/orderdetails",OrderController.indexdetail);
 
 module.exports = router;

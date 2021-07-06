@@ -31,6 +31,10 @@ const orderdetailsSchema = mongoose.Schema({
     price: {
         type: String,
         required: true,
+    },
+    idprd: {
+        type: String,
+        required: true,
     },   
 }, {
         timestamps: true,

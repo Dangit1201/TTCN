@@ -455,8 +455,7 @@ const updatecheckout = async (req, res)=>{
             const productid = await ProductModel.findById(product.id);
             const quantity = productid.quantity-product.qty;
             await ProductModel.updateOne({_id:product.id}, {$set: {quantity:quantity}});
-        }
-            
+        }    
         orderdetails ={
             qty:parseInt(product.qty),
             price:parseInt(product.price),
@@ -464,6 +463,7 @@ const updatecheckout = async (req, res)=>{
             img:product.img,
             name:product.name,
             idorder:idorder,
+            idprd:product.id,
         }
         await OrderdetailsModel(orderdetails).save();
        
