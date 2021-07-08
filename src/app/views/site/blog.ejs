@@ -32,7 +32,7 @@
                                 <div >
                                    <a> <img  id="imgleft" class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap" width="200px" height="125px"></a>
                                     <h5 class="card-title titlecom"><a id="idcontent" href="/blogdetail/<%=blog.id%>"><%=blog.title%></a></h5>
-                                    <p class="timepost"><%=blog.nameuser%>  <%=blog.updatedAt.toLocaleString('vi-VN')%></p>
+                                    <p class="timepost"><%=blog.nameuser%> &emsp;<%=blog.updatedAt.toLocaleString('vi-VN')%></p>
                                     
                                 </div>
                             </div>
@@ -42,18 +42,36 @@
                         </div>
                         
                         <!-- Pagination Start -->
-                        <div class="col-md-12 pageblog">
+                        <div id="pagisort" class="col-md-12">
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">&raquo;</a>
-                                    </li>
+                        
+                                        <%if(page>1){%>
+                                            <li class="page-item"><a class="page-link"
+                                                    href="/blog/?page=<%= page-1%>">&laquo;</a>
+                                            </li>
+                                            <%}%>
+                                                <%for(x in pages){%>
+                                                    <%if(pages[x]!=='...'){%>
+                                                        <li class="page-item <%=pages[x]===page ? 'active':''%>"><a
+                                                                class="page-link"
+                                                                href="/blog/?page=<%= pages[x]%>">
+                                                                <%=pages[x]%>
+                                                            </a></li>
+                                                        <%} else {%>
+                                                            <li class="page-item"><a class="page-link"
+                                                                    onclick="return false"
+                                                                    href="/blog/?page=<%= pages[x]%>">
+                                                                    <%=pages[x]%>
+                                                                </a></li>
+                                                            <%}%>
+                                                                <%}%>
+                                                                    <%if(page<totalPage){%>
+                                                                        <li class="page-item"><a class="page-link"
+                                                                                href="/blog/?page=<%= page+1%>">&raquo;</a>
+                                                                        </li>
+                                                                        <%}%>
+                                       
                                 </ul>
                             </nav>
                         </div>
@@ -70,14 +88,7 @@
         <!-- Product List End -->  
         
         <!-- Brand Start -->
-        <div class="brand">
-            <div class="container-fluid">
-                <div class="brand-slider">
-                  <a>â</a>
-                </div>
-            </div>
-           
-        </div>
+        
         <!-- Brand End -->
         
         <!-- Footer Start -->
@@ -124,6 +135,9 @@
             }
             #idcontent:hover{
                 color: #288ad6;
+            }
+            #pagisort{
+                margin-top: 25px;
             }
            
         </style>

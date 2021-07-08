@@ -1,6 +1,7 @@
 const CategoryModel = require("../models/category");
 const ProductModel = require("../models/product");
 const AdvertisementsModel = require("../models/advertisement");
+const BlogsModel = require("../models/blog");
 const UserModel = require("../models/user");
 module.exports = async (req, res, next)=>{
 
@@ -10,6 +11,7 @@ module.exports = async (req, res, next)=>{
         res.locals.usershare = 2;
     }
     res.locals.categoriesshare = await CategoryModel.find({status:true}).sort({cout:1});
+    res.locals.blogshare = await BlogsModel.find().sort({_id:-1}).limit(5);
     res.locals.advertisementsshare = await AdvertisementsModel.find({typeofadv:'banner'}).sort({cout:-1}).limit(8);
     res.locals.FeaturedProductsshare = await ProductModel.find({
         featured: true,

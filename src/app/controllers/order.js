@@ -85,13 +85,13 @@ const dele = async (req, res) => {
     await OrdersModel.deleteOne({_id:id});
     res.redirect("/admin/orders");
 };
-const updatetransport = async (req,res)=>{
+const shipping = async (req,res)=>{
     const id = req.params.id;
     await OrdersModel.updateOne({_id: id}, {$set: {status:"Vận chuyển"}});
     res.redirect("/admin/orders");
 };
 
-const indexdetail = async (req, res) => {
+const indextransport = async (req, res) => {
     const orders = await OrdersModel.find({status:"Vận chuyển"}).sort({cout:1});
     res.render("admin/order/orderdetails",{
         orders:orders,
@@ -105,6 +105,6 @@ module.exports = {
   dele: dele,
   store:store,
   update:update,
-  updatetransport:updatetransport,
-  indexdetail:indexdetail,
+  shipping:shipping,
+  indextransport:indextransport,
 };

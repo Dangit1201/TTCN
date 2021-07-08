@@ -92,9 +92,13 @@
                                    
                                    
                                 </div>
-                                <div class="checkout-btn">
-                                    <button>Đặt hàng</button>
-                                </div>
+                                <% if(totalCartItems==0){%>
+                                    <div></div>
+                                <% } else {%>
+                                    <div class="checkout-btn">
+                                        <button>Đặt hàng</button>
+                                    </div>
+                                <% }%>
                             </div>
                         </div>
                     </div>

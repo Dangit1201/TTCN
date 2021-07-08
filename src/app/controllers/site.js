@@ -7,6 +7,11 @@ const UserModel = require("../models/user");
 const OrderModel = require("../models/order");
 const OrderdetailsModel = require("../models/orderdetails");
 const BlogsModel = require("../models/blog");
+const transporter = require("../../common/transporter");
+const config = require("config");
+const ejs = require("ejs");
+const path = require("path");
+
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
@@ -180,11 +185,7 @@ const product = async (req, res)=>{
     });
 }
 
-const cart = (req, res)=>{
-    const products = req.session.cart;
-    
-    res.render("site/cart",{products, totalPrice: 0,totalprd:0,totalPricePrd:0});
-}
+
 const success = (req, res)=>{
     res.render("site/success");
 }
@@ -352,6 +353,11 @@ const searchallcat = async (req, res)=>{
 
     res.render("site/components/table",{products,keyword});
 }
+const cart = (req, res)=>{
+    const products = req.session.cart;
+    var err='';
+    res.render("site/cart",{products, totalPrice: 0,totalprd:0,totalPricePrd:0,err});
+}
 
 const addToCart = async (req, res)=>{
     const body = req.body;
@@ -396,64 +402,69 @@ const delCart = (req, res)=>{
     req.session.cart = items;
     res.redirect("/cart");
 } 
-const updateCart = (req, res) => {
+const updateCart = async(req, res) => {
     const products = req.body.products;
     const body = req.body;   
     const items = req.session.cart;
-    console.log(items);
-    items.map((item,key) => { 
+    
+    await items.map((item,key) => { 
         if (products[item.color][item.id]) {
             
             item.qty = parseInt(products[item.color][item.id]);
         }
-        if (item.qty==0) {
+        if (item.qty=='0') {
             
-            items.splice(key, key);
+            items.splice(key, 1);
         }
         return item;
     });
-    
+   /*  console.log(items); */
     res.redirect("/cart"); 
 }
-
-const contact = (req, res)=>{
-    res.render("site/contact");
-}
-const account = (req, res)=>{
-    res.render("site/my-account");
-}
-const blogdetail =async (req, res)=>{
-    const id = req.params.id;
-    const blog = await BlogsModel.findById(id);
-    res.render("site/blogdetail",{blog});
-}
-const blog = async (req, res)=>{
-    const page = parseInt(req.query.page) || 1;
-    const limit = 9;
-    skip = page * limit - limit;
-    const total = await BlogsModel.find().countDocuments();
-    
-    const totalPage = Math.ceil(total/limit);
-
-    const blogs = await BlogsModel.find().sort({_id:-1})
-                                        .skip(skip)
-                                        .limit(limit);
-    res.render("site/blog",{
-        pages: paginate(page, totalPage),
-        page: page,
-        totalPage: totalPage,
-        blogs,
-    });
-}
 const checkout = async (req, res)=>{
+
         const products = req.session.cart;
-       
+        var err="";
+        var price=0;
+        var idprdduplicateid ="";
         var totalPrice=0;
         var totalprd=0;
-        for(let product of products){
+
+        const lookup = products.reduce((a, e) => {
+            a[e.id] = ++a[e.id] || 0;
+            return a;
+        }, {});
+        const duplicateids = products.filter(e => lookup[e.id])
+       /*  console.log(duplicateids); */
+        for(let duplicateid of duplicateids){
+            const prd = await ProductModel.findById(duplicateid.id);
+            if(prd.id==duplicateid.id){
+                price +=duplicateid.qty;
+                if(price>prd.quantity){
+                    err=`Bạn đã mua quá số lượng còn lại ${prd.name} !!!`;
+                  /*   console.log(err); */
+                    res.render("site/cart",{products, totalPrice: 0,totalprd:0,totalPricePrd:0,err});
+                }/* else{
+                    totalPrice += product.qty * product.price
+                    totalprd += product.qty
+                } */
+            }
             
-             totalPrice += product.qty * product.price
-             totalprd += product.qty
+
+        }
+
+        
+        for(let product of products){
+            const prd = await ProductModel.findById(product.id);
+            if(product.qty>prd.quantity){
+                err=`Bạn đã mua quá số lượng còn lại ${prd.name} !!!`;
+                console.log(err);
+                res.render("site/cart",{products, totalPrice: 0,totalprd:0,totalPricePrd:0,err});
+            }else{
+                totalPrice += product.qty * product.price
+                totalprd += product.qty
+            }
+            
         }
         const pass = req.session.pass_user;
         const email = req.session.email_user;
@@ -498,11 +509,63 @@ const updatecheckout = async (req, res)=>{
         idorder:idorder,
         }
     await OrderModel(order).save();
-
+    //gui mail
+        // Lấy ra đường dẫn đến thư mục views
+        const viewPath = req.app.get("views");
+        // Compile template EJS sang HTML để gửi mail cho khách hàng
+        const html = await ejs.renderFile(
+            path.join(viewPath, "site/email-order.ejs"),
+            {
+                full_name: body.full_name,
+                phone: body.phone,
+                email: body.email,
+                address: body.address,
+                /* url: config.get("app.url"), */
+                totalPrice: 0,
+                products,
+            }
+        );
+        // Gửi mail
+        await transporter.sendMail({
+            to: body.email,
+            from: "Đăng Khoa Shop",
+            subject: "Xác nhận đơn hàng từ Đăng Khoa Shop",
+            html,
+        });
+    
 
     req.session.cart=[];
     res.redirect("/blog"); 
 }  
+const contact = (req, res)=>{
+    res.render("site/contact");
+}
+const account = (req, res)=>{
+    res.render("site/my-account");
+}
+const blogdetail =async (req, res)=>{
+    const id = req.params.id;
+    const blog = await BlogsModel.findById(id);
+    res.render("site/blogdetail",{blog});
+}
+const blog = async (req, res)=>{
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    skip = page * limit - limit;
+    const total = await BlogsModel.find().countDocuments();
+    
+    const totalPage = Math.ceil(total/limit);
+
+    const blogs = await BlogsModel.find().sort({_id:-1})
+                                        .skip(skip)
+                                        .limit(limit);
+    res.render("site/blog",{
+        pages: paginate(page, totalPage),
+        page: page,
+        totalPage: totalPage,
+        blogs,
+    });
+}
 module.exports = {
     home:home,
     category:category,

@@ -105,9 +105,9 @@ router.post("/admin/orders/store",OrderController.store);
 router.get("/admin/orders/edit/:id",OrderController.edit);
 router.post("/admin/orders/update/:id",OrderController.update);
 router.post("/admin/orders/delete/:id",OrderController.dele);
-router.post("/admin/orders/updatetransport/:id",OrderController.updatetransport);
+router.post("/admin/orders/shipping/:id",OrderController.shipping);
 
-router.get("/admin/orderdetails",OrderController.indexdetail);
+router.get("/admin/transportorder",OrderController.indextransport);
 
 //===========blog===============
 router.get("/admin/blogs",AuthMiddleware.checkAdmin,BlogController.index);

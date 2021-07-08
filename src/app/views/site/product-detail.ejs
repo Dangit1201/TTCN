@@ -79,11 +79,13 @@
                                         
                                             </div> 
                                         </div>
+                                        <% if(product.quantity==0){%>
+                                          
+                                        <% } else {%>
                                         <div class="action">
-                                            
-                                           
                                             <button class="btn" type="submit"><i class="fa fa-shopping-bag"></i>Mua ngay</button>
                                         </div>
+                                        <% }%>
                                     </form>
                                     </div>
                                 </div>

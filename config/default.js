@@ -13,4 +13,13 @@ module.exports = {
       session_secure: false,
       tmp: __dirname+"/../temp",
     },
+    mail: {
+      host: "smtp.gmail.com",
+      post: 587,
+      secure: false,
+      auth: {
+          user: "dangkhoashopdt@gmail.com",
+          pass: "Dang147896",
+      }
+  }
   };

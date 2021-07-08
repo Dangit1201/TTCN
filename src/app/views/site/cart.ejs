@@ -20,18 +20,34 @@
             </div>
         </div>
         <!-- Breadcrumb End -->
-        
+       
         <!-- Cart Start -->
+        <% if(totalCartItems==0){%>
+            <div id="wrapper" class="col-lg-10 mx-auto" >
+                  
+                        <div  >
+                                <div id="loginsite" class="login-form">
+                                    <div id="aimg">
+                                    <a > <img  id="imgleft"  src="/static/site/img/shopping-cart.png" alt="Card image cap" width="200px" height="125px"></a>
+                                    </div>
+                                   <div>
+                                       <p >Không có sản phẩm nào trong giỏ hàng của bạn !!!</p>
+                                    </div>
+                                   <div id="diva" class="mx-auto">
+                                       <a href="/"><p class="padmin">Về trang chủ</p></a>
+                                   </div>
+                                </div>
+     
+                        </div>
+                   
+            </div>    
+        <% } else {%>
         <div class="cart-page">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="cart-page-inner">
                             <div class="table-responsive">
-                            <% if(totalCartItems==0){%>
-                            <p>Giỏ hàng rỗng</p>
-                            <% }%>
-                           
                         <form  id="update-cart" method="post" action="/update-cart">
                             <% if(totalCartItems!=0){%>
                                 <table class="table table-bordered">
@@ -66,7 +82,7 @@
                                             <td>
                                                 <div class="qty">
                                                     <button onclick="clickmul()" id="btnmul" type="submit" class="btn-minus" ><i class="fa fa-minus"></i></button>
-                                                    <input name="products[<%=product.color%>][<%=product.id%>]" id="inputprice" class="inputprd" type="text"  value=<%=product.qty%> readonly="true" min="1">
+                                                    <input name="products[<%=product.color%>][<%=product.id%>]" id="inputprice" class="inputprd" type="text"  value=<%=product.qty%> readonly="true" >
                                                     <button  onclick="clickplus()" id="btnadd" type="submit" class="btn-plus" ><i class="fa fa-plus" ></i></button>
                                                 </div>
                                             </td>
@@ -88,6 +104,9 @@
                                 
                                 <div class="col-md-12">
                                     <div class="cart-summary">
+                                        <% if(err){%>
+                                        <p class="errprd"><%=err%></p>
+                                        <% }%>
                                         <div class="cart-content">
                                             <h1>Tóm tắt giỏ hàng</h1>
                                             <p>Tổng số lượng:<span><%=totalprd%> sản phẩm</span></p>
@@ -107,6 +126,7 @@
                 </div>
             </div>
         </div>
+        <%}%>
         <!-- Cart End -->
         
         <!-- Footer Start -->
@@ -188,6 +208,41 @@
              #cart-btn-ckecout{
                 width: 100%;
              }
+             #wrapper{
+                margin-top: 30px;
+                text-align: center;
+                background-color: white;
+                margin-bottom: 30px;
+                
+             }
+             #aimg{
+               padding-top: 15px;
+               padding-bottom: 10px;
+             }
+             #diva{
+                border: 1px solid #FF6F61;
+                padding-bottom: 1px;
+                margin-bottom: 1px;
+                width: 200px;
+                text-align: center;
+                
+             }
+             /* .aadmin{
+                width: 50px;
+               
+             } */
+             .padmin{
+                margin-bottom: 1px;
+                text-align: center;
+                font-weight: bold;
+             }
+             #diva .mx-auto{
+                 margin-bottom: 50px;
+             }
+             .errprd{
+                 color:red;
+             }
+           
          </style>
     </body>
 </html>
