@@ -123,7 +123,7 @@
                                         <% for(comment of comments) { %>
                                             <div class="reviews-submitted">
                                                 <div class="reviewer">
-                                                    <%= comment.full_name %> - <span><%=comment.createdAt.toLocaleString()%></span></div>
+                                                    <%= comment.full_name %> - <span><%=comment.createdAt.toLocaleString('vi-VN')%></span></div>
                                                 <div class="ratting">
                                                     <% if(comment.rating >= 1) {  %> <i class="fa fa-star"></i>
                                                         <% } %>

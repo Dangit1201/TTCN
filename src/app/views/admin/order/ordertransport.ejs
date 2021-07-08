@@ -14,13 +14,13 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-				<li class="active">Danh sách đơn hàng </li>
+				<li class="active">Vận chuyển</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Danh sách đơn hàng vận chuyển</h1>
+				<h1 class="page-header">Danh sách đơn hàng cần vận chuyển</h1>
 			</div>
 		</div><!--/.row-->
 		
@@ -58,9 +58,9 @@
                                     
                                     <td class="form-group">
                                         <a  href="" class="btn btn-success"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-transport"><i class="glyphicon glyphicon-plane" ></i></a>
-                                        <a href="/admin/orders/edit/<%=orders[x]._id%>" class="btn btn-primary"><i
-                                                class="glyphicon glyphicon-eye-open"></i></a>
-                                                <a  href="" class="btn btn-danger"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-trash" ></i></a>
+                                        <a href="/admin/ordertransport/view/<%=orders[x]._id%>" class="btn btn-primary"><i
+                                                class="glyphicon glyphicon-zoom-out"></i></a>
+                                                <a  href="" class="btn btn-danger"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-remove-circle" ></i></a>
                                     </td>
                                 </tr>
                                 <%}%>
@@ -75,7 +75,7 @@
                         <div class="modal-dialog" role="document">
                         <div class="modal-content">
                                 <div id="modal-title-name" class="modal-header">
-                                <h5 class="modal-title">Bạn có hủy đơn hàng của:<span id="spanproduct"></span> ?</h5>
+                                <h5 class="modal-title">Đơn hàng của:<span id="spanproduct"></span> giao thất bại chuyển về cửa hàng.</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -83,7 +83,7 @@
                             
                                 <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                <button  id="btn-delete-form" type="button" class="btn btn-danger">Xóa bỏ</button>
+                                <button  id="btn-delete-form" type="button" class="btn btn-danger">Xác nhận</button>
                                 </div>
                         </div>
                         </div>
@@ -95,7 +95,7 @@
                     <div class="modal-dialog" role="document">
                     <div class="modal-content">
                             <div id="modal-title-name" class="modal-header">
-                            <h5 class="modal-title">Chuyển đơn hàng của:<span id="spanuser"></span> sang bên vận chuyển ?</h5>
+                            <h5 class="modal-title">Đơn hàng của:<span id="spanuser"></span> đã giao thành công.</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -131,7 +131,7 @@
         var btndele = document.getElementById('btn-delete-form');
         
         btndele.onclick = function(){
-            formdele.action='/admin/orders/delete/'+ids;
+            formdele.action='/admin/ordertransport/delete/'+ids;
             formdele.submit();
             
         }
@@ -162,7 +162,7 @@
         var btnupdate = document.getElementById('btn-update-form');
         
         btnupdate.onclick = function(){
-            formdele.action='/admin/orders/updatetransport/'+ids;
+            formdele.action='/admin/ordertransport/shipping/'+ids;
             formdele.submit();
             
         }

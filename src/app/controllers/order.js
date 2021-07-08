@@ -4,64 +4,33 @@ const ProductsModel = require("../models/product");
 
 
 const index = async (req, res) => {
-    const orders = await OrdersModel.find({status:"Tiếp nhận đơn hàng"}).sort({cout:1});
+    const orders = await OrdersModel.find({status:"Tiếp nhận đơn hàng"}).sort({_id:1});
     res.render("admin/order/order",{
         orders:orders,
   });
-};
-const create = async (req, res) => {
-    res.render("admin/advertisement/add_advertisement");
-};
-
-const store = async (req,res)=>{
-  const body = req.body;
-  const file = req.file;
-
-  const advertisement = {
-    content: body.content,
-    link: body.link,
-    typeofadv: body.typeofadv,
-    } 
-    /* console.log('advertisement',advertisement); */
-
-    if(file){
-  
-      const thumbnail = "products/"+file.originalname;
-      advertisement["thumbnail"] = thumbnail;
-      fs.renameSync(file.path, path.resolve("src/public/images", thumbnail)); 
-      await AdvertisementsModel(advertisement).save();
-      res.redirect("/admin/advertisements");
-    }
- 
 };
 
 const edit = async (req, res) => {
   const id = req.params.id;
   const order = await OrdersModel.findById(id);
+  const orderdetails = await OrderdetailsModel.find({idorder:order.idorder});
   res.render("admin/order/edit_order",{
-    advertisement
+    order,
+    orderdetails,
   });
 };
 
 const update = async (req,res)=>{
   const id = req.params.id;
   const body = req.body;
-  const file = req.file;
 
-  const advertisement = {
-    content: body.content,
-    link: body.link,
-    typeofadv: body.typeofadv,
+  const order = {
+    full_name: body.full_name,
+    phone: body.phone,
+    address: body.address,
     } 
-    
-
-    if(file){
-      const thumbnail = "products/"+file.originalname;
-      advertisement["thumbnail"] = thumbnail;
-      fs.renameSync(file.path, path.resolve("src/public/images", thumbnail)); 
-    }
-    await AdvertisementsModel.updateOne({_id: id}, {$set: advertisement});
-    res.redirect("/admin/advertisements");
+    await OrdersModel.updateOne({_id: id}, {$set: order});
+    res.redirect("/admin/orders");
 };
 
 const dele = async (req, res) => {
@@ -92,19 +61,58 @@ const shipping = async (req,res)=>{
 };
 
 const indextransport = async (req, res) => {
-    const orders = await OrdersModel.find({status:"Vận chuyển"}).sort({cout:1});
-    res.render("admin/order/orderdetails",{
+    const orders = await OrdersModel.find({status:"Vận chuyển"}).sort({_id:1});
+    res.render("admin/order/ordertransport",{
         orders:orders,
   });
 };
+const shippinguser = async (req,res)=>{
+  const id = req.params.id;
+  await OrdersModel.updateOne({_id: id}, {$set: {status:"Đã hoàn thành đơn hàng"}});
+  res.redirect("/admin/ordertransport");
+};
+const viewtransport = async (req, res) => {
+  const id = req.params.id;
+  const order = await OrdersModel.findById(id);
+  const orderdetails = await OrderdetailsModel.find({idorder:order.idorder});
+  
+  res.render("admin/order/ordertransportdetail",{
+    order,
+    orderdetails,
+   
+  });
+};
+const deletransport = async (req, res) => {
+  const id = req.params.id;
+  const order = await OrdersModel.find({_id:id});
+  for(let x of order){
+      const orderdetails = await OrderdetailsModel.find({idorder:x.idorder});
+      /* console.log(orderdetails); */
+      for(let y of orderdetails){
+          /* console.log(y.idprd); */
+          /* console.log(y.qty); */
+          const product = await ProductsModel.findById(y.idprd);
+      /*  console.log(product);
+          console.log(product.quantity); */
+          
+          let quantity = parseInt(product.quantity) + parseInt(y.qty);
+          await ProductsModel.updateOne({_id:y.idprd}, {$set: {quantity:quantity}});
+      }
+      await OrderdetailsModel.deleteMany({idorder: x.idorder});       
+  }
+  await OrdersModel.deleteOne({_id:id});
+  res.redirect("/admin/ordertransport");
+};
+
 
 module.exports = {
   index: index,
-  create: create,
   edit: edit,
   dele: dele,
-  store:store,
   update:update,
   shipping:shipping,
   indextransport:indextransport,
+  shippinguser:shippinguser,
+  viewtransport:viewtransport,
+  deletransport:deletransport,
 };

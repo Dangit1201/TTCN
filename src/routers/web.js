@@ -100,14 +100,17 @@ router.get("/logout", AuthMiddleware.checkUser, AuthContoller.logout);
 
 //===========Order===============
 router.get("/admin/orders",OrderController.index);
-router.get("/admin/orders/create",OrderController.create);
-router.post("/admin/orders/store",OrderController.store);
 router.get("/admin/orders/edit/:id",OrderController.edit);
 router.post("/admin/orders/update/:id",OrderController.update);
 router.post("/admin/orders/delete/:id",OrderController.dele);
 router.post("/admin/orders/shipping/:id",OrderController.shipping);
 
-router.get("/admin/transportorder",OrderController.indextransport);
+router.get("/admin/ordertransport",OrderController.indextransport);
+router.post("/admin/ordertransport/shipping/:id",OrderController.shippinguser);
+router.get("/admin/ordertransport/view/:id",OrderController.viewtransport);
+router.post("/admin/ordertransport/delete/:id",OrderController.deletransport);
+
+
 
 //===========blog===============
 router.get("/admin/blogs",AuthMiddleware.checkAdmin,BlogController.index);

@@ -29,9 +29,8 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div class="col-md-8">
-                                
-                                <form action="/admin/users/update/<%=user._id%>" role="form" method="post">
+                            <form action="/admin/users/update/<%=user._id%>" role="form" method="post"></form>
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label>Họ & Tên</label>
                                         <input name="full_name" required class="form-control" placeholder="" value="<%=user.full_name%>">
@@ -42,7 +41,7 @@
                                     </div>                       
                                     <div class="form-group">
                                         <label>Mật khẩu mới</label>
-                                        <input name="pass"  type="password"  class="form-control" placeholder="Có thể ko nhập" >
+                                        <input name="pass"  type="password"  class="form-control" value="<%=user.password%>" >
                                     </div>
                                     <div class="form-group">
                                         <label>Số điện thoại</label>
@@ -60,7 +59,7 @@
                                             
                                         </select>
                                     </div>
-                                    <button name="sbm" type="submit" class="btn btn-success">Thêm mới</button>
+                                    <button name="sbm" type="submit" class="btn btn-success">Sửa</button>
                                     <button id="btn-exit" type="reset" class="btn btn-default">Thoát</button>
                                 </div>
                             </form>
@@ -71,7 +70,7 @@
 			<%- include('../layout/footer.ejs')%>
             <script>
                 $('#btn-exit').click(function() {
-                window.location.href = '/admin/categories';
+                window.location.href = '/admin/users';
                 return false;
                 });
             </script>

@@ -23,24 +23,35 @@
        
         <!-- Cart Start -->
         <% if(totalCartItems==0){%>
-            <div id="wrapper" class="col-lg-10 mx-auto" >
-                  
-                        <div  >
-                                <div id="loginsite" class="login-form">
-                                    <div id="aimg">
-                                    <a > <img  id="imgleft"  src="/static/site/img/shopping-cart.png" alt="Card image cap" width="200px" height="125px"></a>
+            <div class="login">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 mx-auto">   
+                        <form action="/login" role="form" method="get" ></form> 
+                            <div class="register-form">
+                                <div class="row">
+                                    
+                                    
+                                    <div class="col-md-12 text-center">
+                                        <img src="/static/site/img/shopping-cart.png" alt="sussces" width="150" height="150" >
                                     </div>
-                                   <div>
-                                       <p >Không có sản phẩm nào trong giỏ hàng của bạn !!!</p>
+                                    
+                                   
+                                    <div id="label" class="col-md-12 text-center">
+                                        <label >Không có sản phẩm nào trong giỏ hàng.</label>
                                     </div>
-                                   <div id="diva" class="mx-auto">
-                                       <a href="/"><p class="padmin">Về trang chủ</p></a>
-                                   </div>
+                                    <hr>
+                                    <div id="btn-register" class="col-md-12 text-center">
+                                        <button id="btnexit" class="btn">Về trang chủ!</button>
+                                    </div>
                                 </div>
-     
+                            </div>
+                        </form>
                         </div>
-                   
-            </div>    
+                       
+                    </div>
+                </div>
+            </div> 
         <% } else {%>
         <div class="cart-page">
             <div class="container-fluid">
@@ -201,6 +212,12 @@
             
                  
          </script>
+         <script>
+            $('#btn-register').click(function() {
+            window.location.href = '/';
+            return false;
+            });
+        </script>
          <style>
              #cart-btn{
                 text-align: center;
@@ -241,6 +258,13 @@
              }
              .errprd{
                  color:red;
+             }
+             #label{
+                 margin-top: 15px;
+                 margin-bottom: 10px;
+             }
+             #btnexit{
+                 width: 450px;
              }
            
          </style>

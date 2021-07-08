@@ -535,7 +535,7 @@ const updatecheckout = async (req, res)=>{
     
 
     req.session.cart=[];
-    res.redirect("/blog"); 
+    res.redirect("/success"); 
 }  
 const contact = (req, res)=>{
     res.render("site/contact");
