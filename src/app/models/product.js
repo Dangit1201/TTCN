@@ -33,6 +33,18 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    importprice:{
+        type: Number,
+        default: 0,
+    },
+    memory:{
+        type: Number,
+        default: null,
+    },
+    ram:{
+        type: Number,
+        default: null,
+    },
     featured:{
         type: Boolean,
         default: false,

@@ -53,7 +53,7 @@ const store = async (req,res)=>{
   const file = req.file;
   let error;
   const slugname = slug(body.name);
-  const slugduplicate = await ProductModel.find({slug:slugname});
+  const slugduplicate = await ProductsModel.find({slug:slugname});
   const categories = await CategoriesModel.find().sort({cout:1});
     if(slugduplicate.length > 0){
       error = "Sản phẩm đã tồn tại !";
@@ -70,6 +70,9 @@ const store = async (req,res)=>{
         description: body.description,
         cat_id: body.cat_id,
         price: body.price,
+        memory:body.memory,
+        ram:body.ram,
+        importprice:body.importprice,
         quantity: body.quantity,
         featured: body.featured === "on",
         promotion: body.promotion,
@@ -127,6 +130,9 @@ const update = async (req,res)=>{
     description: body.description,
     cat_id: body.cat_id,
     price: body.price,
+    memory:body.memory,
+    ram:body.ram,
+    importprice:body.importprice,
     quantity: quantityupdate,
     featured: body.featured === "on",
     promotion: body.promotion,

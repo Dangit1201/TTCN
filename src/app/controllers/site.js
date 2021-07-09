@@ -29,6 +29,8 @@ const home = async (req, res)=>{
 }
 const category = async (req, res)=>{
     const id = req.params.id;
+    let ram = req.query.ram;
+    let memory = req.query.memory;
                                         
     const category = await CategoryModel.findById({_id:id});
     const title = category.title
@@ -56,7 +58,9 @@ const category = async (req, res)=>{
                 totalPage: totalPage,
                 sort,
                 title:title,
-                category:category
+                category:category,
+                ram,
+                memory
                 });
         }else if(sort=='48'){
             const page = parseInt(req.query.page) || 1;
@@ -82,7 +86,9 @@ const category = async (req, res)=>{
                 totalPage: totalPage,
                 sort,
                 title:title,
-                category:category
+                category:category,
+                ram,
+                memory
                 });
         }else if(sort==='815'){
             const page = parseInt(req.query.page) || 1;
@@ -106,17 +112,45 @@ const category = async (req, res)=>{
                 totalPage: totalPage,
                 sort,
                 title:title,
-                category:category
+                category:category,
+                ram,
+                memory
                 });
-        }else if(sort==='gte15'){
+        }else if(sort==='1522'){
             const page = parseInt(req.query.page) || 1;
             const limit = 9;
             skip = page * limit - limit;
-            const total = await ProductModel.find({cat_id:id,price:{ $gte:15000000 }}).count();
+    
+            const total = await ProductModel.find({cat_id:id,price:{ $gte:15000000 , $lte:22000000}}).count();
             
             const totalPage = Math.ceil(total/limit);
     
-            const products = await ProductModel.find({cat_id:id,price:{ $gte:15000000 }})
+            const products = await ProductModel.find({cat_id:id,price:{ $gte:15000000 , $lte:22000000}})
+                                                .populate({ path: "cat_id" })
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                sort,
+                title:title,
+                category:category,
+                ram,
+                memory
+                });
+        }else if(sort==='gte22'){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+            const total = await ProductModel.find({cat_id:id,price:{ $gte:22000000 }}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,price:{ $gte:22000000 }})
                                                 .populate({ path: "cat_id" })
                                                 .skip(skip)
                                                 .limit(limit)
@@ -129,9 +163,59 @@ const category = async (req, res)=>{
                 totalPage: totalPage,
                 sort,
                 title:title,
-                category:category
+                category:category,
+                ram,
+                memory
                 });
-        }else{
+        }else if(ram){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+            const total = await ProductModel.find({cat_id:id,ram:ram}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,ram:ram})
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                totalPage: totalPage,
+                category:category,
+                title:title,
+                sort,
+                ram,
+                memory,
+                });
+        } else if(memory){
+            const page = parseInt(req.query.page) || 1;
+            const limit = 9;
+            skip = page * limit - limit;
+            const total = await ProductModel.find({cat_id:id,memory:memory}).count();
+            
+            const totalPage = Math.ceil(total/limit);
+    
+            const products = await ProductModel.find({cat_id:id,memory:memory})
+                                                .skip(skip)
+                                                .limit(limit)
+                                                .sort({"price": 1});
+            
+            res.render("site/product-list", {
+                products:products,
+                pages: paginate(page, totalPage),
+                page: page,
+                title:title,
+                totalPage: totalPage,
+                category:category,
+                sort,
+                ram,
+                memory,
+                });
+        } else{
             sort = null;
             const page = parseInt(req.query.page) || 1;
             const limit = 9;
@@ -152,7 +236,9 @@ const category = async (req, res)=>{
                 totalPage: totalPage,
                 sort,
                 title:title,
-                category:category
+                category:category,
+                ram,
+                memory
                 });
         }
 
@@ -206,7 +292,9 @@ const comment = async (req, res)=>{
 
 const allcategory = async (req, res)=>{
     let sort = req.query.sort;
-    if(sort==='14'){
+    let ram = req.query.ram;
+    let memory = req.query.memory;
+    if(sort=='14'){
         
         const page = parseInt(req.query.page) || 1;
         const limit = 9;
@@ -225,7 +313,9 @@ const allcategory = async (req, res)=>{
             pages: paginate(page, totalPage),
             page: page,
             totalPage: totalPage,
-            sort
+            sort,
+            ram,
+            memory,
             });
     }else if(sort=='48'){
         const page = parseInt(req.query.page) || 1;
@@ -248,7 +338,9 @@ const allcategory = async (req, res)=>{
             pages: paginate(page, totalPage),
             page: page,
             totalPage: totalPage,
-            sort
+            sort,
+            ram,
+            memory,
             });
     }else if(sort==='815'){
         const page = parseInt(req.query.page) || 1;
@@ -270,16 +362,43 @@ const allcategory = async (req, res)=>{
             page: page,
             totalPage: totalPage,
             sort,
+            ram,
+            memory,
             });
-    }else if(sort==='gte15'){
+    }else if(sort=='1522'){
         const page = parseInt(req.query.page) || 1;
         const limit = 9;
         skip = page * limit - limit;
-        const total = await ProductModel.find({price:{ $gte:15000000 }}).count();
+
+        
+        const total = await ProductModel.find({price:{ $gte:15000000 , $lte:22000000}}).count();
         
         const totalPage = Math.ceil(total/limit);
 
-        const products = await ProductModel.find({price:{ $gte:15000000 }})
+        const products = await ProductModel.find({price:{ $gte:15000000 , $lte:22000000}})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        console.log("product.js",products);
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort,
+            ram,
+            memory,
+            });
+    }else if(sort==='gte22'){
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+        const total = await ProductModel.find({price:{ $gte:22000000 }}).count();
+        
+        const totalPage = Math.ceil(total/limit);
+
+        const products = await ProductModel.find({price:{ $gte:22000000 }})
                                             .skip(skip)
                                             .limit(limit)
                                             .sort({"price": 1});
@@ -289,9 +408,55 @@ const allcategory = async (req, res)=>{
             pages: paginate(page, totalPage),
             page: page,
             totalPage: totalPage,
-            sort
+            sort,
+            ram,
+            memory,
             });
-    }else{
+    }else if(ram){
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+        const total = await ProductModel.find({ram:ram}).count();
+        
+        const totalPage = Math.ceil(total/limit);
+
+        const products = await ProductModel.find({ram:ram})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort,
+            ram,
+            memory,
+            });
+    } else if(memory){
+        const page = parseInt(req.query.page) || 1;
+        const limit = 9;
+        skip = page * limit - limit;
+        const total = await ProductModel.find({memory:memory}).count();
+        
+        const totalPage = Math.ceil(total/limit);
+
+        const products = await ProductModel.find({memory:memory})
+                                            .skip(skip)
+                                            .limit(limit)
+                                            .sort({"price": 1});
+        
+        res.render("site/product-all-list", {
+            products:products,
+            pages: paginate(page, totalPage),
+            page: page,
+            totalPage: totalPage,
+            sort,
+            ram,
+            memory,
+            });
+    } else { 
         sort = null;
         const page = parseInt(req.query.page) || 1;
         const limit = 9;
@@ -309,7 +474,9 @@ const allcategory = async (req, res)=>{
             pages: paginate(page, totalPage),
             page: page,
             totalPage: totalPage,
-            sort
+            sort,
+            ram,
+            memory,
             });
     }
  
