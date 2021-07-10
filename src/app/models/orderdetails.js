@@ -29,7 +29,11 @@ const orderdetailsSchema = mongoose.Schema({
         required: true,
     },
     price: {
-        type: String,
+        type: Number,
+        required: true,
+    },
+    importprice: {
+        type: Number,
         required: true,
     },
     idprd: {

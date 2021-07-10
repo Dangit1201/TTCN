@@ -1,0 +1,53 @@
+<div id="divpagination" class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="tabletotal" class="col-md-12">
+                
+                <%for(x in searchorders){%>
+                    <% count2++ %>
+                    <% totalproduct += searchorders[x].totalprd %>
+                    <% totalprofit += (searchorders[x].totalprice -searchorders[x].totalimportprice) %>
+                    <% totalorderamount += searchorders[x].totalprice %>
+
+                <%}%>
+                <p id="title">Bảng thống kê </p>
+                <p><span class="ptable">Tổng số hóa đơn: </span><%= count2 %> (hóa đơn)</p>
+                <p><span class="ptable">Tổng số sản phẩm: </span><%=totalproduct%> (sản phẩm)</p> 
+                <p><span class="ptable">Tổng số tiền đơn hàng: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalorderamount)%></p> 
+                <p><span class="ptable">Tổng số tiền lời: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalprofit)%></p> 
+                
+                </div>
+            </div>
+        </div>
+    </div><!-- /.col-->
+
+    <div id="totaltableprd" class="col-lg-12">
+    <table id="example" class="col-lg-12 table table-striped table-bordered" >
+        <thead>
+            <tr>
+                <th>TT</th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Tổng sản phẩm</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody >
+                <% let count=1 %>
+                <%for(x in searchorders){%>
+                <tr>
+                    <td><%= count++ %></td>
+                    <td><%=searchorders[x].full_name%></td>
+                    <td><%=searchorders[x].phone%></td>
+                    <td><%=searchorders[x].address%></td>
+                    <td><%=searchorders[x].totalprd%></td>
+                    <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(searchorders[x].totalprice)%></td>
+                </tr>
+            <%}%>
+        </tbody>
+        
+    </table>
+    </div>
+</div>

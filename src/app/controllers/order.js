@@ -62,23 +62,6 @@ const shipping = async (req,res)=>{
 
 const indextransport = async (req, res) => {
     const orders = await OrdersModel.find({status:"Vận chuyển"}).sort({_id:1});
-    
-   /*  public async getDatabaseorderbyDate(req: Request, res: Response) {
-      const { dateQuery }: any = req.query
-      const date = new Date(dateQuery)
-      console.log(date)
-      const today = date.toLocaleDateString(`fr-CA`).split('/').join('-')
-      console.log(today)
-      const creationDate = {
-        "creationDate": {
-          '$gte': `${today}T00:00:00.000Z`,
-          '$lt': `${today}T23:59:59.999Z`
-        }
-      }; */
-    const today = "2021-07-07";
-    const search = await OrderdetailsModel.find({createdAt:{ $gte:`${today}T00:00:00.000Z` , $lte:`${today}T23:59:59.999Z`}});
-    console.log(search);
-
     res.render("admin/order/ordertransport",{
         orders:orders,
   });

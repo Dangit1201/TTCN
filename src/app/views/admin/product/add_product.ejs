@@ -119,7 +119,7 @@
                                         </script>
                                 </div>
                                 <button name="sbm" type="submit" class="btn btn-success">Thêm mới</button>
-                                <button type="reset" class="btn btn-default">Làm mới</button>
+                                <button id="btn-exit" type="reset" class="btn btn-default">Thoát</button>
                             </div>
                         </form>
                         </div>
@@ -128,6 +128,7 @@
             </div><!-- /.row -->
 		
 	</div>	<!--/.main-->	
+   
     <style>
         .black{
             color: black;
@@ -151,6 +152,12 @@
         }
     </style>
     <%- include("../layout/footer")%>
+    <script>
+        $('#btn-exit').click(function() {
+        window.location.href = '/admin/products';
+        return false;
+        });
+    </script>
 </body>
 
 </html>

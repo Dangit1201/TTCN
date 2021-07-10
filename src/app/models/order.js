@@ -31,7 +31,7 @@ const orderSchema = mongoose.Schema({
     default: null,
   },
   totalprd: {
-    type: String,
+    type: Number,
     required: true,
   },
   idorder: {
@@ -45,7 +45,11 @@ const orderSchema = mongoose.Schema({
     default: "Tiếp nhận đơn hàng",
   },
   totalprice: {
-    type: String,
+    type: Number,
+    required: true,
+  },
+  totalimportprice: {
+    type: Number,
     required: true,
   },
 }, {

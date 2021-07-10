@@ -15,7 +15,7 @@ const path = require("path");
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
-    const Banner = await AdvertisementsModel.find().sort({_id: -1}).limit(3);
+    const sliders = await AdvertisementsModel.find({typeofadv:"slider"}).sort({_id: -1}).limit(4);
     const FeaturedProducts = await ProductModel.find({
         featured: true,
     }).sort({_id: -1}).limit(6);
@@ -24,7 +24,7 @@ const home = async (req, res)=>{
     res.render("site/index", {
         LatestProducts:LatestProducts,
         FeaturedProducts:FeaturedProducts,
-        Banner:Banner,
+        sliders:sliders,
     });
 }
 const category = async (req, res)=>{
@@ -548,12 +548,13 @@ const addToCart = async (req, res)=>{
             name: product.name,
             price: product.price,
             img: product.thumbnail,
+            importprice:product.importprice,
             qty: parseInt(body.qty),
             color: body.color,
         });
     }
     req.session.cart = items;
-    
+    console.log("items",items);
     res.redirect("/cart");
 }
 
@@ -640,13 +641,15 @@ const checkout = async (req, res)=>{
   
     
 }
-const updatecheckout = async (req, res)=>{
+const successcheckout = async (req, res)=>{
 
     const body = req.body;
     const products = req.session.cart;
     var today = new Date();
+    var totalimportprice =0;
     const idorder = body.email.toLowerCase()+'-'+today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()+'+'+today.getHours() + ":" + today.getMinutes()+":"+ today.getSeconds();
     for(let product of products){
+        totalimportprice +=product.qty*product.importprice; 
         if(product.id){
             const productid = await ProductModel.findById(product.id);
             const quantity = productid.quantity-product.qty;
@@ -658,6 +661,7 @@ const updatecheckout = async (req, res)=>{
             color:product.color,
             img:product.img,
             name:product.name,
+            importprice:parseInt(product.importprice),
             idorder:idorder,
             idprd:product.id,
         }
@@ -671,8 +675,9 @@ const updatecheckout = async (req, res)=>{
         phone: body.phone,
         address: body.address,
         note:body.note,
-        totalprd:body.totalprd,
-        totalprice:body.totalPrice,
+        totalprd:parseInt(body.totalprd),
+        totalprice:parseInt(body.totalPrice),
+        totalimportprice:parseInt(totalimportprice),
         idorder:idorder,
         }
     await OrderModel(order).save();
@@ -751,7 +756,7 @@ module.exports = {
     delCart:delCart,
     updateCart:updateCart,
     checkout:checkout,
-    updatecheckout:updatecheckout,
+    successcheckout:successcheckout,
     blogdetail:blogdetail,
     
 }

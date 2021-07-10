@@ -11,6 +11,8 @@ const UserContoller = require("../app/controllers/user");
 const AdvertisementContoller = require("../app/controllers/advertisement");
 const OrderController = require("../app/controllers/order");
 const BlogController = require("../app/controllers/blog");
+const StatisticalController = require("../app/controllers/statistical");
+
 
 
 
@@ -82,7 +84,7 @@ router.post("/add-to-cart", SiteContoller.addToCart);
 router.get("/del-cart-:id", SiteContoller.delCart);
 router.post("/update-cart", SiteContoller.updateCart);
 router.get("/checkout",AuthMiddleware.checkUser, SiteContoller.checkout);
-router.post("/checkout", SiteContoller.updatecheckout);
+router.post("/checkout", SiteContoller.successcheckout);
 router.get("/blogdetail/:id", SiteContoller.blogdetail);
 
 
@@ -109,6 +111,13 @@ router.get("/admin/ordertransport",OrderController.indextransport);
 router.post("/admin/ordertransport/shipping/:id",OrderController.shippinguser);
 router.get("/admin/ordertransport/view/:id",OrderController.viewtransport);
 router.post("/admin/ordertransport/delete/:id",OrderController.deletransport);
+
+//===========statistical===============
+router.get("/admin/statisticsbyday",StatisticalController.byday);
+router.post("/admin/statisticsbyday",StatisticalController.searchbyday);
+router.get("/admin/statisticsbytime",StatisticalController.bytime);
+router.post("/admin/statisticsbytime",StatisticalController.searchbytime);
+
 
 
 
