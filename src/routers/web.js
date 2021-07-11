@@ -101,23 +101,23 @@ router.get("/logout", AuthMiddleware.checkUser, AuthContoller.logout);
 
 
 //===========Order===============
-router.get("/admin/orders",OrderController.index);
-router.get("/admin/orders/edit/:id",OrderController.edit);
-router.post("/admin/orders/update/:id",OrderController.update);
-router.post("/admin/orders/delete/:id",OrderController.dele);
-router.post("/admin/orders/shipping/:id",OrderController.shipping);
+router.get("/admin/orders",AuthMiddleware.checkAdmin,OrderController.index);
+router.get("/admin/orders/edit/:id",AuthMiddleware.checkAdmin,OrderController.edit);
+router.post("/admin/orders/update/:id",AuthMiddleware.checkAdmin,OrderController.update);
+router.post("/admin/orders/delete/:id",AuthMiddleware.checkAdmin,OrderController.dele);
+router.post("/admin/orders/shipping/:id",AuthMiddleware.checkAdmin,OrderController.shipping);
 
-router.get("/admin/ordertransport",OrderController.indextransport);
-router.post("/admin/ordertransport/shipping/:id",OrderController.shippinguser);
-router.get("/admin/ordertransport/view/:id",OrderController.viewtransport);
-router.post("/admin/ordertransport/delete/:id",OrderController.deletransport);
+router.get("/admin/ordertransport",AuthMiddleware.checkAdmin,OrderController.indextransport);
+router.post("/admin/ordertransport/shipping/:id",AuthMiddleware.checkAdmin,OrderController.shippinguser);
+router.get("/admin/ordertransport/view/:id",AuthMiddleware.checkAdmin,OrderController.viewtransport);
+router.post("/admin/ordertransport/delete/:id",AuthMiddleware.checkAdmin,OrderController.deletransport);
 
 //===========statistical===============
-router.get("/admin/statisticsbyday",StatisticalController.byday);
-router.post("/admin/statisticsbyday",StatisticalController.searchbyday);
-router.get("/admin/statisticsbytime",StatisticalController.bytime);
-router.post("/admin/statisticsbytime1",StatisticalController.searchbytime1);
-router.post("/admin/statisticsbytime2",StatisticalController.searchbytime2);
+router.get("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.byday);
+router.post("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.searchbyday);
+router.get("/admin/statisticsbytime",AuthMiddleware.checkAdmin,StatisticalController.bytime);
+router.post("/admin/statisticsbytime1",AuthMiddleware.checkAdmin,StatisticalController.searchbytime1);
+router.post("/admin/statisticsbytime2",AuthMiddleware.checkAdmin,StatisticalController.searchbytime2);
 
 
 

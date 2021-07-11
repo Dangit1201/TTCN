@@ -45,11 +45,11 @@
                                 </div>                       
                                 <div class="form-group">
                                     <label>Mật khẩu</label>
-                                    <input name="pass" required type="password"  class="form-control">
+                                    <input pattern="^[a-zA-Z0-9]+$" name="pass" required type="password"  class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Số điện thoại</label>
-                                    <input name="phone" required type="text"  class="form-control">
+                                    <input name="phone" required type="text"  class="form-control" pattern="[0-9]{10}">
                                 </div>
                                 <div class="form-group">
                                     <label>Địa chỉ</label>
