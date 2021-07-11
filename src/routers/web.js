@@ -116,7 +116,9 @@ router.post("/admin/ordertransport/delete/:id",OrderController.deletransport);
 router.get("/admin/statisticsbyday",StatisticalController.byday);
 router.post("/admin/statisticsbyday",StatisticalController.searchbyday);
 router.get("/admin/statisticsbytime",StatisticalController.bytime);
-router.post("/admin/statisticsbytime",StatisticalController.searchbytime);
+router.post("/admin/statisticsbytime1",StatisticalController.searchbytime1);
+router.post("/admin/statisticsbytime2",StatisticalController.searchbytime2);
+
 
 
 

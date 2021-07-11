@@ -20,6 +20,7 @@
     "mongoose": "^5.12.13",
     "multer": "^1.4.2",
     "nodemailer": "^6.6.2",
+    "object-fields": "^3.0.0",
     "sequelize": "^6.6.2",
     "slug": "^5.0.1",
     "update-notifier": "^5.1.0"

@@ -58,6 +58,7 @@
 							<th>Tên khách hàng</th>
 							<th>Số điện thoại</th>
                             <th>Địa chỉ</th>
+                            <th>Ngày mua</th>
 							<th>Tổng sản phẩm</th>
 							<th>Tổng tiền</th>
 						</tr>
@@ -70,6 +71,7 @@
                                 <td><%=searchorders[x].full_name%></td>
                                 <td><%=searchorders[x].phone%></td>
                                 <td><%=searchorders[x].address%></td>
+                                <td><%=searchorders[x].createdAt.toLocaleDateString('vi-VN')%></td>
                                 <td><%=searchorders[x].totalprd%></td>
                                 <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(searchorders[x].totalprice)%></td>
                             </tr>
@@ -83,24 +85,23 @@
                 <thead>
                     <tr>
                         <th>TT</th>
-                        <th>Tên khách hàng</th>
-                        <th>Số điện thoại</th>
-                        <th>Địa chỉ</th>
-                        <th>Tổng sản phẩm</th>
-                        <th>Tổng tiền</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
+                        <th>Tổng số lượng</th>
+                        <th>Giá</th>
                     </tr>
                 </thead> 
                 <tbody >
-                    
+                <% let count3=1 %>
+                <%for(x in allprdsort){%>
                     <tr>
-                        <td>fd</td>
-                        <td>đ</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
+                        <td><%= count3++ %></td>
+                        <td><%=allprdsort[x].name%></td>
+                        <td><img width="50" height="50" src="/static/images/<%=allprdsort[x].img%>" /></td>
+                        <td><%=allprdsort[x].qty%></td>
+                        <td><%=allprdsort[x].price%></td>
                     </tr>
-               
+                    <%}%>
             </tbody>
             </table>
         </div>

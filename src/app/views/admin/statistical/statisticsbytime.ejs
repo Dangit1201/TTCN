@@ -58,6 +58,7 @@
 							<th>Tên khách hàng</th>
 							<th>Số điện thoại</th>
                             <th>Địa chỉ</th>
+                            <th>Ngày mua</th>
 							<th>Tổng sản phẩm</th>
 							<th>Tổng tiền</th>
 						</tr>
@@ -70,6 +71,7 @@
                                 <td><%=searchorders[x].full_name%></td>
                                 <td><%=searchorders[x].phone%></td>
                                 <td><%=searchorders[x].address%></td>
+                                <td><%=searchorders[x].createdAt.toLocaleDateString('vi-VN')%></td>
                                 <td><%=searchorders[x].totalprd%></td>
                                 <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(searchorders[x].totalprice)%></td>
                             </tr>
@@ -162,16 +164,21 @@
 			$('#example').DataTable();
 		} );
         
-       $("#inputdate").change(function(){
-            var data = $(this).val();
-            console.log("du lieu tai client khi nhap:"+data);
+       $("#inputto").change(function(){
+            var from = $('#inputform').val();
+            if(from=="")
+            {
+                from="2000-10-01";
+                console.log("from"+from);
+                var to = $(this).val();
+                console.log("du lieu tai client khi nhap:"+to);
             $.ajax({
                 async:false,
                 type:"POST",
-                url:"/admin/statisticsbyday",
+                url:"/admin/statisticsbytime1",
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"html",
-                data:{data:data},
+                data:{to,from},
                 success:function(response){
                    /*  $("#tabletotal").replaceWith(response); */
                     $("#divpagination").replaceWith(response); 
@@ -184,6 +191,83 @@
                     alert("xay ra loi");
                 }
             });
+            } else{
+                console.log("from"+from);
+                var to = $(this).val();
+                console.log("du lieu tai client khi nhap:"+to);
+                    $.ajax({
+                        async:false,
+                        type:"POST",
+                        url:"/admin/statisticsbytime1",
+                        contentType:"application/x-www-form-urlencoded",
+                        dataType:"html",
+                        data:{to,from},
+                        success:function(response){
+                        /*  $("#tabletotal").replaceWith(response); */
+                            $("#divpagination").replaceWith(response); 
+                            $(document).ready(function() {
+                                $('#example').DataTable();
+                            } );
+                            
+                        },
+                        error:function(xhr,ajaxOptions, thrownError){
+                            alert("xay ra loi");
+                        }
+                    });
+            }
+           
+       });
+
+       $("#inputform").change(function(){
+            var to1 = $('#inputto').val();
+            console.log("from"+to1);
+            if(to1==""){
+                to1="3000-10-01"
+                var from1 = $(this).val();
+                console.log("du lieu tai client khi nhap:"+from1);
+                $.ajax({
+                    async:false,
+                    type:"POST",
+                    url:"/admin/statisticsbytime2",
+                    contentType:"application/x-www-form-urlencoded",
+                    dataType:"html",
+                    data:{to1,from1},
+                    success:function(response){
+                    /*  $("#tabletotal").replaceWith(response); */
+                        $("#divpagination").replaceWith(response); 
+                        $(document).ready(function() {
+                            $('#example').DataTable();
+                        } );
+                        
+                    },
+                    error:function(xhr,ajaxOptions, thrownError){
+                        alert("xay ra loi");
+                    }
+                });
+            } else {
+                var from1 = $(this).val();
+                console.log("du lieu tai client khi nhap:"+from1);
+                $.ajax({
+                    async:false,
+                    type:"POST",
+                    url:"/admin/statisticsbytime2",
+                    contentType:"application/x-www-form-urlencoded",
+                    dataType:"html",
+                    data:{to1,from1},
+                    success:function(response){
+                    /*  $("#tabletotal").replaceWith(response); */
+                        $("#divpagination").replaceWith(response); 
+                        $(document).ready(function() {
+                            $('#example').DataTable();
+                        } );
+                        
+                    },
+                    error:function(xhr,ajaxOptions, thrownError){
+                        alert("xay ra loi");
+                    }
+                });
+            }
+            
        });
 
        
