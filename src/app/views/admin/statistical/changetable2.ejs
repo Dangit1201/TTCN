@@ -11,7 +11,7 @@
                     <% totalorderamount += searchorders[x].totalprice %>
 
                 <%}%>
-                <h4 id="title">Bảng thống kê hóa đơn(<%=today%>) </h4>
+                <h4 id="title">Bảng thống kê hóa đơn(<%=from1%> đến  <%=to1%>)</h4>
                  <p><span class="ptable">Tổng số hóa đơn: </span><%= count2 %> (hóa đơn)</p>
                 <p><span class="ptable">Tổng số sản phẩm: </span><%=totalproduct%> (sản phẩm)</p> 
                 <p><span class="ptable">Tổng số tiền đơn hàng: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalorderamount)%></p> 
@@ -27,7 +27,7 @@
         <thead>
             <tr>
                 <th>TT</th>
-                <th>Tên khách hàng</th>
+                <th id="user">Tên khách hàng</th>
                 <th>Số điện thoại</th>
                 <th>Địa chỉ</th>
                 <th>Ngày mua</th>
@@ -53,7 +53,7 @@
     </table>
 </div>
 <div id="pstatistical" class="col-lg-12">
-    <h4  id="hstatistical">Thống kê sản phẩm bán chạy trong ngày <%=today%></h4>
+    <h4  id="hstatistical">Thống kê sản phẩm bán chạy từ ngày <%=from1%> đến ngày <%=to1%></h4>
 </div>
 <div id="tableprd2" class="col-lg-12">
 <table id="table2" class="col-lg-12 table table-striped table-bordered">

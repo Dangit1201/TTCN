@@ -27,85 +27,87 @@
             
         </div><!--/.row-->
         <div id="divpagination" class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div id="tabletotal" class="col-md-12">
-                            
-                            <%for(x in searchorders){%>
-                                <% count2++ %>
-                                <% totalproduct += searchorders[x].totalprd %>
-                                <% totalprofit += (searchorders[x].totalprice -searchorders[x].totalimportprice) %>
-                                <% totalorderamount += searchorders[x].totalprice %>
+            <div id="col12" class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="tabletotal" class="col-md-12">
+                        
+                        <%for(x in searchorders){%>
+                            <% count2++ %>
+                            <% totalproduct += searchorders[x].totalprd %>
+                            <% totalprofit += (searchorders[x].totalprice -searchorders[x].totalimportprice) %>
+                            <% totalorderamount += searchorders[x].totalprice %>
 
-                            <%}%>
-                            <p id="title">Bảng thống kê </p>
-                         	<p><span class="ptable">Tổng số hóa đơn: </span><%= count2 %> (hóa đơn)</p>
-							<p><span class="ptable">Tổng số sản phẩm: </span><%=totalproduct%> (sản phẩm)</p> 
-							<p><span class="ptable">Tổng số tiền đơn hàng: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalorderamount)%></p> 
-							<p><span class="ptable">Tổng số tiền lời: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalprofit)%></p> 
-                            
-                            </div>
+                        <%}%>
+                        <h4 id="title">Bảng thống kê hóa đơn(<%=from1%> đến  <%=to1%>)</h4>
+                         <p><span class="ptable">Tổng số hóa đơn: </span><%= count2 %> (hóa đơn)</p>
+                        <p><span class="ptable">Tổng số sản phẩm: </span><%=totalproduct%> (sản phẩm)</p> 
+                        <p><span class="ptable">Tổng số tiền đơn hàng: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalorderamount)%></p> 
+                        <p><span class="ptable">Tổng số tiền lời: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalprofit)%></p> 
+                        
                         </div>
                     </div>
-                </div><!-- /.col-->
-				
-			<div id="totaltableprd" class="col-lg-12">
-				<table id="example" class="col-lg-12 table table-striped table-bordered" >
-					<thead>
-						<tr>
-							<th>TT</th>
-							<th>Tên khách hàng</th>
-							<th>Số điện thoại</th>
-                            <th>Địa chỉ</th>
-                            <th>Ngày mua</th>
-							<th>Tổng sản phẩm</th>
-							<th>Tổng tiền</th>
-						</tr>
-					</thead>
-					<tbody >
-                            <% let count=1 %>
-                            <%for(x in searchorders){%>
-                            <tr>
-                                <td><%= count++ %></td>
-                                <td><%=searchorders[x].full_name%></td>
-                                <td><%=searchorders[x].phone%></td>
-                                <td><%=searchorders[x].address%></td>
-                                <td><%=searchorders[x].createdAt.toLocaleDateString('vi-VN')%></td>
-                                <td><%=searchorders[x].totalprd%></td>
-                                <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(searchorders[x].totalprice)%></td>
-                            </tr>
-                        <%}%>
-					</tbody>
-					
-				</table>
-			</div>
-        <div id="table2" class="col-lg-12">
-            <table class="col-lg-12 table table-striped table-bordered">
+                </div>
+            </div><!-- /.col-->
+            
+        <div id="totaltableprd" class="col-lg-12">
+            <table id="example" class="col-lg-12 table table-striped table-bordered" >
                 <thead>
                     <tr>
                         <th>TT</th>
-                        <th>Tên khách hàng</th>
+                        <th id="user">Tên khách hàng</th>
                         <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
+                        <th>Ngày mua</th>
                         <th>Tổng sản phẩm</th>
                         <th>Tổng tiền</th>
                     </tr>
-                </thead> 
+                </thead>
                 <tbody >
-                    
-                    <tr>
-                        <td>fd</td>
-                        <td>đ</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
-                        <td>d</td>
-                    </tr>
-               
-            </tbody>
+                        <% let count=1 %>
+                        <%for(x in searchorders){%>
+                        <tr>
+                            <td><%= count++ %></td>
+                            <td><%=searchorders[x].full_name%></td>
+                            <td><%=searchorders[x].phone%></td>
+                            <td><%=searchorders[x].address%></td>
+                            <td><%=searchorders[x].createdAt.toLocaleDateString('vi-VN')%></td>
+                            <td><%=searchorders[x].totalprd%></td>
+                            <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(searchorders[x].totalprice)%></td>
+                        </tr>
+                    <%}%>
+                </tbody>
+                
             </table>
         </div>
+        <div id="pstatistical" class="col-lg-12">
+            <h4  id="hstatistical">Thống kê sản phẩm bán chạy từ ngày <%=from1%> đến ngày <%=to1%></h4>
+        </div>
+    <div id="tableprd2" class="col-lg-12">
+        <table id="table2" class="col-lg-12 table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>TT</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Ảnh</th>
+                    <th>Tổng số lượng</th>
+                    <th>Giá</th>
+                </tr>
+            </thead> 
+            <tbody >
+            <% let count3=1 %>
+            <%for(x in allprdsort){%>
+                <tr>
+                    <td><%= count3++ %></td>
+                    <td><%=allprdsort[x].name%></td>
+                    <td><img width="50" height="50" src="/static/images/<%=allprdsort[x].img%>" /></td>
+                    <td><%=allprdsort[x].qty%></td>
+                    <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(allprdsort[x].price)%></td>
+                </tr>
+                <%}%>
+            </tbody>
+        </table>
+    </div>
 
         </div><!-- /.row -->
 			<%- include('../layout/footer.ejs')%>
@@ -138,31 +140,58 @@
             margin-bottom: 2px;
             color: tomato;
         }
-        #example_filter{
+        .dataTables_filter{
             margin-top: 12px;
             margin-right: 22px;
         }
-        #example_info{
+        .dataTables_info{
             margin-left: 12px;
         }
-        #example_paginate{
-            margin-right: 22px;
+        
+        .dataTables_paginate .paging_simple_numbers{
+            margin-right: 1000000px;
         }
-        #example_length{
+        .dataTables_length{
             margin-top: 12px;
             margin-left: 12px;
         }
         #table2{
             margin-top: 20px;
         }
+        #pstatistical{
+            background-color: white;
+            margin-top: 10px;
+            margin-left: 15px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+           
+        }
+        #hstatistical{
+            color: tomato;
+            font-weight: bold;
+        }
+        #tableprd2{
+            background-color: white;
+            margin-left: 15px;
+            margin-bottom: 20px;
+            padding-right: 1px;
+        }
+        #col12{
+            padding-right: 10px;
+        }
+        #table2{
+            margin-top: 20px;
+        }
+        #user{
+            width: 150px;
+        }
 	</style>
     
 	<script>
     document.addEventListener('DOMContentLoaded',function(){
      
-        $(document).ready(function() {
-			$('#example').DataTable();
-		} );
+        
         
        $("#inputto").change(function(){
             var from = $('#inputform').val();
@@ -183,8 +212,27 @@
                    /*  $("#tabletotal").replaceWith(response); */
                     $("#divpagination").replaceWith(response); 
                     $(document).ready(function() {
-                        $('#example').DataTable();
-                    } );
+                    $('#example').DataTable({
+                            "language": {
+                            "lengthMenu": "Hiện _MENU_ đơn hàng",
+                            "zeroRecords": "Không tìm kiếm ",
+                            "info": "Trang _PAGE_ của _PAGES_",
+                            "infoEmpty": "Không có đơn hàng nào",
+                            "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                        }
+                    });
+                } );
+                $(document).ready(function() {
+                    $('#table2').DataTable({
+                            "language": {
+                            "lengthMenu": "Hiện _MENU_ sản phẩm",
+                            "zeroRecords": "Không tìm kiếm ",
+                            "info": "Trang _PAGE_ của _PAGES_",
+                            "infoEmpty": "Không có sản phẩm nào",
+                            "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
+                        }
+                    });
+                } );
                     
                 },
                 error:function(xhr,ajaxOptions, thrownError){
@@ -206,7 +254,26 @@
                         /*  $("#tabletotal").replaceWith(response); */
                             $("#divpagination").replaceWith(response); 
                             $(document).ready(function() {
-                                $('#example').DataTable();
+                                $('#example').DataTable({
+                                        "language": {
+                                        "lengthMenu": "Hiện _MENU_ đơn hàng",
+                                        "zeroRecords": "Không tìm kiếm ",
+                                        "info": "Trang _PAGE_ của _PAGES_",
+                                        "infoEmpty": "Không có đơn hàng nào",
+                                        "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                                    }
+                                });
+                            } );
+                            $(document).ready(function() {
+                                $('#table2').DataTable({
+                                        "language": {
+                                        "lengthMenu": "Hiện _MENU_ sản phẩm",
+                                        "zeroRecords": "Không tìm kiếm ",
+                                        "info": "Trang _PAGE_ của _PAGES_",
+                                        "infoEmpty": "Không có sản phẩm nào",
+                                        "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
+                                    }
+                                });
                             } );
                             
                         },
@@ -236,7 +303,29 @@
                     /*  $("#tabletotal").replaceWith(response); */
                         $("#divpagination").replaceWith(response); 
                         $(document).ready(function() {
-                            $('#example').DataTable();
+                            $(document).ready(function() {
+                            $('#example').DataTable({
+                                    "language": {
+                                    "lengthMenu": "Hiện _MENU_ đơn hàng",
+                                    "zeroRecords": "Không tìm kiếm ",
+                                    "info": "Trang _PAGE_ của _PAGES_",
+                                    "infoEmpty": "Không có đơn hàng nào",
+                                    "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                                }
+                            });
+                        } );
+                        $(document).ready(function() {
+                            $('#table2').DataTable({
+                                    "language": {
+                                    "lengthMenu": "Hiện _MENU_ sản phẩm",
+                                    "zeroRecords": "Không tìm kiếm ",
+                                    "info": "Trang _PAGE_ của _PAGES_",
+                                    "infoEmpty": "Không có sản phẩm nào",
+                                    "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
+                                }
+                            });
+                        } );
+
                         } );
                         
                     },
@@ -258,7 +347,27 @@
                     /*  $("#tabletotal").replaceWith(response); */
                         $("#divpagination").replaceWith(response); 
                         $(document).ready(function() {
-                            $('#example').DataTable();
+                            $('#example').DataTable({
+                                    "language": {
+                                    "lengthMenu": "Hiện _MENU_ đơn hàng",
+                                    "zeroRecords": "Không tìm kiếm ",
+                                    "info": "Trang _PAGE_ của _PAGES_",
+                                    "infoEmpty": "Không có đơn hàng nào",
+                                    "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                                }
+                            });
+                        } );
+
+                        $(document).ready(function() {
+                            $('#table2').DataTable({
+                                    "language": {
+                                    "lengthMenu": "Hiện _MENU_ sản phẩm",
+                                    "zeroRecords": "Không tìm kiếm ",
+                                    "info": "Trang _PAGE_ của _PAGES_",
+                                    "infoEmpty": "Không có sản phẩm nào",
+                                    "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
+                                }
+                            });
                         } );
                         
                     },
@@ -282,6 +391,18 @@
                     "info": "Trang _PAGE_ của _PAGES_",
                     "infoEmpty": "Không có đơn hàng nào",
                     "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                }
+            });
+        } );
+
+        $(document).ready(function() {
+            $('#table2').DataTable({
+                    "language": {
+                    "lengthMenu": "Hiện _MENU_ sản phẩm",
+                    "zeroRecords": "Không tìm kiếm ",
+                    "info": "Trang _PAGE_ của _PAGES_",
+                    "infoEmpty": "Không có sản phẩm nào",
+                    "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
                 }
             });
         } );

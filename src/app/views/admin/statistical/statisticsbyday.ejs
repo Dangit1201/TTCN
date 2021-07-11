@@ -27,7 +27,7 @@
             
         </div><!--/.row-->
         <div id="divpagination" class="row">
-                <div class="col-lg-12">
+                <div id="col12" class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div id="tabletotal" class="col-md-12">
@@ -39,7 +39,7 @@
                                 <% totalorderamount += searchorders[x].totalprice %>
 
                             <%}%>
-                            <p id="title">Bảng thống kê </p>
+                            <h4 id="title">Bảng thống kê hóa đơn(<%=today%>)</h4>
                          	<p><span class="ptable">Tổng số hóa đơn: </span><%= count2 %> (hóa đơn)</p>
 							<p><span class="ptable">Tổng số sản phẩm: </span><%=totalproduct%> (sản phẩm)</p> 
 							<p><span class="ptable">Tổng số tiền đơn hàng: </span><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalorderamount)%></p> 
@@ -80,8 +80,11 @@
 					
 				</table>
 			</div>
-        <div id="table2" class="col-lg-12">
-            <table class="col-lg-12 table table-striped table-bordered">
+            <div id="pstatistical" class="col-lg-12">
+                <h4  id="hstatistical">Thống kê sản phẩm bán chạy trong ngày <%=today%></h4>
+            </div>
+        <div id="tableprd2" class="col-lg-12">
+            <table id="table2" class="col-lg-12 table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>TT</th>
@@ -99,10 +102,10 @@
                         <td><%=allprdsort[x].name%></td>
                         <td><img width="50" height="50" src="/static/images/<%=allprdsort[x].img%>" /></td>
                         <td><%=allprdsort[x].qty%></td>
-                        <td><%=allprdsort[x].price%></td>
+                        <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(allprdsort[x].price)%></td>
                     </tr>
                     <%}%>
-            </tbody>
+                </tbody>
             </table>
         </div>
 
@@ -133,35 +136,54 @@
         #title{
             text-align: center;
             font-weight: bold;
-            font-size: medium;
+            font-size: 125%;
             margin-bottom: 2px;
             color: tomato;
         }
-        #example_filter{
+        .dataTables_filter{
             margin-top: 12px;
             margin-right: 22px;
         }
-        #example_info{
+        .dataTables_info{
             margin-left: 12px;
         }
-        #example_paginate{
-            margin-right: 22px;
+        
+        .dataTables_paginate .paging_simple_numbers{
+            margin-right: 1000000px;
         }
-        #example_length{
+        .dataTables_length{
             margin-top: 12px;
             margin-left: 12px;
         }
         #table2{
             margin-top: 20px;
         }
+        #pstatistical{
+            background-color: white;
+            margin-top: 10px;
+            margin-left: 15px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+           
+        }
+        #hstatistical{
+            color: tomato;
+            font-weight: bold;
+        }
+        #tableprd2{
+            background-color: white;
+            margin-left: 15px;
+            margin-bottom: 20px;
+            padding-right: 1px;
+        }
+        #col12{
+            padding-right: 10px;
+        }
 	</style>
     
 	<script>
     document.addEventListener('DOMContentLoaded',function(){
-     
-        $(document).ready(function() {
-			$('#example').DataTable();
-		} );
         
        $("#inputdate").change(function(){
             var data = $(this).val();
@@ -174,10 +196,29 @@
                 dataType:"html",
                 data:{data:data},
                 success:function(response){
-                   /*  $("#tabletotal").replaceWith(response); */
+                   
                     $("#divpagination").replaceWith(response); 
                     $(document).ready(function() {
-                        $('#example').DataTable();
+                        $('#example').DataTable({
+                                "language": {
+                                "lengthMenu": "Hiện _MENU_ đơn hàng",
+                                "zeroRecords": "Không tìm kiếm ",
+                                "info": "Trang _PAGE_ của _PAGES_",
+                                "infoEmpty": "Không có đơn hàng nào",
+                                "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                            }
+                        });
+                    } );
+                    $(document).ready(function() {
+                        $('#table2').DataTable({
+                                "language": {
+                                "lengthMenu": "Hiện _MENU_ sản phẩm",
+                                "zeroRecords": "Không tìm kiếm ",
+                                "info": "Trang _PAGE_ của _PAGES_",
+                                "infoEmpty": "Không có sản phẩm nào",
+                                "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
+                            }
+                        });
                     } );
                     
                 },
@@ -199,6 +240,17 @@
                     "info": "Trang _PAGE_ của _PAGES_",
                     "infoEmpty": "Không có đơn hàng nào",
                     "infoFiltered": "(Lọc từ _MAX_ đơn hàng)"
+                }
+            });
+        } );
+        $(document).ready(function() {
+            $('#table2').DataTable({
+                    "language": {
+                    "lengthMenu": "Hiện _MENU_ sản phẩm",
+                    "zeroRecords": "Không tìm kiếm ",
+                    "info": "Trang _PAGE_ của _PAGES_",
+                    "infoEmpty": "Không có sản phẩm nào",
+                    "infoFiltered": "(Lọc từ _MAX_ sản phẩm)"
                 }
             });
         } );
