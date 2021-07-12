@@ -27,119 +27,105 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                            <a class="nav-link active" id="dashboard-nav" data-toggle="pill" href="#dashboard-tab" role="tab"><i class="fa fa-tachometer-alt"></i>Dashboard</a>
-                            <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>Orders</a>
-                            <a class="nav-link" id="address-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i>address</a>
-                            <a class="nav-link" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="fa fa-user"></i>Account Details</a>
+                            <a class="nav-link active" id="dashboard-nav" data-toggle="pill" href="#dashboard-tab" role="tab"><i class="fa fa-tachometer-alt"></i>Thông tin chung</a>
+                            <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>Các đơn hàng</a>
+                            
+                            <a class="nav-link" id="account-nav" data-toggle="pill" href="#account-tab" role="tab"><i class="fa fa-user"></i>Thay đổi thông tin</a>
                             <a class="nav-link" href="/logout"><i class="fa fa-sign-out-alt"></i>Đăng xuất</a>
                         </div>
                     </div>
                     <div class="col-md-9">
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="dashboard-tab" role="tabpanel" aria-labelledby="dashboard-nav">
-                                <h4>Dashboard</h4>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque.
-                                </p> 
+                                <div class="col-md-12">
+                                    <% if(err){%>
+                                        <div class="alert alert-danger"><%=err%></div>
+                                    <% }%>
+                                    <h4 class="tttitle">Thông tin chung</h4>
+                                    <p><span class="ttuser">Họ và tên: </span><%=user.full_name%></p>
+                                    <p><span class="ttuser">Số điện thoại: </span><%=user.phone%></p>
+                                    <p><span class="ttuser">Địa chỉ: </span><%=user.address%></p>
+                                    <p><span class="ttuser">Email: </span><%=user.email%></p>
+                                    
+                                </div>
                             </div>
                             <div class="tab-pane fade" id="orders-tab" role="tabpanel" aria-labelledby="orders-nav">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered">
+                                    <table  class="table table-bordered">
                                         <thead class="thead-dark">
                                             <tr>
-                                                <th>No</th>
-                                                <th>Product</th>
-                                                <th>Date</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
-                                                <th>Action</th>
+                                                <th>TT</th>
+                                                <th>Mã hóa đơn</th>
+                                                <th>Ngày mua</th>
+                                                <th>Số lượng</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Trạng thái</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <% let count=1 %>
+                                            <% for(let order of orders){%>
                                             <tr>
-                                                <td>1</td>
-                                                <td>Product Name</td>
-                                                <td>01 Jan 2020</td>
-                                                <td>$99</td>
-                                                <td>Approved</td>
+                                                <td><%=count++ %></td>
+                                                <td><%=order.idorder %></td>
+                                                <td><%=order.createdAt.toLocaleDateString('vi-VN') %></td>
+                                                <td><%=order.totalprd %></td>
+                                                <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(order.totalprice) %></td>
+                                                <td><%=order.status %></td>
                                                 <td><button class="btn">View</button></td>
                                             </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Product Name</td>
-                                                <td>01 Jan 2020</td>
-                                                <td>$99</td>
-                                                <td>Approved</td>
-                                                <td><button class="btn">View</button></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Product Name</td>
-                                                <td>01 Jan 2020</td>
-                                                <td>$99</td>
-                                                <td>Approved</td>
-                                                <td><button class="btn">View</button></td>
-                                            </tr>
+                                            <% }%>  
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                            
-                            <div class="tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="address-nav">
-                                <h4>Address</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5>Payment Address</h5>
-                                        <p>123 Payment Street, Los Angeles, CA</p>
-                                        <p>Mobile: 012-345-6789</p>
-                                        <button class="btn">Edit Address</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5>Shipping Address</h5>
-                                        <p>123 Shipping Street, Los Angeles, CA</p>
-                                        <p>Mobile: 012-345-6789</p>
-                                        <button class="btn">Edit Address</button>
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
-                                <h4>Account Details</h4>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input class="form-control" type="text" placeholder="First Name">
+                                <h4 class="tttitle1">Thay đổi thông tin chung</h4>
+                                    <form action="/editif/<%=user._id%>" role="form" method="post">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Họ và Tên:</label>
+                                                <input class="form-control" name="full_name" required type="text" value="<%=user.full_name%>">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Số điện thoại (Nhập 10 số):</label>
+                                                <input class="form-control" name="phone" required type="text" pattern="[0-9]{10}" value="<%=user.phone%>">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Email:</label>
+                                                <input class="form-control" name="email" required type="email" value="<%=user.email%>"readonly>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Địa chỉ:</label>
+                                                <input class="form-control" name="address" required type="text" value="<%=user.address%>">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button  type="submit" class="btn">Thay đổi thông tin</button>
+                                                <br><br>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <h4 class="tttitle1">Thay đổi mật khẩu</h4>
+                                <form action="/editpass/<%=user._id%>" role="form" method="post">
+                                    <div class="row">
+                                        
+                                        <div class="col-md-12">
+                                            <input class="form-control"  name="password" pattern="^[a-zA-Z0-9]+$" required type="password" placeholder="Mật khẩu cũ" minlength="6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" id="password" onkeyup='check();' name="newpass" pattern="^[a-zA-Z0-9]+$" required type="password" placeholder="Mật khẩu mới(ít nhất 6 ký tự)" minlength="6">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" id="confirm_password"  onkeyup='check();' name="new2pass" pattern="^[a-zA-Z0-9]+${6}" required type="password" placeholder="Xác nhận mật khẩu(ít nhất 6 ký tự)" minlength="6"><span id='message'></span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn">Thay đổi</button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <input class="form-control" type="text" placeholder="Last Name">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input class="form-control" type="text" placeholder="Mobile">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input class="form-control" type="text" placeholder="Email">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <input class="form-control" type="text" placeholder="Address">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button class="btn">Update Account</button>
-                                        <br><br>
-                                    </div>
-                                </div>
-                                <h4>Password change</h4>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input class="form-control" type="password" placeholder="Current Password">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input class="form-control" type="text" placeholder="New Password">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input class="form-control" type="text" placeholder="Confirm Password">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button class="btn">Save Changes</button>
-                                    </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -150,5 +136,37 @@
         
         <!-- Footer Start -->
         <%-include("layout/footer")%>
+        <style>
+            .ttuser{
+                color: rgb(5, 90, 40);
+                font-weight: bold;
+                font-size: 120%;
+            }
+            .tttitle{
+                color: rgb(5, 90, 40);
+                font-weight: bold;
+                text-align: center;
+            }
+            .tttitle1{
+                color: rgb(5, 90, 40);
+                font-weight: bold;
+               
+            }
+        </style>
+        
+        <script>
+             
+            var check = function() {
+                if (document.getElementById('password').value ==
+                    document.getElementById('confirm_password').value) {
+                    document.getElementById('message').style.color = 'green';
+                    document.getElementById('message').innerHTML = 'chính xác';
+                } else {
+                    document.getElementById('message').style.color = 'red';
+                    document.getElementById('message').innerHTML = 'chưa chính xác';
+                }
+                }
+        </script>
+        
     </body>
 </html>

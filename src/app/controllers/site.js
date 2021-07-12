@@ -646,6 +646,7 @@ const successcheckout = async (req, res)=>{
     const body = req.body;
     const products = req.session.cart;
     var today = new Date();
+    const iduser = await  UserModel.findOne({email:req.session.email_user,password:req.session.pass_user});
     var totalimportprice =0;
     const idorder = body.email.toLowerCase()+'-'+today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()+'+'+today.getHours() + ":" + today.getMinutes()+":"+ today.getSeconds();
     for(let product of products){
@@ -679,6 +680,7 @@ const successcheckout = async (req, res)=>{
         totalprice:parseInt(body.totalPrice),
         totalimportprice:parseInt(totalimportprice),
         idorder:idorder,
+        iduser:iduser.id,
         }
     await OrderModel(order).save();
     //gui mail
@@ -712,9 +714,7 @@ const successcheckout = async (req, res)=>{
 const contact = (req, res)=>{
     res.render("site/contact");
 }
-const account = (req, res)=>{
-    res.render("site/my-account");
-}
+
 const blogdetail =async (req, res)=>{
     const id = req.params.id;
     const blog = await BlogsModel.findById(id);
@@ -738,6 +738,48 @@ const blog = async (req, res)=>{
         blogs,
     });
 }
+const account = async (req, res)=>{
+    var err=null;
+    const user = await UserModel.findOne({email:req.session.email_user})
+    const orders = await OrderModel.find({iduser:user.id}).sort({createdAt:-1});
+    res.render("site/my-account",{user,
+        orders,
+        err
+    });
+}
+const editif = async (req, res)=>{
+    
+    const id = req.params.id;
+    const body = req.body;
+    const user = {
+      full_name: body.full_name,
+     
+      phone: body.phone,
+      address: body.address,
+      } 
+      await UserModel.updateOne({_id: id}, {$set: user});
+      res.redirect("/account");
+}
+const editpass = async (req, res)=>{
+    const user = await UserModel.findOne({email:req.session.email_user});
+    const orders = await OrderModel.find({iduser:user.id}).sort({createdAt:-1});
+    const id = req.params.id;
+    const body = req.body;
+    if(user.password==body.password&&body.newpass==body.new2pass){
+        const user1 = {
+            password: body.newpass,
+        } 
+        await UserModel.updateOne({_id: id}, {$set: user1});
+        res.redirect("/account");
+    } else{
+        var err ="Mật khẩu cũ chưa chính xác hoặc mật khẩu mới không trùng nhau!";
+        res.render("site/my-account",{user,
+            orders,
+            err
+        });
+    }
+   
+}
 module.exports = {
     home:home,
     category:category,
@@ -758,5 +800,7 @@ module.exports = {
     checkout:checkout,
     successcheckout:successcheckout,
     blogdetail:blogdetail,
+    editif,
+    editpass,
     
 }

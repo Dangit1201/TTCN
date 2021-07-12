@@ -87,6 +87,9 @@ router.get("/checkout",AuthMiddleware.checkUser, SiteContoller.checkout);
 router.post("/checkout", SiteContoller.successcheckout);
 router.get("/blogdetail/:id", SiteContoller.blogdetail);
 
+router.post("/editif/:id", SiteContoller.editif);
+router.post("/editpass/:id", SiteContoller.editpass);
+
 
 
 //===========Login and Register===============

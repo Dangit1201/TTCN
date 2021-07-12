@@ -38,6 +38,10 @@ const orderSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  iduser: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
     // người dùng chỉ được phép nhập giá trị thuộc tập mảng enum
