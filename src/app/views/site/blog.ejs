@@ -30,7 +30,7 @@
                             
                             <div class="col-md-12 bloglink">
                                 <div >
-                                   <a> <img  id="imgleft" class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap" width="200px" height="125px"></a>
+                                   <a href="/blogdetail/<%=blog.id%>"> <img  id="imgleft" class="card-img-top" src="/static/images/<%=blog.thumbnail%>" alt="Card image cap" width="200px" height="125px"></a>
                                     <h5 class="card-title titlecom"><a id="idcontent" href="/blogdetail/<%=blog.id%>"><%=blog.title%></a></h5>
                                     <p class="timepost"><%=blog.nameuser%> &emsp;<%=blog.updatedAt.toLocaleString('vi-VN')%></p>
                                     

@@ -4,10 +4,31 @@ const ProductsModel = require("../models/product");
 
 
 const index = async (req, res) => {
+
+  let sort = req.query.sort;
+
+  if(sort=='receiveorders'){
     const orders = await OrdersModel.find({status:"Tiếp nhận đơn hàng"}).sort({_id:1});
     res.render("admin/order/order",{
         orders:orders,
-  });
+        sort
+    });
+  }else if(sort=='orderconfirmation'){
+    const orders = await OrdersModel.find({status:"Đã xác nhận đơn hàng"}).sort({_id:1});
+    res.render("admin/order/order",{
+        orders:orders,
+        sort
+    });
+  } else{
+    sort = null;
+    const orders = await OrdersModel.find({status:["Tiếp nhận đơn hàng","Đã xác nhận đơn hàng"]}).sort({status:1}).sort({_id:1});
+    res.render("admin/order/order",{
+        orders:orders,
+        sort
+    });
+  }
+
+    
 };
 
 const edit = async (req, res) => {
@@ -51,7 +72,7 @@ const dele = async (req, res) => {
         }
         await OrderdetailsModel.deleteMany({idorder: x.idorder});       
     }
-    await OrdersModel.deleteOne({_id:id});
+    await OrdersModel.updateOne({_id: id}, {$set: {status:"Hủy đơn hàng"}});
     res.redirect("/admin/orders");
 };
 const shipping = async (req,res)=>{
@@ -102,10 +123,14 @@ const deletransport = async (req, res) => {
       }
       await OrderdetailsModel.deleteMany({idorder: x.idorder});       
   }
-  await OrdersModel.deleteOne({_id:id});
+  await OrdersModel.updateOne({_id: id}, {$set: {status:"Hủy đơn hàng"}});
   res.redirect("/admin/ordertransport");
 };
-
+const orderconfirmation = async (req,res)=>{
+  const id = req.params.id;
+  await OrdersModel.updateOne({_id: id}, {$set: {status:"Đã xác nhận đơn hàng"}});
+  res.redirect("/admin/orders");
+};
 
 module.exports = {
   index: index,
@@ -117,4 +142,5 @@ module.exports = {
   shippinguser:shippinguser,
   viewtransport:viewtransport,
   deletransport:deletransport,
+  orderconfirmation:orderconfirmation,
 };

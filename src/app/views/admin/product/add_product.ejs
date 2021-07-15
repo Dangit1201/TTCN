@@ -67,12 +67,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Màu sắc</label>
-                                    <div class="checkbox">
-                                        <label class="while"><input  name="while" type="checkbox" value="on">trắng</label>
-                                        <label class="black"><input  name="black" type="checkbox" value="on">đen</label>
-                                        <label class="yellow"><input  name="yellow" type="checkbox" value="on">vàng</label>
-                                        <label class="blue"><input  name="blue" type="checkbox" value="on">xanh dương</label>
-                                        <label class="red"><input  name="yellow" type="checkbox" value="on">đỏ</label>
+                                    <div class="checkbox options">
+                                        <label class="while"><input  name="while" type="checkbox" value="on" required>trắng</label>
+                                        <label class="black"><input  name="black" type="checkbox" value="on" required>đen</label>
+                                        <label class="yellow"><input  name="yellow" type="checkbox" value="on" required>vàng</label>
+                                        <label class="blue"><input  name="blue" type="checkbox" value="on" required>xanh dương</label>
+                                        <label class="red"><input  name="yellow" type="checkbox" value="on" required>đỏ</label>
                                         
                                     </div>
                                 </div>  
@@ -135,7 +135,7 @@
             margin-right: 7px;
         }
         .while{
-            color: rgba(31, 22, 22, 0.144);
+            color: #FF6F61;
             margin-right: 7px;
         }
         .red{
@@ -154,9 +154,20 @@
     <%- include("../layout/footer")%>
     <script>
         $('#btn-exit').click(function() {
-        window.location.href = '/admin/products';
-        return false;
+            window.location.href = '/admin/products';
+            return false;
         });
+        $(function(){
+            var requiredCheckboxes = $('.options :checkbox[required]');
+            requiredCheckboxes.change(function(){
+                if(requiredCheckboxes.is(':checked')) {
+                    requiredCheckboxes.removeAttr('required');
+                } else {
+                    requiredCheckboxes.attr('required', 'required');
+                }
+            });
+        });
+        
     </script>
 </body>
 

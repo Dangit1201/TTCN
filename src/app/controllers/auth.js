@@ -13,18 +13,22 @@ const postLogin = async (req, res) => {
    * email,password: là tên 2 trường trong collection user
    * lấy ra data và lưu vào user
    */
-  const user = await UserModel.find({ email: email, password: pass, role:"member" });
-  
+  const user = await UserModel.find({ email: email, password: pass });
+  const totalCartItems1 = await req.session.cart.reduce((total, product)=>total + product.qty, 0);
 
   //console.log(user);
 
   if (email === "" || pass === "") {
     error = "Thông tin không được để trống!";
-  } else if (user.length > 0) {
+  } else if (user.length > 0 && totalCartItems1 > 0) {
     req.session.email_user = email;
     req.session.pass_user = pass; 
-    res.redirect("/");
-    }
+    res.redirect("/checkout");
+    } else if (user.length > 0 ) {
+      req.session.email_user = email;
+      req.session.pass_user = pass; 
+      res.redirect("/");
+      }
     else{
       error = "Tài khoản không hợp lệ!";
     }

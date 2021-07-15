@@ -62,19 +62,19 @@
                                             <h4>Màu:</h4>
                                             <div class="btn-group btn-group-sm">
                                                 <% if(product.color_id.while){%>
-                                                    <label class="while"><input checked="checked" name="color" type="radio" value="trắng">trắng</label>
+                                                    <div class="while"><input checked="checked" name="color" type="radio" value="trắng"> trắng</div>
                                                 <% }%>
                                                 <% if(product.color_id.black){%>
-                                                    <label class="black"><input checked="checked" name="color" type="radio" value="đen">đen</label>
+                                                    <div class="black"><input checked="checked" name="color" type="radio" value="đen"> đen</div>
                                                 <% }%>
                                                 <% if(product.color_id.yellow){%>
-                                                    <label class="yellow"><input checked="checked" name="color" type="radio" value="vàng">vàng</label>
+                                                    <div class="yellow"><input checked="checked" name="color" type="radio" value="vàng"> vàng</div>
                                                 <% }%>
                                                 <% if(product.color_id.blue){%>
-                                                    <label class="blue"><input checked="checked" name="color" type="radio" value="xanh">xanh</label>
+                                                    <div class="blue"><input checked="checked" name="color" type="radio" value="xanh"> xanh</div>
                                                 <% }%>
                                                 <% if(product.color_id.red){%>
-                                                    <label class="red"><input checked="checked" name="color" type="radio" value="đỏ">đỏ</label>
+                                                    <div class="red"><input checked="checked" name="color" type="radio" value="đỏ"> đỏ</div>
                                                 <% }%>
                                         
                                             </div> 
@@ -208,7 +208,34 @@
 
                             <div class="row align-items-center product-slider product-slider-3">
                                 <% for(let product of relatedProducts){%>
-                                    <%- include("components/product-item2", {product})%>
+                                    <div id="" class="col-md-4">
+                                        <div class="product-item">
+                                            <div class="product-title">
+                                                <a href="/product-<%=product.slug%>.<%=product._id%>"><%=product.name%></a>
+                                                <div class="ratting">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <div class="product-image">
+                                                <a href="/product-<%=product.slug%>.<%=product._id%>">
+                                                    <img src="/static/images/<%=product.thumbnail%>" alt="Product Image">
+                                                </a>
+                                                <div class="product-action">
+                                                    
+                                                   
+                                                    <!-- <a href="/product-<%=product.slug%>.<%=product._id%>"><i class="fa fa-search"></i></a> -->
+                                                </div>
+                                            </div>
+                                            <div class="product-price">
+                                                <h3><span><%=product.price.toLocaleString('vi-VN')%>đ</span></h3>
+                                                <a class="btn" href="/product-<%=product.slug%>.<%=product._id%>"><i class="fa fa-shopping-cart"></i>Mua ngay</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <% }%>  
                             
                             </div>
@@ -243,24 +270,32 @@
             
             .black{
                 color: black;
+                
                 margin-right: 7px;
                 
             }
             .while{
-                color: rgba(31, 22, 22, 0.144);
+                
+                color: #FF6F61;
+                
                 margin-right: 7px;
+                
             }
             .red{
                 color: red;
+               
                 margin-right: 7px;
+               
             }
             .blue{
                 color: blue;
                 margin-right: 7px;
+               
             }
             .yellow{
-                color: rgb(247, 247, 8);
+                color: rgb(243, 243, 29);
                 margin-right: 7px;
+               
             }
             .rating {
                 display: flex;
@@ -313,6 +348,9 @@
             }
             #motasp{
                 width: 320px;
+            }
+            #div-phone{
+                padding-right: 1px;
             }
             
             

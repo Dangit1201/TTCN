@@ -115,12 +115,17 @@ router.post("/admin/ordertransport/shipping/:id",AuthMiddleware.checkAdmin,Order
 router.get("/admin/ordertransport/view/:id",AuthMiddleware.checkAdmin,OrderController.viewtransport);
 router.post("/admin/ordertransport/delete/:id",AuthMiddleware.checkAdmin,OrderController.deletransport);
 
+router.post("/admin/orders/orderconfirmation/:id",AuthMiddleware.checkAdmin,OrderController.orderconfirmation);
+
+
 //===========statistical===============
 router.get("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.byday);
 router.post("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.searchbyday);
 router.get("/admin/statisticsbytime",AuthMiddleware.checkAdmin,StatisticalController.bytime);
 router.post("/admin/statisticsbytime1",AuthMiddleware.checkAdmin,StatisticalController.searchbytime1);
 router.post("/admin/statisticsbytime2",AuthMiddleware.checkAdmin,StatisticalController.searchbytime2);
+router.get("/admin/statisticsbyprd",StatisticalController.searchbyprd);
+
 
 
 

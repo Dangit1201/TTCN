@@ -15,7 +15,7 @@ const path = require("path");
 const home = async (req, res)=>{
     
     const LatestProducts = await ProductModel.find().sort({_id: -1}).limit(6);
-    const sliders = await AdvertisementsModel.find({typeofadv:"slider"}).sort({_id: -1}).limit(4);
+    const sliders = await AdvertisementsModel.find({typeofadv:"slider"}).sort({_id: -1}).limit(3);
     const FeaturedProducts = await ProductModel.find({
         featured: true,
     }).sort({_id: -1}).limit(6);

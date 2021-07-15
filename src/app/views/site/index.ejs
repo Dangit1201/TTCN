@@ -32,10 +32,10 @@
                         <div class="header-slider normal-slider">
                             <% for(let slider of sliders){%>
                             <div class="header-slider-item">
-                                <img src="/static/images/<%=slider.thumbnail%>" alt="Slider Image" />
+                                <img src="/static/images/<%=slider.thumbnail%>" alt="Slider Image" width="600px" height="400px"/>
                                 <div class="header-slider-caption">
                                     <p><%=slider.content%></p>
-                                    <a class="btn" href="<%=slider.link%>"><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                                    <a class="btn" href="<%=slider.link%>"><i class="fa fa-shopping-cart"></i>Truy cập</a>
                                 </div>
                             </div>
                             <% }%>
@@ -69,7 +69,7 @@
             <div class="container-fluid">
                 <div class="brand-slider">
                     <% for(let x of advertisementsshare){%>
-                    <div class="brand-item"><img src="/static/images/<%=x.thumbnail%>" alt=""></div>
+                    <div class="brand-item"><img src="/static/images/<%=x.thumbnail%>" alt="" width="150" height="80"></div>
                     <% }%>
                 </div>
             </div>

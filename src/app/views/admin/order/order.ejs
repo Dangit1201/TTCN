@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%- include('../layout/head.ejs', {title: "Danh sách đơn hàng chưa sử lý" })%>
+    <%- include('../layout/head.ejs', {title: "Danh sách đơn hàng chưa xử lý" })%>
 
 </head>
 
@@ -23,6 +23,33 @@
 				<h1 class="page-header">Danh sách đơn hàng mới đặt</h1>
 			</div>
 		</div><!--/.row-->
+        <div id="toolbar" class="btn-group">
+            
+            
+
+            <% if(sort==null){%>
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Phân loại đơn hàng
+                    <span class="caret"></span></button>
+            <% }%>
+            <% if(sort=='receiveorders'){%>
+                <button  class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Tiếp nhận đơn hàng
+                    <span class="caret"></span></button>
+            <% }%>
+            <% if(sort=="orderconfirmation"){%>
+                <button  class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Đã xác nhận đơn hàng
+                    <span class="caret"></span></button>
+            <% }%>
+            
+                <ul  class="dropdown-menu">
+                  <li id="target"><a href="/admin/orders">Tất cả</a></li>
+                  <li id="target"><a href="/admin/orders?sort=receiveorders">Tiếp nhận đơn hàng</a></li>
+                  <li id="target"><a href="/admin/orders?sort=orderconfirmation">Đã xác nhận đơn hàng</a></li>
+                </ul>
+           
+
+               
+            
+        </div>
 		
 
 		<div class="row">
@@ -39,7 +66,7 @@
                                 <th>Tên khách hàng</th>
                                 <th>Email</th>
                                 <th>Số điện thoại</th>
-                                <th>Địa chỉ</th>
+                                <th>Trạng thái đơn hàng</th>
                                 <th>Số sản phẩm</th>
                                 <th>Tổng tiền</th>
                                 <th>Hành động</th>
@@ -54,15 +81,24 @@
                                     <td ><%=orders[x].full_name%></td>
                                     <td><%=orders[x].email%></td>
                                     <td ><%=orders[x].phone%></td> 
-                                    <td id="idcontent"><%=orders[x].address%></td>
+                                    <% if(orders[x].status=="Tiếp nhận đơn hàng"){%>
+                                        <td id="idcontent1"><%=orders[x].status%></td>
+                                    <% } else {%>
+                                        <td id="idcontent2"><%=orders[x].status%></td>
+                                    <% }%>
+                                    
                                     <td id="idprd"><%=orders[x].totalprd%></td>
                                     <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(orders[x].totalprice)%></td>
                                     
                                     <td id="idhoatdong"class="form-group">
-                                        <a  href="" class="btn btn-success"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-transport"><i class="	glyphicon glyphicon-send" ></i></a>
-                                        <a href="/admin/orders/edit/<%=orders[x]._id%>" class="btn btn-primary"><i
-                                                class="glyphicon glyphicon-pencil"></i></a>
-                                                <a  href="" class="btn btn-danger"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-trash" ></i></a>
+                                        <% if(orders[x].status=="Tiếp nhận đơn hàng"){%>
+                                            <a  href="" class="btn btn-warning"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#modal-comfim"><i class="	glyphicon glyphicon-ok" ></i></a>
+                                        <% } else {%>
+                                            <a  href="" class="btn btn-success"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-transport"><i class="	glyphicon glyphicon-send" ></i></a>
+                                        <% }%>
+                                       
+                                        <a href="/admin/orders/edit/<%=orders[x]._id%>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                                        <a href="" class="btn btn-danger"  data-id="<%=orders[x].id%>" data-title="<%=orders[x].full_name%>" data-toggle="modal" data-target="#delete-modal-dm"><i class="glyphicon glyphicon-trash" ></i></a>
                                     </td>
                                 </tr>
                                 <%}%>
@@ -84,12 +120,33 @@
                                 </div>
                             
                                 <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                <button  id="btn-delete-form" type="button" class="btn btn-danger">Xóa bỏ</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                                <button  id="btn-delete-form" type="button" class="btn btn-danger">Hủy đơn hàng</button>
                                 </div>
                         </div>
                         </div>
                     </div>
+                    <!-- xac nhan -->
+                    <form name="form-comfim" method="post"></form>
+
+                    <div id="modal-comfim"class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                                <div id="modal-title-name" class="modal-header">
+                                <h5 class="modal-title">Xác nhận đơn hàng cho :<span id="spanproduct1"></span> ?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                            
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                                <button  id="btn-comfim-form" type="button" class="btn btn-success">Xác nhận</button>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+
 
                    <!--  transport -->
                    <form name="updatetransport" method="post"></form>
@@ -134,6 +191,26 @@
         
         btndele.onclick = function(){
             formdele.action='/admin/orders/delete/'+ids;
+            formdele.submit();
+            
+        }
+    </script>
+    <script>
+         document.addEventListener('DOMContentLoaded',function(){
+            
+            $('#modal-comfim').on('show.bs.modal', function (event) {
+              var button = $(event.relatedTarget) 
+              ids = button.data('id') 
+            titles = button.data('title') 
+            let modaltitlename = document.getElementById("spanproduct1");
+            modaltitlename.innerHTML = titles;
+            })
+        });
+        var formdele = document.forms['form-comfim'];
+        var btndele = document.getElementById('btn-comfim-form');
+        
+        btndele.onclick = function(){
+            formdele.action='/admin/orders/orderconfirmation/'+ids;
             formdele.submit();
             
         }
@@ -202,8 +279,14 @@
             color:blue;
             text-transform: uppercase;
         }
-        #idcontent{
+        #idcontent1{
             width: 250px;
+            color: chocolate;
+           /*  height: 70px; */
+        }
+        #idcontent2{
+            width: 250px;
+            color: rgb(19, 114, 19);
            /*  height: 70px; */
         }
         #spanuser{
@@ -221,6 +304,10 @@
         }
         #idhoatdong{
             width: 160px;
+        }
+        #spanproduct1{
+            color:blue;
+            text-transform: uppercase;
         }
         
     </style>

@@ -10,6 +10,8 @@ const byday= async (req,res)=>{
     var totalprofit =0;
     var totalorderamount =0;
     var today = new Date();
+    const abc = new Date(Date.now() - 24*60*60 * 1000);
+    console.log("saas",abc)
     
     const date = today.toLocaleDateString(`fr-CA`).split('/').join('-')
     
@@ -586,11 +588,17 @@ const searchbytime2= async (req,res)=>{
       to1
   });
 }
+const searchbyprd = async (req, res) => {
+
+  const products = await ProductsModel.find({quantity:{ $gte:1 , $lte:5}}).populate({ path: "cat_id" }).sort({"_id": -1});
+  res.render("admin/statistical/statisticsbyprd",{products});
+};
 module.exports = {
     byday: byday,
     bytime:bytime,
     searchbyday:searchbyday,
     searchbytime1:searchbytime1,
     searchbytime2:searchbytime2,
+    searchbyprd:searchbyprd
 
   };

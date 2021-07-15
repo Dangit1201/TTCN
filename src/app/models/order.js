@@ -45,7 +45,7 @@ const orderSchema = mongoose.Schema({
   status: {
     type: String,
     // người dùng chỉ được phép nhập giá trị thuộc tập mảng enum
-    enum: ["Tiếp nhận đơn hàng", "Vận chuyển","Đã hoàn thành đơn hàng"],
+    enum: ["Tiếp nhận đơn hàng","Đã xác nhận đơn hàng", "Vận chuyển","Đã hoàn thành đơn hàng","Hủy đơn hàng"],
     default: "Tiếp nhận đơn hàng",
   },
   totalprice: {
