@@ -9,12 +9,10 @@ const byday= async (req,res)=>{
     var totalproduct =0;
     var totalprofit =0;
     var totalorderamount =0;
-    var today = new Date();
-    const abc = new Date(Date.now() - 24*60*60 * 1000);
-    console.log("saas",abc)
+    var today = new Date()
     
     const date = today.toLocaleDateString(`fr-CA`).split('/').join('-')
-    
+   
     const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:`${date}T00:00:00.000Z` , $lte:`${date}T23:59:59.999Z`}});
     const items = await OrderdetailsModel.find({createdAt:{ $gte:`${date}T00:00:00.000Z` , $lte:`${date}T23:59:59.999Z`}});
     

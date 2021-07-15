@@ -57,7 +57,7 @@ const orderSchema = mongoose.Schema({
     required: true,
   },
 }, {
-    timestamps: true,
+    timestamps: true, 
 });
 
 // Bước 3: Biến lớp user schema thành Model
