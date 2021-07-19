@@ -8,20 +8,20 @@ const index = async (req, res) => {
   let sort = req.query.sort;
 
   if(sort=='receiveorders'){
-    const orders = await OrdersModel.find({status:"Tiếp nhận đơn hàng"}).sort({_id:1});
+    const orders = await OrdersModel.find({status:"Tiếp nhận đơn hàng"}).sort({_id:-1});
     res.render("admin/order/order",{
         orders:orders,
         sort
     });
   }else if(sort=='orderconfirmation'){
-    const orders = await OrdersModel.find({status:"Đã xác nhận đơn hàng"}).sort({_id:1});
+    const orders = await OrdersModel.find({status:"Đã xác nhận đơn hàng"}).sort({_id:-1});
     res.render("admin/order/order",{
         orders:orders,
         sort
     });
   } else{
     sort = null;
-    const orders = await OrdersModel.find({status:["Tiếp nhận đơn hàng","Đã xác nhận đơn hàng"]}).sort({status:1}).sort({_id:1});
+    const orders = await OrdersModel.find({status:["Tiếp nhận đơn hàng","Đã xác nhận đơn hàng"]}).sort({status:1}).sort({_id:-1});
     res.render("admin/order/order",{
         orders:orders,
         sort
@@ -82,7 +82,7 @@ const shipping = async (req,res)=>{
 };
 
 const indextransport = async (req, res) => {
-    const orders = await OrdersModel.find({status:"Vận chuyển"}).sort({_id:1});
+    const orders = await OrdersModel.find({status:"Vận chuyển"}).sort({updatedAt:-1});
     res.render("admin/order/ordertransport",{
         orders:orders,
   });

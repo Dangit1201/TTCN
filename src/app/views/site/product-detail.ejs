@@ -80,7 +80,7 @@
                                             </div> 
                                         </div>
                                         <% if(product.quantity==0){%>
-                                          
+                                          <p id="deleteprd">Hết hàng</p>
                                         <% } else {%>
                                         <div class="action">
                                             <button class="btn" type="submit"><i class="fa fa-shopping-bag"></i>Mua ngay</button>
@@ -208,7 +208,7 @@
 
                             <div class="row align-items-center product-slider product-slider-3">
                                 <% for(let product of relatedProducts){%>
-                                    <div id="" class="col-md-4">
+                                    <div id="div-phone" class="col-md-4">
                                         <div class="product-item">
                                             <div class="product-title">
                                                 <a href="/product-<%=product.slug%>.<%=product._id%>"><%=product.name%></a>
@@ -230,7 +230,7 @@
                                                     <!-- <a href="/product-<%=product.slug%>.<%=product._id%>"><i class="fa fa-search"></i></a> -->
                                                 </div>
                                             </div>
-                                            <div class="product-price">
+                                            <div id="product-price1" class="product-price">
                                                 <h3><span><%=product.price.toLocaleString('vi-VN')%>đ</span></h3>
                                                 <a class="btn" href="/product-<%=product.slug%>.<%=product._id%>"><i class="fa fa-shopping-cart"></i>Mua ngay</a>
                                             </div>
@@ -350,7 +350,17 @@
                 width: 320px;
             }
             #div-phone{
-                padding-right: 1px;
+                padding-left: 10px;
+               
+            }
+            #deleteprd{
+                color: red;
+                font-weight: bold;
+                text-decoration-line:line-through;
+            }
+            .product-item .product-price{
+                padding-left: 15px;
+                padding-right: 15px;
             }
             
             

@@ -39,6 +39,7 @@
                                 <th>Tên khách hàng</th>
                                 <th>Số điện thoại</th>
                                 <th>Địa chỉ</th>
+                                <th>Ngày đặt</th>
                                 <th>Số sản phẩm</th>
                                 <th>Tổng tiền</th>
                                 <th>Hành động</th>
@@ -53,6 +54,7 @@
                                     <td ><%=orders[x].full_name%></td>
                                     <td ><%=orders[x].phone%></td> 
                                     <td id="idcontent"><%=orders[x].address%></td>
+                                    <td id="date"><%=orders[x].updatedAt.toLocaleString('vi-VN')%></td>
                                     <td id="idprd"><%=orders[x].totalprd%></td>
                                     <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(orders[x].totalprice)%></td>
                                     

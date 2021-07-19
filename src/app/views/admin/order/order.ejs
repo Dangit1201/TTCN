@@ -64,8 +64,8 @@
 						    <tr>
                                 <th>TT</th>
                                 <th>Tên khách hàng</th>
-                                <th>Email</th>
                                 <th>Số điện thoại</th>
+                                <th >Ngày đặt</th>
                                 <th>Trạng thái đơn hàng</th>
                                 <th>Số sản phẩm</th>
                                 <th>Tổng tiền</th>
@@ -78,9 +78,10 @@
                                 <%for(x in orders){%>
                                 <tr>
                                     <td><%=count++ %></td>
-                                    <td ><%=orders[x].full_name%></td>
-                                    <td><%=orders[x].email%></td>
+                                    <td id="full_name"><%=orders[x].full_name%></td>
+                                   
                                     <td ><%=orders[x].phone%></td> 
+                                    <td id="date"><%=orders[x].createdAt.toLocaleString('vi-VN')%></td> 
                                     <% if(orders[x].status=="Tiếp nhận đơn hàng"){%>
                                         <td id="idcontent1"><%=orders[x].status%></td>
                                     <% } else {%>
@@ -308,6 +309,12 @@
         #spanproduct1{
             color:blue;
             text-transform: uppercase;
+        }
+        #full_name{
+            width: 200px;
+        }
+        #date{
+            width: 142px;
         }
         
     </style>
