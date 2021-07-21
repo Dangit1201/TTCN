@@ -12,7 +12,7 @@ module.exports = async (req, res, next)=>{
     }
     res.locals.categoriesshare = await CategoryModel.find({status:true}).sort({cout:1});
     res.locals.blogshare = await BlogsModel.find().sort({_id:-1}).limit(5);
-    res.locals.advertisementsshare = await AdvertisementsModel.find({typeofadv:'banner'}).sort({cout:-1}).limit(8);
+    res.locals.advertisementsshare = await AdvertisementsModel.find({typeofadv:'banner'}).sort({_id:-1}).limit(8);
     res.locals.FeaturedProductsshare = await ProductModel.find({
         featured: true,
     }).sort({_id: -1}).limit(6);

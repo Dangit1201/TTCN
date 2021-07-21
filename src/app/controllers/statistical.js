@@ -587,8 +587,7 @@ const searchbytime2= async (req,res)=>{
   });
 }
 const searchbyprd = async (req, res) => {
-
-  const products = await ProductsModel.find({quantity:{ $gte:1 , $lte:5}}).populate({ path: "cat_id" }).sort({"_id": -1});
+  const products = await ProductsModel.find({quantity:{ $gte:1 , $lte:5}}).populate({ path: "cat_id" }).sort({"quantity": 1});
   res.render("admin/statistical/statisticsbyprd",{products});
 };
 module.exports = {

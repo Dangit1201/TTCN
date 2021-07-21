@@ -6,6 +6,7 @@ const UserModel = require("../models/user");
 const index = async (req, res) => {
 
     const blogs = await BlogsModel.find().sort({"_id": -1});
+    console.log(blogs);
     res.render("admin/blog/blog",{blogs});
 };
 const create = async (req, res) => {

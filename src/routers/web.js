@@ -86,6 +86,7 @@ router.post("/update-cart", SiteContoller.updateCart);
 router.get("/checkout",AuthMiddleware.checkUser, SiteContoller.checkout);
 router.post("/checkout", SiteContoller.successcheckout);
 router.get("/blogdetail/:id", SiteContoller.blogdetail);
+router.post("/orderdetail", SiteContoller.orderdetail);//chi tiết sản phẩm
 
 router.post("/editif/:id", SiteContoller.editif);
 router.post("/editpass/:id", SiteContoller.editpass);

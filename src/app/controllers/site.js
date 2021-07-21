@@ -618,7 +618,6 @@ const checkout = async (req, res)=>{
                 } */
             }
             
-
         }
 
         
@@ -780,6 +779,15 @@ const editpass = async (req, res)=>{
     }
    
 }
+const orderdetail= async (req,res)=>{
+    const id = req.body.data;
+    const orderdetail = await OrderdetailsModel.find({idorder:id});
+    const order = await OrderModel.findOne({idorder:id});
+    res.render("site/components/tableprd",{orderdetail,order});
+
+    
+
+}
 module.exports = {
     home:home,
     category:category,
@@ -802,5 +810,6 @@ module.exports = {
     blogdetail:blogdetail,
     editif,
     editpass,
+    orderdetail,
     
 }
