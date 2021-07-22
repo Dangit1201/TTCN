@@ -39,7 +39,13 @@ const orderdetailsSchema = mongoose.Schema({
     idprd: {
         type: String,
         required: true,
-    },   
+    },
+    status: {
+        type: String,
+        // người dùng chỉ được phép nhập giá trị thuộc tập mảng enum
+        enum: ["Mua hàng","Hủy đơn hàng"],
+        default: "Mua hàng",
+      },
 }, {
         timestamps: true,
 });

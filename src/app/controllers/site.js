@@ -67,7 +67,7 @@ const category = async (req, res)=>{
             const limit = 9;
             skip = page * limit - limit;
     
-            console.log('sort48',typeof(sort))
+            
             const total = await ProductModel.find({cat_id:id,price:{ $gte:4000000 , $lte:8000000}}).count();
             
             const totalPage = Math.ceil(total/limit);
@@ -77,7 +77,7 @@ const category = async (req, res)=>{
                                                 .skip(skip)
                                                 .limit(limit)
                                                 .sort({"price": 1});
-            console.log("product.js",products);
+    
             
             res.render("site/product-list", {
                 products:products,
@@ -647,7 +647,7 @@ const successcheckout = async (req, res)=>{
     var today = new Date();
     const iduser = await  UserModel.findOne({email:req.session.email_user,password:req.session.pass_user});
     var totalimportprice =0;
-    const idorder = body.email.toLowerCase()+'-'+today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear()+'+'+today.getHours() + ":" + today.getMinutes()+":"+ today.getSeconds();
+    const idorder = body.email.toLowerCase()+'-'+today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear()+''+today.getHours() + "" + today.getMinutes()+""+ today.getSeconds();
     for(let product of products){
         totalimportprice +=product.qty*product.importprice; 
         if(product.id){
@@ -668,7 +668,6 @@ const successcheckout = async (req, res)=>{
         await OrderdetailsModel(orderdetails).save();
        
     }
-    
     const order = {
         full_name: body.full_name,
         email: body.email.toLowerCase(),
@@ -784,10 +783,29 @@ const orderdetail= async (req,res)=>{
     const orderdetail = await OrderdetailsModel.find({idorder:id});
     const order = await OrderModel.findOne({idorder:id});
     res.render("site/components/tableprd",{orderdetail,order});
-
-    
-
 }
+const orderdelete= async (req,res)=>{
+    const id = req.params.id;
+    const order = await OrderModel.findOne({idorder:id});
+    
+    const orderdetails = await OrderdetailsModel.find({idorder:order.idorder});
+        /* console.log(orderdetails); */
+    for(let y of orderdetails){
+            /* console.log(y.idprd); */
+            /* console.log(y.qty); */
+            const product = await ProductModel.findById(y.idprd);
+        /*  console.log(product);
+            console.log(product.quantity); */
+            
+            let quantity = parseInt(product.quantity) + parseInt(y.qty);
+            await ProductModel.updateOne({_id:y.idprd}, {$set: {quantity:quantity}});
+    }
+    await OrderdetailsModel.updateMany({idorder:order.idorder}, {$set: {status:"Hủy đơn hàng"}});       
+    await OrderModel.updateOne({idorder: id}, {$set: {status:"Hủy đơn hàng"}});
+    res.redirect("/account");
+}
+
+
 module.exports = {
     home:home,
     category:category,
@@ -811,5 +829,6 @@ module.exports = {
     editif,
     editpass,
     orderdetail,
+    orderdelete,
     
 }

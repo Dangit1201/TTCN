@@ -70,7 +70,7 @@ const dele = async (req, res) => {
             let quantity = parseInt(product.quantity) + parseInt(y.qty);
             await ProductsModel.updateOne({_id:y.idprd}, {$set: {quantity:quantity}});
         }
-        await OrderdetailsModel.deleteMany({idorder: x.idorder});       
+        await OrderdetailsModel.updateMany({idorder: x.idorder}, {$set: {status:"Hủy đơn hàng"}});       
     }
     await OrdersModel.updateOne({_id: id}, {$set: {status:"Hủy đơn hàng"}});
     res.redirect("/admin/orders");
@@ -96,9 +96,6 @@ const viewtransport = async (req, res) => {
   const id = req.params.id;
   const order = await OrdersModel.findById(id);
   const orderdetails = await OrderdetailsModel.find({idorder:order.idorder});
-
- 
-  
   res.render("admin/order/ordertransportdetail",{
     order,
     orderdetails,
@@ -121,7 +118,7 @@ const deletransport = async (req, res) => {
           let quantity = parseInt(product.quantity) + parseInt(y.qty);
           await ProductsModel.updateOne({_id:y.idprd}, {$set: {quantity:quantity}});
       }
-      await OrderdetailsModel.deleteMany({idorder: x.idorder});       
+      await OrderdetailsModel.updateMany({idorder:x.idorder}, {$set: {status:"Hủy đơn hàng"}});       
   }
   await OrdersModel.updateOne({_id: id}, {$set: {status:"Hủy đơn hàng"}});
   res.redirect("/admin/ordertransport");

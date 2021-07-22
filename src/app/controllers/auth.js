@@ -7,7 +7,7 @@ const Login = (req, res) => {
 const postLogin = async (req, res) => {
   const email = req.body.email.toLowerCase();
   const pass = req.body.pass;
-  let error;
+  var error;
   
   /**
    * email,password: là tên 2 trường trong collection user
@@ -18,9 +18,7 @@ const postLogin = async (req, res) => {
 
   //console.log(user);
 
-  if (email === "" || pass === "") {
-    error = "Thông tin không được để trống!";
-  } else if (user.length > 0 && totalCartItems1 > 0) {
+   if (user.length > 0 && totalCartItems1 > 0) {
     req.session.email_user = email;
     req.session.pass_user = pass; 
     res.redirect("/checkout");
@@ -81,9 +79,7 @@ const adminPostLogin = async (req, res) => {
 
   //console.log(user);
 
-  if (email === "" || pass === "") {
-    error = "Thông tin không được để trống!";
-  } else if(roleadmin.length>0){
+   if(roleadmin.length>0){
     // khoi tao session mail, pass
     req.session.email_admin = email;
     req.session.pass_admin = pass; 

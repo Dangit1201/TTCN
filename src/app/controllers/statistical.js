@@ -2,6 +2,7 @@ const OrdersModel = require("../models/order");
 const OrderdetailsModel = require("../models/orderdetails");
 const ProductsModel = require("../models/product");
 const objectFields = require('object-fields');
+const moment = require("moment");
 
 const byday= async (req,res)=>{
     var totalbill =0;
@@ -9,12 +10,13 @@ const byday= async (req,res)=>{
     var totalproduct =0;
     var totalprofit =0;
     var totalorderamount =0;
-    var today = new Date()
+    var today = moment().startOf('day');
     
-    const date = today.toLocaleDateString(`fr-CA`).split('/').join('-')
-   
-    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:`${date}T00:00:00.000Z` , $lte:`${date}T23:59:59.999Z`}});
-    const items = await OrderdetailsModel.find({createdAt:{ $gte:`${date}T00:00:00.000Z` , $lte:`${date}T23:59:59.999Z`}});
+    /* const date = today.toLocaleDateString('fr-CA').split('/').join('-');
+    console.log("date",date); */
+  
+    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:today.toDate() , $lte:moment(today).endOf('day').toDate() } });
+    const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:today.toDate() , $lte:moment(today).endOf('day').toDate() }});
     
     var a = items.map(function(item){
       return {price : item["price"],qty : item["qty"], idprd : item["idprd"], img : item["img"], name : item["name"]}
@@ -70,7 +72,7 @@ const byday= async (req,res)=>{
     // Sort by qty
     const allprdsort= results.sort(sort_by('qty', true, parseInt));
     /* console.log(results.sort(sort_by('qty', true, parseInt))); */ 
-    today = today.toLocaleDateString('vi-VN');
+    today = today.toDate().toLocaleDateString('vi-VN');
     res.render("admin/statistical/statisticsbyday",
     {
         searchorders,
@@ -86,13 +88,14 @@ const byday= async (req,res)=>{
 }
 const searchbyday= async (req,res)=>{
     const date = req.body.data || "";
+    var today= `${date}T00:00:00.000Z`
     var totalbill =0;
     var count2 =1;
     var totalproduct =0;
     var totalprofit =0;
     var totalorderamount =0;
-    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:`${date}T00:00:00.000Z` , $lte:`${date}T23:59:59.999Z`}});
-    const items = await OrderdetailsModel.find({createdAt:{ $gte:`${date}T00:00:00.000Z` , $lte:`${date}T23:59:59.999Z`}});
+    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:today , $lte:moment(today).endOf('day') }});
+    const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:today , $lte:moment(today).endOf('day').toDate() }});
     
    
     var a = items.map(function(item){
@@ -295,13 +298,13 @@ const bytime= async (req,res)=>{
       dateObj.setMonth(dateObj.getMonth() - numDays);
       return dateObj;
    }
-  var today = new Date(); // Hàm lấy thời gian hôm nay
-  const to = today.toLocaleDateString(`fr-CA`).split('/').join('-');
-  var date = mulMonth(today , 1);
-  const from = date.toLocaleDateString(`fr-CA`).split('/').join('-');
-  const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:`${from}T00:00:00.000Z` , $lte:`${to}T23:59:59.999Z`}});
+ 
+  const to = moment().startOf('day').toDate(); // Hàm lấy thời gian hôm nay
+  const today = moment().startOf('day').toDate();
+  var from = mulMonth(today , 1);
+  const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('day').toDate() }});
 
-  const items = await OrderdetailsModel.find({createdAt:{ $gte:`${from}T00:00:00.000Z` , $lte:`${to}T23:59:59.999Z`}});
+  const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('day').toDate() }});
     
     var a = items.map(function(item){
       return {price : item["price"],qty : item["qty"], idprd : item["idprd"], img : item["img"], name : item["name"]}
@@ -313,19 +316,19 @@ const bytime= async (req,res)=>{
     .map((e, i, final) => final.indexOf(e) === i && i)
     .filter(obj=> a[obj])
     .map(e => a[e]);
-    console.log(b);
+    /* console.log(b); */
 
     //2.trừ đi 2 lần qty so vs qty ban đầu
     var results = b.map(function(item){
       return {idprd: item["idprd"],qty : item["qty"]-2*item["qty"],price : item["price"],img : item["img"], name : item["name"]}
     });
-    console.log(results);
+    /* console.log(results); */
 
      //3.cộng các object ban đầu và thêm vào array ko trùng id
     var valuesA = a.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
     var valuesB = b.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
     var result = a.filter(function(c){ return !valuesB[c.value]}).concat(b.filter(function(c){ return !valuesA[c.value]}));
-    console.log(result);
+    /* console.log(result); */
 
     //4.cộng qty của array 3 vào array 1
     for(let x of result){
@@ -336,7 +339,7 @@ const bytime= async (req,res)=>{
      }
 
     }
-    console.log("ss",results);
+    /* console.log("ss",results); */
     //sx lại array theo qty
     const sort_by = (field, reverse, primer) => {
 
@@ -356,10 +359,10 @@ const bytime= async (req,res)=>{
     }
     // Sort by qty
     const allprdsort = results.sort(sort_by('qty', true, parseInt));
-    console.log(results.sort(sort_by('qty', true, parseInt))); 
+    /* console.log(results.sort(sort_by('qty', true, parseInt)));  */
 
     //covert ngay
-    function changeDateFormat(inputDate){  // expects Y-m-d
+   /*  function changeDateFormat(inputDate){  // expects Y-m-d
       var splitDate = inputDate.split('-');
       if(splitDate.count == 0){
           return null;
@@ -370,11 +373,11 @@ const bytime= async (req,res)=>{
       var day = splitDate[2]; 
   
       return day + '/' + month + '/' + year;
-  }
+  } */
   
-  
-  var from1 = changeDateFormat(from);
-  var to1 = changeDateFormat(to);
+ 
+  var from1 = from.toLocaleDateString('vi-VN').split('/').join('-');
+  var to1 = to.toLocaleDateString('vi-VN').split('/').join('-');
     
   res.render("admin/statistical/statisticsbytime",
   {
@@ -401,8 +404,8 @@ const searchbytime1= async (req,res)=>{
     var totalproduct =0;
     var totalprofit =0;
     var totalorderamount =0;
-    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:`${from}T00:00:00.000Z` , $lte:`${to}T23:59:59.999Z`}});
-    const items = await OrderdetailsModel.find({createdAt:{ $gte:`${from}T00:00:00.000Z` , $lte:`${to}T23:59:59.999Z`}});
+    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:moment(from).startOf('day').toDate(), $lte:moment(to).endOf('day').toDate()}});
+    const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:moment(from).startOf('day').toDate(), $lte:moment(to).endOf('day').toDate()}});
     
     var a = items.map(function(item){
       return {price : item["price"],qty : item["qty"], idprd : item["idprd"], img : item["img"], name : item["name"]}
@@ -414,19 +417,19 @@ const searchbytime1= async (req,res)=>{
     .map((e, i, final) => final.indexOf(e) === i && i)
     .filter(obj=> a[obj])
     .map(e => a[e]);
-    console.log(b);
+    
 
     //2.trừ đi 2 lần qty so vs qty ban đầu
     var results = b.map(function(item){
       return {idprd: item["idprd"],qty : item["qty"]-2*item["qty"],price : item["price"],img : item["img"], name : item["name"]}
     });
-    console.log(results);
+  
 
      //3.cộng các object ban đầu và thêm vào array ko trùng id
     var valuesA = a.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
     var valuesB = b.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
     var result = a.filter(function(c){ return !valuesB[c.value]}).concat(b.filter(function(c){ return !valuesA[c.value]}));
-    console.log(result);
+    
 
     //4.cộng qty của array 3 vào array 1
     for(let x of result){
@@ -437,7 +440,7 @@ const searchbytime1= async (req,res)=>{
      }
 
     }
-    console.log("ss",results);
+    
     //sx lại array theo qty
     const sort_by = (field, reverse, primer) => {
 
@@ -457,7 +460,7 @@ const searchbytime1= async (req,res)=>{
     }
     // Sort by qty
     const allprdsort = results.sort(sort_by('qty', true, parseInt));
-    console.log(results.sort(sort_by('qty', true, parseInt))); 
+     
 
     //covert ngay
     function changeDateFormat(inputDate){  // expects Y-m-d
@@ -499,8 +502,8 @@ const searchbytime2= async (req,res)=>{
   var totalproduct =0;
   var totalprofit =0;
   var totalorderamount =0;
-  const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:`${from}T00:00:00.000Z` , $lte:`${to}T23:59:59.999Z`}});
-  const items = await OrderdetailsModel.find({createdAt:{ $gte:`${from}T00:00:00.000Z` , $lte:`${to}T23:59:59.999Z`}});
+  const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:moment(from).startOf('day').toDate(), $lte:moment(to).endOf('day').toDate()}});
+  const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:moment(from).startOf('day').toDate(), $lte:moment(to).endOf('day').toDate()}});
     
     var a = items.map(function(item){
       return {price : item["price"],qty : item["qty"], idprd : item["idprd"], img : item["img"], name : item["name"]}
@@ -512,19 +515,19 @@ const searchbytime2= async (req,res)=>{
     .map((e, i, final) => final.indexOf(e) === i && i)
     .filter(obj=> a[obj])
     .map(e => a[e]);
-    console.log(b);
+    
 
     //2.trừ đi 2 lần qty so vs qty ban đầu
     var results = b.map(function(item){
       return {idprd: item["idprd"],qty : item["qty"]-2*item["qty"],price : item["price"],img : item["img"], name : item["name"]}
     });
-    console.log(results);
+    
 
      //3.cộng các object ban đầu và thêm vào array ko trùng id
     var valuesA = a.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
     var valuesB = b.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
     var result = a.filter(function(c){ return !valuesB[c.value]}).concat(b.filter(function(c){ return !valuesA[c.value]}));
-    console.log(result);
+    
 
     //4.cộng qty của array 3 vào array 1
     for(let x of result){
@@ -535,7 +538,7 @@ const searchbytime2= async (req,res)=>{
      }
 
     }
-    console.log("ss",results);
+    
     //sx lại array theo qty
     const sort_by = (field, reverse, primer) => {
 
@@ -555,7 +558,7 @@ const searchbytime2= async (req,res)=>{
     }
     // Sort by qty
     const allprdsort = results.sort(sort_by('qty', true, parseInt));
-    console.log(results.sort(sort_by('qty', true, parseInt))); 
+    
     //covert ngay
     function changeDateFormat(inputDate){  // expects Y-m-d
       var splitDate = inputDate.split('-');

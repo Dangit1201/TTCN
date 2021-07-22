@@ -73,9 +73,11 @@
                                                 <td><%=order.totalprd %></td>
                                                 <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(order.totalprice) %></td>
                                                 <td><%=order.status %></td>
-                                                <td><button class="btn" data-id="<%=order.idorder%>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars-fill" viewBox="0 0 16 16">
+                                               
+                                                <td><button class="btn" data-id="<%=order.idorder%>" data-status="<%=order.status%>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-binoculars-fill" viewBox="0 0 16 16">
                                                     <path d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1h-1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4h4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14H1zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14H9zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5V3z"/>
                                                   </svg></button></td>
+                                                 
                                             </tr>
                                             <% }%>  
                                         </tbody>
@@ -83,6 +85,7 @@
                                 </div>
                             </div>
                            
+                        <form name="delete-form-danhmuc" method="post"></form>
                            <!--  model detail -->
                            <div class="modal" id="modalshow" role="dialog">
                             <div class="modal-dialog modal-lg" role="document">
@@ -97,7 +100,8 @@
                                 <div class="modal-body">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" id="closemodal">Close</button>
+                                    
+                                    
                                 </div>
                               </div>
                             </div>
@@ -191,18 +195,59 @@
                 font-weight: bold;
                 text-align: center;
             }
-            
+            #btn-delete-form{
+                color: #FF6F61;
+                background: #ffffff;
+                border: 1px solid #FF6F61;
+                border-radius: 5px;
+            }
+            #btn-delete-form:hover,
+            #btn-delete-form:active
+            #btn-delete-form:focus {
+                color: #ffffff;
+                background: #FF6F61;
+                box-shadow: none;
+            }
             
         </style>
         <script type="text/javascript">
+            
             $(document).ready(function(){
                 $('.btn').click(function(){
                     $('#modalshow').modal('show');
+                    var data = $(this).data('id');
+                    
+                    var status = $(this).data('status');
+                    if(status=="Tiếp nhận đơn hàng" ||status=="Đã xác nhận đơn hàng"){
+                        var $input = $('<input type="submit" class="deletebtn" id="btn-delete-form" value="Hủy đơn hàng"/>');
+                        $input.appendTo($(".modal-footer"));
+
+                        var formdele = document.forms['delete-form-danhmuc'];
+                        var btndele = document.getElementById('btn-delete-form');
+                        btndele.onclick = function(){
+                        formdele.action='/orderdelete/'+data;
+                        formdele.submit();
+                        
+                    }
+                        
+                    } 
+                    
                 })
+                
+                    
+                
+                
             })
             $(document).ready(function(){
                 $('#closemodal').click(function(){
                     $('#modalshow').modal('hide');
+                    $(".deletebtn").remove();
+  
+                })
+                $('.close').click(function(){
+                    $('#modalshow').modal('hide');
+                    $(".deletebtn").remove();
+  
                 })
             })
             var check = function() {
@@ -220,8 +265,9 @@
         <script>
              $(document).ready(function(){
                 $('.btn').click(function(){
-                    var data=$(this).data('id');
-                    console.log('ssssss',data)
+                    var data = $(this).data('id');
+                   
+                    
                     $.ajax({
                         type:"POST",
                         url:"/orderdetail",
@@ -231,8 +277,12 @@
                             $('#modalshow').modal('show');
 
                         },
+                        error:function(xhr,ajaxOptions, thrownError){
+                            alert("xay ra loi");
+                        }
                        
                     })
+                    
                 })
             })
         </script>

@@ -7,7 +7,7 @@ const AdminController = require("../app/controllers/admin");
 const ProductController = require("../app/controllers/product");
 const SiteContoller = require("../app/controllers/site");
 const AuthContoller = require("../app/controllers/auth");
-const UserContoller = require("../app/controllers/user");
+const UserController = require("../app/controllers/user");
 const AdvertisementContoller = require("../app/controllers/advertisement");
 const OrderController = require("../app/controllers/order");
 const BlogController = require("../app/controllers/blog");
@@ -33,12 +33,12 @@ router.post("/admin/categories/delete/:id",AuthMiddleware.checkAdmin,CategoryCon
 router.post("/admin/categories/reorder",AuthMiddleware.checkAdmin,CategoryController.reorder);
 
 //===========User===============
-router.get("/admin/users",AuthMiddleware.checkAdmin,UserContoller.index);
-router.get("/admin/users/create",AuthMiddleware.checkAdmin,UserContoller.create);
-router.post("/admin/users/store",AuthMiddleware.checkAdmin,UserContoller.store);
-router.get("/admin/users/edit/:id",AuthMiddleware.checkAdmin,UserContoller.edit);
-router.post("/admin/users/update/:id",AuthMiddleware.checkAdmin,UserContoller.update);
-router.post("/admin/users/delete/:id",AuthMiddleware.checkAdmin,UserContoller.dele);
+router.get("/admin/users",AuthMiddleware.checkAdmin,UserController.index);
+router.get("/admin/users/create",AuthMiddleware.checkAdmin,UserController.create);
+router.post("/admin/users/store",AuthMiddleware.checkAdmin,UserController.store);
+router.get("/admin/users/edit/:id",AuthMiddleware.checkAdmin,UserController.edit);
+router.post("/admin/users/update/:id",AuthMiddleware.checkAdmin,UserController.update);
+router.post("/admin/users/delete/:id",AuthMiddleware.checkAdmin,UserController.dele);
 /* router.post("/admin/users/search",UserContoller.searchUser);
 router.post("/admin/users/searchpagi",UserContoller.searchUserPagi); */
 
@@ -87,6 +87,7 @@ router.get("/checkout",AuthMiddleware.checkUser, SiteContoller.checkout);
 router.post("/checkout", SiteContoller.successcheckout);
 router.get("/blogdetail/:id", SiteContoller.blogdetail);
 router.post("/orderdetail", SiteContoller.orderdetail);//chi tiết sản phẩm
+router.post("/orderdelete/:id", SiteContoller.orderdelete);//chi tiết sản phẩm
 
 router.post("/editif/:id", SiteContoller.editif);
 router.post("/editpass/:id", SiteContoller.editpass);
@@ -122,14 +123,10 @@ router.post("/admin/orders/orderconfirmation/:id",AuthMiddleware.checkAdmin,Orde
 //===========statistical===============
 router.get("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.byday);
 router.post("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.searchbyday);
-router.get("/admin/statisticsbytime",AuthMiddleware.checkAdmin,StatisticalController.bytime);
-router.post("/admin/statisticsbytime1",AuthMiddleware.checkAdmin,StatisticalController.searchbytime1);
-router.post("/admin/statisticsbytime2",AuthMiddleware.checkAdmin,StatisticalController.searchbytime2);
+router.get("/admin/statisticsbytime",StatisticalController.bytime);
+router.post("/admin/statisticsbytime1",StatisticalController.searchbytime1);
+router.post("/admin/statisticsbytime2",StatisticalController.searchbytime2);
 router.get("/admin/statisticsbyprd",StatisticalController.searchbyprd);
-
-
-
-
 
 
 //===========blog===============
