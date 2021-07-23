@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<%- include('../layout/head.ejs', {title: "Sửa quảng cáo" })%>
+	<%- include('../layout/head.ejs', {title: "Sửa bài viết" })%>
 
 </head>
 
@@ -16,14 +16,14 @@
 		<div class="row">
 			<ol class="breadcrumb">
                 <li><a href="/admin"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
-                <li><a href="">Quản lý quảng cáo</a></li>
-				<li class="active">Sửa quảng cáo</li>
+                <li><a href="/admin/blogs">Quản lý bài viết</a></li>
+				<li class="active">Sửa bài viết</li>
 			</ol>
 		</div><!--/.row-->
 		
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Sửa quảng cáo</h1>
+				<h1 class="page-header">Sửa bài viết</h1>
 			</div>
         </div><!--/.row-->
         <div class="row">
@@ -62,7 +62,7 @@
 			<%- include('../layout/footer.ejs')%>
             <script>
                 $('#btn-exit').click(function() {
-                window.location.href = '/admin/advertisements';
+                window.location.href = '/admin/blogs';
                 return false;
                 });
             </script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <%-include("../layout/head", {title: "Trang Chủ"})%>
+        <%-include("../layout/head", {title: "Quên mật khẩu"})%>
     </head>
 
     <body>
@@ -14,7 +14,7 @@
             <div class="container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-                    <li class="breadcrumb-item active">Đăng ký thành công</li>
+                    <li class="breadcrumb-item active">Lấy lại mật khẩu</li>
                 </ul>
             </div>
         </div>
@@ -31,23 +31,17 @@
                                 
                                 
                                 <div class="col-md-12 text-center">
-                                    <img src="/static/site/img/sussces.jpg" alt="sussces" width="100" height="100" >
+                                    <img src="/static/site/img/11.png" alt="sussces" width="100" height="100" >
                                 </div>
                                 
                                 
                                 <div id="lab"class="col-md-12">
-                                    <label>Bạn đã đăng ký thành công! Vui lòng đăng nhập để thực hiện các chức năng mua hàng nhanh chóng hơn</label>
+                                    <label>Chúng tôi đã gửi cho bạn một email hướng dẫn khởi tạo lại mật khẩu truy cập. Bạn hãy kiểm tra email và làm theo hướng dẫn.</label>
                                 </div>
                                 <hr>
                                 <div id="btn-register" class="col-md-12 text-center">
-                                    <button class="btn">Đăng nhập ngay!</button>
+                                    <button class="btn">Quay lại trang chủ</button>
                                 </div>
-
-                                
-                                
-                               
-                               
-                                
                                
                             </div>
                         </div>
@@ -61,7 +55,7 @@
         
         <style>
             #btn-register{
-                margin-bottom: 15px;
+                margin-bottom: 5px;
             }
             #lab{
                 margin-top: 15px;
@@ -72,7 +66,7 @@
         <%-include("../layout/footer")%>
         <script>
             $('#btn-register').click(function() {
-            window.location.href = '/login';
+            window.location.href = '/';
             return false;
             });
         </script>

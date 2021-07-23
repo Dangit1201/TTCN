@@ -1,4 +1,6 @@
+require('dotenv').config();
 const UserModel = require("../models/user");
+const nodemailer= require("nodemailer");
 
 const Login = (req, res) => {
   res.render("site/login/login", { data: {} });
@@ -102,6 +104,68 @@ const adminlogout = async(req, res) => {
   await req.session.destroy();
   res.redirect("/adminlogin");
 };
+const forgetpass = (req,res)=>{
+  var error;
+  res.render("site/login/forgetpassword",{error});
+}
+const postFoget = async (req,res)=>{
+  var error;
+  const email = req.body.email;
+  const duplicatemail = await UserModel.findOne({email:email});
+  
+  if(duplicatemail)
+  {
+    //step1
+    let transporter = nodemailer.createTransport({
+      service:'gmail',
+      auth:{
+          user:process.env.EMAIL,
+          pass:process.env.PASSWORD
+      }
+    });
+    //step2
+    let mailOptions ={
+      from:'Dangkhoashopdt@gmail.com',
+      to:'dangit1201@gmail.com',
+      subject:'Lấy lại mật khẩu Đăng Khoa Shop',
+      text: `Để đặt lại mật khẩu của bạn, vui lòng nhấp vào liên kết này: http://localhost:3001/reset/${duplicatemail.id}`
+      
+    }
+    //step3
+    transporter.sendMail( mailOptions,function(err,data) {
+      if(err){
+          console.log("error sent",err);
+      } else{
+          console.log("email sent");
+      }
+    });
+    res.render("site/login/forgetsuccess");
+  } else{
+    error="Email không chính xác !";
+    res.render("site/login/forgetpassword",{error});
+  }
+ 
+}
+const resetpass = (req,res)=>{
+  var error;
+  res.render("site/login/reset",{error});
+}
+const resetpass2 = async (req,res)=>{
+  const id = req.params.id;
+  var error;
+  const user = await UserModel.findOne({_id:id});
+  const body = req.body;
+  if(body.newpass==body.new2pass){
+        const user1 = {
+            password: body.newpass,
+        } 
+        await UserModel.updateOne({_id: id}, {$set: user1});
+        res.render("site/login/forgetsuccess2");
+  } else{
+        var error ="Mật khẩu nhập vào không trùng nhau!";
+        res.render("site/login/reset",{error});
+  }
+}
 
 
 module.exports = {
@@ -113,4 +177,8 @@ module.exports = {
     adminPostLogin:adminPostLogin,
     adminlogout:adminlogout,
     logout:logout,
+    forgetpass:forgetpass,
+    postFoget:postFoget,
+    resetpass:resetpass,
+    resetpass2:resetpass2,
 };

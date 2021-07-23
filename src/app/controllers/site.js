@@ -647,7 +647,7 @@ const successcheckout = async (req, res)=>{
     var today = new Date();
     const iduser = await  UserModel.findOne({email:req.session.email_user,password:req.session.pass_user});
     var totalimportprice =0;
-    const idorder = body.email.toLowerCase()+'-'+today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear()+''+today.getHours() + "" + today.getMinutes()+""+ today.getSeconds();
+    const idorder = iduser.id+'-'+today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear()+''+today.getHours() + "" + today.getMinutes()+""+ today.getSeconds();
     for(let product of products){
         totalimportprice +=product.qty*product.importprice; 
         if(product.id){

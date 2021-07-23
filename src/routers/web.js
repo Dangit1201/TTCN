@@ -103,6 +103,10 @@ router.get("/register", AuthContoller.register);
 router.post("/register", AuthContoller.registersuccess);
 router.get("/adminlogout", AuthMiddleware.checkAdmin, AuthContoller.adminlogout);
 router.get("/logout", AuthMiddleware.checkUser, AuthContoller.logout);
+router.get("/forgetpassword", AuthContoller.forgetpass);
+router.post("/forgetpassword", AuthContoller.postFoget);
+router.get("/reset/:id", AuthContoller.resetpass);
+router.post("/reset/:id", AuthContoller.resetpass2);
 
 
 //===========Order===============
