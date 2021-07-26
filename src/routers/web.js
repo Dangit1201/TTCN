@@ -91,7 +91,9 @@ router.post("/orderdelete/:id", SiteContoller.orderdelete);//chi tiết sản ph
 
 router.post("/editif/:id", SiteContoller.editif);
 router.post("/editpass/:id", SiteContoller.editpass);
-
+//vnpay
+router.get("/vnpay_return", SiteContoller.vnpayreturn);
+router.get("/vnpay_ipn", SiteContoller.vnpayipn);
 
 
 //===========Login and Register===============

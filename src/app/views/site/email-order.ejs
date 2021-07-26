@@ -22,21 +22,27 @@
 
 <table border="1" cellspacing="0" cellpadding="10" bordercolor="#305eb3" width="100%">
 	<tr bgcolor="#305eb3">
-    	<td width="70%"><b><font color="#FFFFFF">Sản phẩm</font></b></td>
+    	<td width="50%"><b><font color="#FFFFFF">Sản phẩm</font></b></td>
         <td width="10%"><b><font color="#FFFFFF">Số lượng</font></b></td>
+        <td width="20%"><b><font color="#FFFFFF">Thanh toán</font></b></td>
         <td width="20%"><b><font color="#FFFFFF">Tổng tiền</font></b></td>
     </tr>
     <% for(let product of products){%>
     <% totalPrice += product.qty*product.price%>
     <tr>
        
-    	<td width="70%"><%=product.name%></td>
+    	<td width="50%"><%=product.name%></td>
         <td width="10%"><%=product.qty%></td>
+        <td width="20%"><% if(pay=="0"){%>
+            Thanh toán cod
+        <% } else {%>
+            Thanh toán vnpay
+        <% }%></td>
         <td width="20%"><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(product.qty*product.price)%></td>
     </tr>
     <% }%>
     <tr>
-    	<td colspan="2" width="70%"></td>
+    	<td colspan="3" width="70%"></td>
         <td width="20%"><b><font color="#FF6F61"><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(totalPrice)%></font></b></td>
     </tr>
 </table>

@@ -89,8 +89,14 @@ const indextransport = async (req, res) => {
 };
 const shippinguser = async (req,res)=>{
   const id = req.params.id;
-  await OrdersModel.updateOne({_id: id}, {$set: {status:"Đã hoàn thành đơn hàng"}});
-  res.redirect("/admin/ordertransport");
+  const order = await OrdersModel.findById(id);
+  if(order.payment=="Đã thanh toán online"){
+    await OrdersModel.updateOne({_id: id}, {$set: {status:"Đã hoàn thành đơn hàng"}});
+      res.redirect("/admin/ordertransport");
+  } else{
+      await OrdersModel.updateOne({_id: id}, {$set: {status:"Đã hoàn thành đơn hàng",payment:"Đã thanh toán cod"}});
+      res.redirect("/admin/ordertransport");
+  }
 };
 const viewtransport = async (req, res) => {
   const id = req.params.id;

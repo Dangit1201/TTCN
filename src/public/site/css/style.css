@@ -115,7 +115,22 @@ h2 {
     background: #FF6F61;
     box-shadow: none;
 }
+/* //bnt2 */
+.btn2 {
+    color: #FF6F61;
+    background: #ffffff;
+    border: 1px solid #FF6F61;
+    border-radius: 4px 4px 4px 4px;
+    padding: 8px 8px 8px 8px;
+}
 
+.btn2:hover,
+.btn2:active,
+.btn2:focus {
+    color: #ffffff;
+    background: #FF6F61;
+    box-shadow: none;
+}
 
 /**********************************/
 /******* Normal Slider CSS ********/

@@ -48,6 +48,11 @@ const orderSchema = mongoose.Schema({
     enum: ["Tiếp nhận đơn hàng","Đã xác nhận đơn hàng", "Vận chuyển","Đã hoàn thành đơn hàng","Hủy đơn hàng"],
     default: "Tiếp nhận đơn hàng",
   },
+  payment: {
+    type: String,
+    enum: ["Đã thanh toán online","Chưa thanh toán","Đã thanh toán cod"],
+    default: "Chưa thanh toán",
+  },
   totalprice: {
     type: Number,
     required: true,

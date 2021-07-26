@@ -11,6 +11,10 @@ const transporter = require("../../common/transporter");
 const config = require("config");
 const ejs = require("ejs");
 const path = require("path");
+const dateFormat = require('dateformat');
+const sha256 = require('sha256');
+const querystring = require('qs');
+
 
 const home = async (req, res)=>{
     
@@ -644,71 +648,285 @@ const successcheckout = async (req, res)=>{
 
     const body = req.body;
     const products = req.session.cart;
-    var today = new Date();
-    const iduser = await  UserModel.findOne({email:req.session.email_user,password:req.session.pass_user});
-    var totalimportprice =0;
-    const idorder = iduser.id+'-'+today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear()+''+today.getHours() + "" + today.getMinutes()+""+ today.getSeconds();
-    for(let product of products){
-        totalimportprice +=product.qty*product.importprice; 
-        if(product.id){
-            const productid = await ProductModel.findById(product.id);
-            const quantity = productid.quantity-product.qty;
-            await ProductModel.updateOne({_id:product.id}, {$set: {quantity:quantity}});
-        }    
-        orderdetails ={
-            qty:parseInt(product.qty),
-            price:parseInt(product.price),
-            color:product.color,
-            img:product.img,
-            name:product.name,
-            importprice:parseInt(product.importprice),
-            idorder:idorder,
-            idprd:product.id,
+    if(body.pay==0){
+        var today = new Date();
+        const iduser = await  UserModel.findOne({email:req.session.email_user,password:req.session.pass_user});
+        var totalimportprice =0;
+        const idorder = iduser.id+'-'+today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear()+''+today.getHours() + "" + today.getMinutes()+""+ today.getSeconds();
+        for(let product of products){
+            totalimportprice +=product.qty*product.importprice; 
+            if(product.id){
+                const productid = await ProductModel.findById(product.id);
+                const quantity = productid.quantity-product.qty;
+                await ProductModel.updateOne({_id:product.id}, {$set: {quantity:quantity}});
+            }    
+            orderdetails ={
+                qty:parseInt(product.qty),
+                price:parseInt(product.price),
+                color:product.color,
+                img:product.img,
+                name:product.name,
+                importprice:parseInt(product.importprice),
+                idorder:idorder,
+                idprd:product.id,
+            }
+            await OrderdetailsModel(orderdetails).save();
+        
         }
-        await OrderdetailsModel(orderdetails).save();
+        const order = {
+            full_name: body.full_name,
+            email: body.email.toLowerCase(),
+            phone: body.phone,
+            address: body.address,
+            note:body.note,
+            totalprd:parseInt(body.totalprd),
+            totalprice:parseInt(body.totalPrice),
+            totalimportprice:parseInt(totalimportprice),
+            idorder:idorder,
+            iduser:iduser.id,
+            payment:"Chưa thanh toán",
+            }
+        await OrderModel(order).save();
+        //gui mail
+            // Lấy ra đường dẫn đến thư mục views
+            const viewPath = req.app.get("views");
+            // Compile template EJS sang HTML để gửi mail cho khách hàng
+            const html = await ejs.renderFile(
+                path.join(viewPath, "site/email-order.ejs"),
+                {
+                    full_name: body.full_name,
+                    phone: body.phone,
+                    email: body.email,
+                    address: body.address,
+                    /* url: config.get("app.url"), */
+                    totalPrice: 0,
+                    products,
+                    pay:body.pay,
+                }
+            );
+            // Gửi mail
+            await transporter.sendMail({
+                to: body.email,
+                from: "Đăng Khoa Shop",
+                subject: "Xác nhận đơn hàng từ Đăng Khoa Shop",
+                html,
+            });
+        
+
+        req.session.cart=[];
+        res.redirect("/success"); 
+    } else{
+
+        var ipAddr = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;
+        
+        var tmnCode = config.get("vnpay").vnp_TmnCode;//1
+        var secretKey = config.get("vnpay").vnp_HashSecret;//2
+        var vnpUrl = config.get("vnpay").vnp_Url;//3
+        var returnUrl = config.get("vnpay").vnp_ReturnUrl;//4
+
+        var today = new Date();
+        
+        const iduser = await  UserModel.findOne({email:req.session.email_user,password:req.session.pass_user});
+        var totalimportprice =0;
+        const idorder = iduser.id+'-'+today.getDate()+''+(today.getMonth()+1)+''+today.getFullYear()+''+today.getHours() + "" + today.getMinutes()+""+ today.getSeconds();
+        for(let product of products){
+            totalimportprice +=product.qty*product.importprice; 
+            if(product.id){
+                const productid = await ProductModel.findById(product.id);
+                const quantity = productid.quantity-product.qty;
+                await ProductModel.updateOne({_id:product.id}, {$set: {quantity:quantity}});
+            }    
+            orderdetails ={
+                qty:parseInt(product.qty),
+                price:parseInt(product.price),
+                color:product.color,
+                img:product.img,
+                name:product.name,
+                importprice:parseInt(product.importprice),
+                idorder:idorder,
+                idprd:product.id,
+            }
+            await OrderdetailsModel(orderdetails).save();
+        
+        }
+        const order = {
+            full_name: body.full_name,
+            email: body.email.toLowerCase(),
+            phone: body.phone,
+            address: body.address,
+            note:body.note,
+            totalprd:parseInt(body.totalprd),
+            totalprice:parseInt(body.totalPrice),
+            totalimportprice:parseInt(totalimportprice),
+            idorder:idorder,
+            iduser:iduser.id,
+            payment:"Đã thanh toán online",
+            }
+        await OrderModel(order).save();
+        //gui mail
+            // Lấy ra đường dẫn đến thư mục views
+            const viewPath = req.app.get("views");
+            // Compile template EJS sang HTML để gửi mail cho khách hàng
+            const html = await ejs.renderFile(
+                path.join(viewPath, "site/email-order.ejs"),
+                {
+                    full_name: body.full_name,
+                    phone: body.phone,
+                    email: body.email,
+                    address: body.address,
+                    /* url: config.get("app.url"), */
+                    totalPrice: 0,
+                    products,
+                    pay:body.pay,
+                }
+            );
+            // Gửi mail
+            await transporter.sendMail({
+                to: body.email,
+                from: "Đăng Khoa Shop",
+                subject: "Xác nhận đơn hàng từ Đăng Khoa Shop",
+                html,
+            });
+        
+        var date = new Date();
+
+        var createDate = dateFormat(date, 'yyyymmddHHmmss');
+        var orderId = dateFormat(date, 'HHmmss');
+        var amount = req.body.totalPrice;//5
+        var bankCode = '';//6
+        var orderInfo = idorder;//7
+        var currCode = 'VND';
+        var vnp_Params = {};
+    
+        vnp_Params['vnp_Version'] = '2';
+        vnp_Params['vnp_Command'] = 'pay';
+        vnp_Params['vnp_TmnCode'] = tmnCode;
+        // vnp_Params['vnp_Merchant'] = ''
+        vnp_Params['vnp_Locale'] = 'vn';
+        vnp_Params['vnp_CurrCode'] = currCode;
+        vnp_Params['vnp_TxnRef'] = orderId;
+        vnp_Params['vnp_OrderInfo'] = orderInfo;
+        vnp_Params['vnp_OrderType'] = 'topup';
+        vnp_Params['vnp_Amount'] = amount * 100;
+        vnp_Params['vnp_ReturnUrl'] = returnUrl;
+        vnp_Params['vnp_IpAddr'] = ipAddr;
+        vnp_Params['vnp_CreateDate'] = createDate;
+        if(bankCode !== null && bankCode !== ''){
+            vnp_Params['vnp_BankCode'] = bankCode;
+        }
+
+        vnp_Params = sortObject(vnp_Params);
+
+        var querystring = require('qs');
+        var signData = secretKey + querystring.stringify(vnp_Params, { encode: false });
+
+        var sha256 = require('sha256');
+
+        var secureHash = sha256(signData);
+
+        vnp_Params['vnp_SecureHashType'] =  'SHA256';
+        vnp_Params['vnp_SecureHash'] = secureHash;
+        vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: true });
+
+        //Neu muon dung Redirect thi dong dong ben duoi
+        //res.status(200).json({code: '00', data: vnpUrl})
+        //Neu muon dung Redirect thi mo dong ben duoi va dong dong ben tren
+        res.redirect(vnpUrl);
+    }
+    
+    
+}
+const vnpayreturn= async (req,res,next)=>{
+    var vnp_Params = req.query;
+
+    var secureHash = vnp_Params['vnp_SecureHash'];
+
+    delete vnp_Params['vnp_SecureHash'];
+    delete vnp_Params['vnp_SecureHashType'];
+
+    vnp_Params = sortObject(vnp_Params);
+
+    var tmnCode = config.get("vnpay").vnp_TmnCode;
+    var secretKey = config.get("vnpay").vnp_HashSecret;
+
+   
+    var signData = secretKey + querystring.stringify(vnp_Params, { encode: false });
+
+    var checkSum = sha256(signData);
+
+    if(secureHash === checkSum){
+        //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+        if(vnp_Params['vnp_ResponseCode']==24){
+            const id= vnp_Params['vnp_OrderInfo'];
+            const order = await OrderModel.findOne({idorder:id});
+            const orderdetails = await OrderdetailsModel.find({idorder:id});
+                for(let y of orderdetails){
+                    const product = await ProductModel.findById(y.idprd);
+                    let quantity = parseInt(product.quantity) + parseInt(y.qty);
+                    await ProductModel.updateOne({_id:y.idprd}, {$set: {quantity:quantity}});
+                }
+            await OrderdetailsModel.deleteMany({idorder:id});
+            await OrderModel.deleteOne({idorder:id});
+            res.render('site/success1', {code: vnp_Params['vnp_ResponseCode']})
+        }
+        else{
+            req.session.cart=[];
+            res.render('site/success1', {code: vnp_Params['vnp_ResponseCode']});
+        }
+        
+    } else{
+        req.session.cart=[];
+        res.render('site/success1', {code: '97'});
+        
        
     }
-    const order = {
-        full_name: body.full_name,
-        email: body.email.toLowerCase(),
-        phone: body.phone,
-        address: body.address,
-        note:body.note,
-        totalprd:parseInt(body.totalprd),
-        totalprice:parseInt(body.totalPrice),
-        totalimportprice:parseInt(totalimportprice),
-        idorder:idorder,
-        iduser:iduser.id,
-        }
-    await OrderModel(order).save();
-    //gui mail
-        // Lấy ra đường dẫn đến thư mục views
-        const viewPath = req.app.get("views");
-        // Compile template EJS sang HTML để gửi mail cho khách hàng
-        const html = await ejs.renderFile(
-            path.join(viewPath, "site/email-order.ejs"),
-            {
-                full_name: body.full_name,
-                phone: body.phone,
-                email: body.email,
-                address: body.address,
-                /* url: config.get("app.url"), */
-                totalPrice: 0,
-                products,
-            }
-        );
-        // Gửi mail
-        await transporter.sendMail({
-            to: body.email,
-            from: "Đăng Khoa Shop",
-            subject: "Xác nhận đơn hàng từ Đăng Khoa Shop",
-            html,
-        });
-    
+}
+const vnpayipn= async (req,res,next)=>{
+    var vnp_Params = req.query;
+    var secureHash = vnp_Params['vnp_SecureHash'];
 
-    req.session.cart=[];
-    res.redirect("/success"); 
-}  
+    delete vnp_Params['vnp_SecureHash'];
+    delete vnp_Params['vnp_SecureHashType'];
+
+    vnp_Params = sortObject(vnp_Params);
+    var secretKey = config.get("vnpay").vnp_HashSecret;
+    
+    var signData = secretKey + querystring.stringify(vnp_Params, { encode: false });
+    
+    var sha256 = require('sha256');
+
+    var checkSum = sha256(signData);
+
+    if(secureHash === checkSum){
+        var orderId = vnp_Params['vnp_TxnRef'];
+        var rspCode = vnp_Params['vnp_ResponseCode'];
+        //Kiem tra du lieu co hop le khong, cap nhat trang thai don hang va gui ket qua cho VNPAY theo dinh dang duoi
+        res.status(200).json({RspCode: '00', Message: 'success'})
+    }
+    else {
+        res.status(200).json({RspCode: '97', Message: 'Fail checksum'})
+    }
+}
+function sortObject(o) {
+    var sorted = {},
+        key, a = [];
+
+    for (key in o) {
+        if (o.hasOwnProperty(key)) {
+            a.push(key);
+        }
+    }
+
+    a.sort();
+
+    for (key = 0; key < a.length; key++) {
+        sorted[a[key]] = o[a[key]];
+    }
+    return sorted;
+}
 const contact = (req, res)=>{
     res.render("site/contact");
 }
@@ -830,5 +1048,7 @@ module.exports = {
     editpass,
     orderdetail,
     orderdelete,
+    vnpayreturn,
+    vnpayipn,
     
 }

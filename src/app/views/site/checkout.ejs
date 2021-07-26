@@ -78,12 +78,23 @@
                                     <h1>Hình thức thanh toán</h1>
                                     <div class="payment-method">
                                         <div class="custom-control custom-radio">
-                                            <input type="radio" checked="checked" class="custom-control-input" id="payment-1" name="payment">
+                                            <input type="radio" checked="checked" name="pay" class="custom-control-input" id="payment-1" name="payment" value="0">
                                             <label class="custom-control-label" for="payment-1">Thanh toán khi nhận hàng(cod)</label>
                                         </div>
                                         <div class="payment-content" id="payment-1-show">
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tincidunt orci ac eros volutpat maximus lacinia quis diam.
+                                                Khách hàng sẽ thanh toán tiền sau khi nhận được hàng.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="payment-method">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" name="pay" class="custom-control-input" id="payment-2" name="payment" value="1">
+                                            <label class="custom-control-label" for="payment-2">Thanh toán online qua vnpay</label>
+                                        </div>
+                                        <div class="payment-content" id="payment-2-show">
+                                            <p>
+                                               Thanh toán bằng chuyển khoản ngân hàng.
                                             </p>
                                         </div>
                                     </div>

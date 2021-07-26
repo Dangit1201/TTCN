@@ -68,6 +68,7 @@
                                 <th >Ngày đặt</th>
                                 <th>Trạng thái đơn hàng</th>
                                 <th>Số sản phẩm</th>
+                                <th>Thanh toán</th>
                                 <th>Tổng tiền</th>
                                 <th>Hành động</th>
                                 
@@ -89,6 +90,13 @@
                                     <% }%>
                                     
                                     <td id="idprd"><%=orders[x].totalprd%></td>
+                                    <td><%if(orders[x].payment=="Đã thanh toán online"){%>
+                                       Vnpay
+                                    <% }%> 
+                                    <%if(orders[x].payment=="Chưa thanh toán"){%>
+                                       Cod
+                                    <%}%> 
+                                    </td>
                                     <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(orders[x].totalprice)%></td>
                                     
                                     <td id="idhoatdong"class="form-group">
@@ -281,12 +289,12 @@
             text-transform: uppercase;
         }
         #idcontent1{
-            width: 250px;
+            width: 200px;
             color: chocolate;
            /*  height: 70px; */
         }
         #idcontent2{
-            width: 250px;
+            width: 200px;
             color: rgb(19, 114, 19);
            /*  height: 70px; */
         }
@@ -295,7 +303,7 @@
             text-transform: uppercase;
         }
         #idprd{
-            width: 40px;
+            width: 100px;
         }
         #btndroplist{
             margin-left: 100px;

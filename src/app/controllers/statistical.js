@@ -11,6 +11,7 @@ const byday= async (req,res)=>{
     var totalprofit =0;
     var totalorderamount =0;
     var today = moment().startOf('day');
+    console.log("1",today.toDate());
     
     /* const date = today.toLocaleDateString('fr-CA').split('/').join('-');
     console.log("date",date); */
@@ -88,14 +89,14 @@ const byday= async (req,res)=>{
 }
 const searchbyday= async (req,res)=>{
     const date = req.body.data || "";
-    var today= `${date}T00:00:00.000Z`
+    
     var totalbill =0;
-    var count2 =1;
+    var count2 =0;
     var totalproduct =0;
     var totalprofit =0;
     var totalorderamount =0;
-    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:today , $lte:moment(today).endOf('day') }});
-    const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:today , $lte:moment(today).endOf('day').toDate() }});
+    const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:moment(date).startOf('day').toDate() , $lte:moment(date).endOf('day') }});
+    const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:moment(date).startOf('day').toDate() , $lte:moment(date).endOf('day').toDate() }});
     
    
     var a = items.map(function(item){

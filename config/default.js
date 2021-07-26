@@ -21,5 +21,12 @@ module.exports = {
           user: "dangkhoashopdt@gmail.com",
           pass: "Dang147896",
       }
+  },
+  vnpay:{
+      vnp_TmnCode:"BNA7XSDT",
+      vnp_HashSecret:"EMBZEVYPRELTTBLYFBNEHCDYFXDBEBAH",
+      vnp_Url:"http://sandbox.vnpayment.vn/paymentv2/vpcpay.html",
+      vnp_ReturnUrl: "http://localhost:3001/vnpay_return"
   }
+
   };
