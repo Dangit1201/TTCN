@@ -125,18 +125,18 @@ router.post("/admin/ordertransport/delete/:id",AuthMiddleware.checkAdmin,OrderCo
 
 router.post("/admin/orders/orderconfirmation/:id",AuthMiddleware.checkAdmin,OrderController.orderconfirmation);
 //refund
-router.get("/admin/refund",OrderController.refund);
-router.post("/admin/orderdetail",OrderController.orderdetail);
-router.post("/admin/orderdetail/:id",OrderController.refundsuccess);
+router.get("/admin/refund",AuthMiddleware.checkAdmin,OrderController.refund);
+router.post("/admin/orderdetail",AuthMiddleware.checkAdmin,OrderController.orderdetail);
+router.post("/admin/orderdetail/:id",AuthMiddleware.checkAdmin,OrderController.refundsuccess);
 
 
 //===========statistical===============
 router.get("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.byday);
 router.post("/admin/statisticsbyday",AuthMiddleware.checkAdmin,StatisticalController.searchbyday);
-router.get("/admin/statisticsbytime",StatisticalController.bytime);
-router.post("/admin/statisticsbytime1",StatisticalController.searchbytime1);
-router.post("/admin/statisticsbytime2",StatisticalController.searchbytime2);
-router.get("/admin/statisticsbyprd",StatisticalController.searchbyprd);
+router.get("/admin/statisticsbytime",AuthMiddleware.checkAdmin,StatisticalController.bytime);
+router.post("/admin/statisticsbytime1",AuthMiddleware.checkAdmin,StatisticalController.searchbytime1);
+router.post("/admin/statisticsbytime2",AuthMiddleware.checkAdmin,StatisticalController.searchbytime2);
+router.get("/admin/statisticsbyprd",AuthMiddleware.checkAdmin,StatisticalController.searchbyprd);
 
 
 //===========blog===============

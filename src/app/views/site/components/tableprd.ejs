@@ -12,6 +12,7 @@
             <th>TT</th>
             <th>Tên sản phẩm</th>
             <th>Ảnh</th>
+            <th>Màu</th>
             <th>Tổng số lượng</th>
             <th>Giá</th>
         </tr>
@@ -23,6 +24,7 @@
             <td><%= count++ %></td>
             <td><%=orderdetail[x].name%></td>
             <td><img width="30" height="30" src="/static/images/<%=orderdetail[x].img%>" /></td>
+            <td><%=orderdetail[x].color%></td>
             <td><%=orderdetail[x].qty%></td>
             <td><%=new Intl.NumberFormat("vi-VN", {style: "currency", currency: "VND"}).format(orderdetail[x].price)%></td>
         </tr>

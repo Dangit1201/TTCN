@@ -300,12 +300,12 @@ const bytime= async (req,res)=>{
       return dateObj;
    }
  
-  const to = moment().startOf('day').toDate(); // Hàm lấy thời gian hôm nay
-  const today = moment().startOf('day').toDate();
+  const to = moment().startOf('month').toDate(); // Hàm lấy thời gian hôm nay
+  const today = moment().startOf('month').toDate();
   var from = mulMonth(today , 1);
-  const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('day').toDate() }});
+  const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
 
-  const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('day').toDate() }});
+  const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
     
     var a = items.map(function(item){
       return {price : item["price"],qty : item["qty"], idprd : item["idprd"], img : item["img"], name : item["name"]}
