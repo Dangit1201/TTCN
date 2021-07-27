@@ -50,7 +50,7 @@ const orderSchema = mongoose.Schema({
   },
   payment: {
     type: String,
-    enum: ["Đã thanh toán online","Chưa thanh toán","Đã thanh toán cod"],
+    enum: ["Đã thanh toán online","Chưa thanh toán","Đã thanh toán cod","Hoàn tiền"],
     default: "Chưa thanh toán",
   },
   totalprice: {

@@ -124,6 +124,10 @@ router.get("/admin/ordertransport/view/:id",AuthMiddleware.checkAdmin,OrderContr
 router.post("/admin/ordertransport/delete/:id",AuthMiddleware.checkAdmin,OrderController.deletransport);
 
 router.post("/admin/orders/orderconfirmation/:id",AuthMiddleware.checkAdmin,OrderController.orderconfirmation);
+//refund
+router.get("/admin/refund",OrderController.refund);
+router.post("/admin/orderdetail",OrderController.orderdetail);
+router.post("/admin/orderdetail/:id",OrderController.refundsuccess);
 
 
 //===========statistical===============

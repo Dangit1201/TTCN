@@ -64,6 +64,7 @@
 						    <tr>
                                 <th>TT</th>
                                 <th>Tên khách hàng</th>
+                                
                                 <th>Số điện thoại</th>
                                 <th >Ngày đặt</th>
                                 <th>Trạng thái đơn hàng</th>
@@ -209,7 +210,7 @@
             
             $('#modal-comfim').on('show.bs.modal', function (event) {
               var button = $(event.relatedTarget) 
-              ids = button.data('id') 
+              ids = button.data('id') ;
             titles = button.data('title') 
             let modaltitlename = document.getElementById("spanproduct1");
             modaltitlename.innerHTML = titles;

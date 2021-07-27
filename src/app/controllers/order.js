@@ -134,6 +134,22 @@ const orderconfirmation = async (req,res)=>{
   await OrdersModel.updateOne({_id: id}, {$set: {status:"Đã xác nhận đơn hàng"}});
   res.redirect("/admin/orders");
 };
+const refund = async (req,res)=>{
+  const orders= await OrdersModel.find({status:"Hủy đơn hàng",payment:"Đã thanh toán online"});
+  res.render("admin/order/refund",{orders});
+};
+const orderdetail= async (req,res)=>{
+  const id = req.body.data;
+  const orderdetail = await OrderdetailsModel.find({idorder:id});
+  const order = await OrdersModel.findOne({idorder:id});
+  res.render("admin/order/detail",{orderdetail,order});
+}
+const refundsuccess= async (req,res)=>{
+  const id = req.params.id;
+  console.log(id);
+  await OrdersModel.updateOne({idorder:id}, {$set: {payment:"Hoàn tiền"}});
+  res.redirect("/admin/refund");
+}
 
 module.exports = {
   index: index,
@@ -146,4 +162,7 @@ module.exports = {
   viewtransport:viewtransport,
   deletransport:deletransport,
   orderconfirmation:orderconfirmation,
+  refund:refund,
+  orderdetail:orderdetail,
+  refundsuccess:refundsuccess,
 };
