@@ -11,13 +11,13 @@ const moment = require("moment");
 
 const index = async (req, res) => {
     function mulMonth(dateObj, numDays) {
-      dateObj.setMonth(dateObj.getMonth() - numDays);
+      dateObj.setMonth(dateObj.getMonth() + numDays);
       return dateObj;
   }
 
-  const to = moment().startOf('month').toDate(); // Hàm lấy thời gian hôm nay
+  const from = moment().startOf('month').toDate(); // Hàm lấy thời gian hôm nay
   const today = moment().startOf('month').toDate();
-  var from = mulMonth(today , 1);
+  var to = mulMonth(today , 1);
 
   const users = await UsersModel.find();
   const totalUsers = users.length;

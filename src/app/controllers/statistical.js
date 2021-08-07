@@ -187,13 +187,13 @@ const searchbyday= async (req,res)=>{
      var results = b.map(function(item){
       return {id : item["id"],qty : item["qty"]-2*item["qty"]}
     });
-    console.log(results);
+    console.log('a',results);
 
     //3.cộng các object ban đầu và thêm vào array ko trùng id
      var valuesA = a.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
      var valuesB = b.reduce(function(a,c){a[c.value] = c.value; return a; }, {});
      var result = a.filter(function(c){ return !valuesB[c.value]}).concat(b.filter(function(c){ return !valuesA[c.value]}));
-     console.log(result);
+     console.log('áa',result);
 
      //4.cộng qty của array 3 vào array 1
      for(let x of result){
@@ -206,7 +206,7 @@ const searchbyday= async (req,res)=>{
      }
      console.log("ss",results);
      //sx lại array theo qty
-     const sort_by = (field, reverse, primer) => {
+     const sort_by1 = (field, reverse, primer) => {
 
       const key = primer ?
         function(x) {
@@ -226,10 +226,10 @@ const searchbyday= async (req,res)=>{
     
     
     // Sort by qty
-    console.log(results.sort(sort_by('qty', true, parseInt)));
+    console.log(results.sort(sort_by1('qty', true, parseInt))); */
     
     // Sort by city, case-insensitive, A-Z
-    //console.log(homes.sort(sort_by('city', false, (a) =>  a.toUpperCase()))); */
+    //console.log(homes.sort(sort_by('city', false, (a) =>  a.toUpperCase())));
 
     
 
@@ -296,13 +296,13 @@ const bytime= async (req,res)=>{
     var totalorderamount =0;
     
     function mulMonth(dateObj, numDays) {
-      dateObj.setMonth(dateObj.getMonth() - numDays);
+      dateObj.setMonth(dateObj.getMonth() + numDays);
       return dateObj;
    }
  
-  const to = moment().startOf('month').toDate(); // Hàm lấy thời gian hôm nay
+  const from = moment().startOf('month').toDate(); // Hàm lấy thời gian hôm nay
   const today = moment().startOf('month').toDate();
-  var from = mulMonth(today , 1);
+  var to = mulMonth(today , 1);
   const searchorders = await OrdersModel.find({status:"Đã hoàn thành đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
 
   const items = await OrderdetailsModel.find({status:"Mua hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
