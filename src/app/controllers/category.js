@@ -86,7 +86,8 @@ const dele = async (req, res) => {
 
 const reorder = async (req, res)=>{
 
-  var ids = req.body['id'];
+  var ids = req.body.id;
+  console.log(ids);
   var count =0;
   for(var i = 0 ;i<ids.length;i++){
     var id = ids[i];

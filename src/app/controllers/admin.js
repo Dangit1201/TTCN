@@ -27,16 +27,16 @@ const index = async (req, res) => {
   const totalCategories = categories.length;
   const comments = await CommentsModel.find();
   const totalComments = comments.length;
-  const advs = await AdvertisementsModel.find();
-  const totalAdvs = advs.length;
+  const adv = await AdvertisementsModel.find();
+  const totalAdv = adv.length;
   const blogs = await BlogsModel.find();
-  const totalblogs = blogs.length;
-  const newordereds = await OrdersModel.find({status:"Tiếp nhận đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
-  const totalnewordereds = newordereds.length;
+  const totalBlogs = blogs.length;
+  const newOrder = await OrdersModel.find({status:"Tiếp nhận đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
+  const totalNewOrder = newOrder.length;
   const transport = await OrdersModel.find({status:"Vận chuyển",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
-  const totaltransport = transport.length;
+  const totalTransport = transport.length;
   const del = await OrdersModel.find({status:"Hủy đơn hàng",createdAt:{ $gte:from , $lte:moment(to).endOf('month').toDate() }});
-  const totaldel = del.length;
+  const totalDel = del.length;
   
 
 
@@ -45,11 +45,11 @@ const index = async (req, res) => {
     totalProducts,
     totalCategories,
     totalComments,
-    totalAdvs,
-    totalblogs,
-    totalnewordereds,
-    totaltransport,
-    totaldel
+    totalAdv,
+    totalBlogs,
+    totalNewOrder,
+    totalTransport,
+    totalDel
   });
 };
 

@@ -3,18 +3,14 @@ const fs = require("fs");
 const path = require("path");
 
 const index = async (req, res) => {
-    let sort = req.query.sort;
-    if(sort=="banner"){
-      const advertisements = await AdvertisementsModel.find({typeofadv:"banner"}).sort({"_id": -1});
+    let sort = req.query.sort || null;
+     if(!(sort==null)){ 
+      const advertisements = await AdvertisementsModel.find({typeofadv:sort}).sort({"_id": -1});
       res.render("admin/advertisement/advertisement",{advertisements,sort});
-    } else if(sort=="slider"){
-      const advertisements = await AdvertisementsModel.find({typeofadv:"slider"}).sort({"_id": -1});
-      res.render("admin/advertisement/advertisement",{advertisements,sort});
-    } else{
-      sort= null;
+     } else{
       const advertisements = await AdvertisementsModel.find().sort({"_id": -1});
       res.render("admin/advertisement/advertisement",{advertisements,sort});
-    }
+    } 
 };
 const create = async (req, res) => {
     res.render("admin/advertisement/add_advertisement");
@@ -60,8 +56,6 @@ const update = async (req,res)=>{
     link: body.link,
     typeofadv: body.typeofadv,
     } 
-    
-
     if(file){
       const thumbnail = "products/"+file.originalname;
       advertisement["thumbnail"] = thumbnail;

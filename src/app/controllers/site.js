@@ -23,8 +23,6 @@ const home = async (req, res)=>{
     const FeaturedProducts = await ProductModel.find({
         featured: true,
     }).sort({_id: -1}).limit(6);
-    // console.log(LatestProducts);
-    // console.log(FeaturedProducts);
     res.render("site/index", {
         LatestProducts:LatestProducts,
         FeaturedProducts:FeaturedProducts,
@@ -39,7 +37,7 @@ const category = async (req, res)=>{
     const category = await CategoryModel.findById({_id:id});
     const title = category.title
     
-        let sort = req.query.sort;
+        let sort = req.query.sort || null;
         if(sort==='14'){
             
             const page = parseInt(req.query.page) || 1;
@@ -831,9 +829,6 @@ const successcheckout = async (req, res)=>{
         vnp_Params['vnp_SecureHash'] = secureHash;
         vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: true });
 
-        //Neu muon dung Redirect thi dong dong ben duoi
-        //res.status(200).json({code: '00', data: vnpUrl})
-        //Neu muon dung Redirect thi mo dong ben duoi va dong dong ben tren
         res.redirect(vnpUrl);
     }
     
